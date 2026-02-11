@@ -3,7 +3,16 @@ name: Daily Normattiva Update
 on:
   schedule:
     - cron: '0 6 * * *'  # Run at 6 AM UTC daily
-  workflow_dispatch:      # Manual trigger
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Year (defaults to current year)'
+        required: false
+        type: string
+      month:
+        description: 'Month (defaults to current month)'
+        required: false
+        type: string
 
 jobs:
   update-data:
@@ -23,11 +32,19 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Get current year and month
+      - name: Get year and month
         id: date
         run: |
-          echo "year=$(date +%Y)" >> $GITHUB_OUTPUT
-          echo "month=$(date +%-m)" >> $GITHUB_OUTPUT
+          if [ -n "${{ inputs.year }}" ]; then
+            echo "year=${{ inputs.year }}" >> $GITHUB_OUTPUT
+          else
+            echo "year=$(date +%Y)" >> $GITHUB_OUTPUT
+          fi
+          if [ -n "${{ inputs.month }}" ]; then
+            echo "month=${{ inputs.month }}" >> $GITHUB_OUTPUT
+          else
+            echo "month=$(date +%-m)" >> $GITHUB_OUTPUT
+          fi
 
       - name: Run data collection
         run: |
