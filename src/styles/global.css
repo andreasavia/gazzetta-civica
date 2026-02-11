@@ -17,7 +17,7 @@
 
 html {
   height: 100%;
-  background: var(--color-surface);
+  background: var(--color-bg);
 }
 
 body {
@@ -26,13 +26,13 @@ body {
   font-weight: 300;
   line-height: 1.7;
   color: var(--color-text);
-  background: var(--color-surface);
+  background: var(--color-bg);
 }
 
 header {
   height: var(--header-height);
   padding: 0 2rem;
-  background: var(--color-surface);
+  background: var(--color-bg);
   display: flex;
   align-items: center;
 }
@@ -68,6 +68,13 @@ nav {
   text-transform: uppercase;
 }
 
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.25rem;
+    letter-spacing: 0.08em;
+  }
+}
+
 .logo-prefix {
   text-transform: lowercase;
 }
@@ -88,7 +95,7 @@ footer {
   text-align: center;
   color: var(--color-muted);
   font-size: 0.875rem;
-  background: var(--color-surface);
+  background: var(--color-bg);
 }
 
 .footer-links {
