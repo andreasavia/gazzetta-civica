@@ -5,8 +5,9 @@ const articoli = defineCollection({
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
-    date: z.coerce.date(),
+    publishedDate: z.coerce.date(),
     draft: z.boolean().optional().default(false),
+    legge: z.string().optional(), // codice-redazionale from content/leggi
   })
 });
 

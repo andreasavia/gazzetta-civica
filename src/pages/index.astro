@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const articles = await getCollection('articoli', ({ data }) => !data.draft);
-const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const sortedArticles = articles.sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
 ---
 
 <Base title="Home">
@@ -34,7 +34,7 @@ const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.da
             <a href={`/gazzetta-civica/articoli/${article.slug}/`}>
               <h3>{article.data.title}</h3>
               <p class="article-date">
-                {article.data.date.toLocaleDateString('it-IT', {
+                {article.data.publishedDate.toLocaleDateString('it-IT', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'

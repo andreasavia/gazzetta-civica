@@ -28,9 +28,11 @@ const { title, fullHeight = false } = Astro.props;
       </nav>
     </header>
     <div class="tricolor-bar"></div>
-    <main>
-      <slot />
-    </main>
+    <div class="main-wrapper">
+      <main>
+        <slot />
+      </main>
+    </div>
     <div class="tricolor-bar tricolor-bar-footer"></div>
     <footer>
       <nav class="footer-links">
