@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articoli');
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+---
+
+<Base title={article.data.title}>
+  <article>
+    <h1>{article.data.title}</h1>
+    <p class="meta">
+      {article.data.date.toLocaleDateString('it-IT', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}
+    </p>
+    <Content />
+  </article>
+</Base>

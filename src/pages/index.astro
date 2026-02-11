@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const articles = await getCollection('articoli', ({ data }) => !data.draft);
+const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title="Home">
+  <h1>Gazzetta Civica</h1>
+  <p>Analisi e approfondimenti sulla legislazione italiana.</p>
+
+  {sortedArticles.length === 0 ? (
+    <p style="color: var(--color-muted); margin-top: 2rem;">
+      Nessun articolo pubblicato ancora.
+    </p>
+  ) : (
+    <ul class="article-list">
+      {sortedArticles.map((article) => (
+        <li class="article-item">
+          <a href={`/gazzetta-civica/articoli/${article.slug}/`}>
+            <h2>{article.data.title}</h2>
+            <p class="article-date">
+              {article.data.date.toLocaleDateString('it-IT', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

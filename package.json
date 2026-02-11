@@ -1,0 +1,20 @@
+{
+  "name": "gazzetta-civica",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.16.0"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.2.0",
+    "@vite-pwa/astro": "^0.4.3",
+    "workbox-window": "^7.1.0"
+  }
+}
