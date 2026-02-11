@@ -1,6 +1,6 @@
 ---
 title: "Benvenuto su Gazzetta Civica"
-date: 2026-02-10
+publishedDate: 2026-02-10
 ---
 
 Gazzetta Civica è un progetto dedicato all'analisi e alla divulgazione della legislazione italiana.

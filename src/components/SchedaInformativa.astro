@@ -1,0 +1,48 @@
+---
+import { getLegge } from '../lib/leggi';
+
+interface Props {
+  codice: string;
+}
+
+const { codice } = Astro.props;
+const legge = getLegge(codice);
+---
+
+{legge && (
+  <div class="scheda-informativa">
+    <h2>Scheda Informativa</h2>
+    <ul>
+      {legge['gu-link'] && (
+        <li>
+          <strong>Gazzetta Ufficiale</strong>
+          <a href={legge['gu-link']}>n. {legge['numero-gu']} del {new Date(legge['data-gu']).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}</a>
+        </li>
+      )}
+      {legge['senato-natura'] && (
+        <li><strong>Natura</strong> Legge {legge['senato-natura']}</li>
+      )}
+      {legge['camera-iniziativa'] && legge['camera-firmatari'] && (
+        <li><strong>Iniziativa</strong> {legge['camera-iniziativa']} ({legge['camera-firmatari'].map((f: string) => f.split(' - ')[0]).join(', ')})</li>
+      )}
+      {legge['camera-votazione-finale'] && (
+        <li>
+          <strong>Votazione Camera</strong>
+          <a href={legge['camera-votazione-finale']}>Dettaglio</a>
+        </li>
+      )}
+      {legge['senato-votazione-finale'] && (
+        <li>
+          <strong>Votazione Senato</strong>
+          <a href={legge['senato-votazione-finale']}>Dettaglio</a>
+        </li>
+      )}
+      {legge['normattiva-link'] && (
+        <li>
+          <strong>Testo vigente</strong>
+          <a href={legge['normattiva-link']}>Normattiva</a>
+        </li>
+      )}
+    </ul>
+  </div>
+)}

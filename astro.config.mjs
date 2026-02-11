@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
 import AstroPWA from '@vite-pwa/astro';
 
 export default defineConfig({
@@ -6,6 +7,7 @@ export default defineConfig({
   base: '/gazzetta-civica',
   output: 'static',
   integrations: [
+    mdx(),
     AstroPWA({
       registerType: 'autoUpdate',
       manifest: {

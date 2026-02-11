@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import SchedaInformativa from '../../components/SchedaInformativa.astro';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articoli');
@@ -19,12 +20,12 @@ const { Content } = await article.render();
     <h1>{article.data.title}</h1>
     {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
     <p class="meta">
-      {article.data.date.toLocaleDateString('it-IT', {
+      {article.data.publishedDate.toLocaleDateString('it-IT', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
       })}
     </p>
-    <Content />
+    <Content components={{ SchedaInformativa }} />
   </article>
 </Base>
