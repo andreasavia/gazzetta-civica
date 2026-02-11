@@ -27,10 +27,17 @@ const { title, fullHeight = false } = Astro.props;
         <a href="/gazzetta-civica/" class="logo"><span class="logo-prefix">la</span> Gazzetta Civica</a>
       </nav>
     </header>
+    <div class="tricolor-bar"></div>
     <main>
       <slot />
     </main>
+    <div class="tricolor-bar tricolor-bar-footer"></div>
     <footer>
+      <nav class="footer-links">
+        <a href="/gazzetta-civica/chi-siamo">Chi siamo</a>
+        <a href="/gazzetta-civica/privacy">Privacy</a>
+        <a href="/gazzetta-civica/contatti">Contatti</a>
+      </nav>
       <p>&copy; {new Date().getFullYear()} Gazzetta Civica</p>
     </footer>
   </body>

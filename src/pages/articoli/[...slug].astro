@@ -17,6 +17,7 @@ const { Content } = await article.render();
 <Base title={article.data.title}>
   <article>
     <h1>{article.data.title}</h1>
+    {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
     <p class="meta">
       {article.data.date.toLocaleDateString('it-IT', {
         year: 'numeric',
