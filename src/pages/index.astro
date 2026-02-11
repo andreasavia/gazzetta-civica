@@ -7,29 +7,42 @@ const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.da
 ---
 
 <Base title="Home">
-  <h1>Gazzetta Civica</h1>
-  <p>Analisi e approfondimenti sulla legislazione italiana.</p>
+  <section class="hero">
+    <h1>Gazzetta Civica</h1>
+    <p class="tagline">Trasparenza legislativa per una cittadinanza informata</p>
+  </section>
 
-  {sortedArticles.length === 0 ? (
-    <p style="color: var(--color-muted); margin-top: 2rem;">
-      Nessun articolo pubblicato ancora.
+  <section class="intro">
+    <p>
+      Un archivio aperto della legislazione italiana.
+      Raccogliamo, organizziamo e rendiamo accessibili le leggi e i decreti
+      pubblicati in Gazzetta Ufficiale.
     </p>
-  ) : (
-    <ul class="article-list">
-      {sortedArticles.map((article) => (
-        <li class="article-item">
-          <a href={`/gazzetta-civica/articoli/${article.slug}/`}>
-            <h2>{article.data.title}</h2>
-            <p class="article-date">
-              {article.data.date.toLocaleDateString('it-IT', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </p>
-          </a>
-        </li>
-      ))}
-    </ul>
-  )}
+  </section>
+
+  <section class="articles">
+    <h2>Ultimi Aggiornamenti</h2>
+    {sortedArticles.length === 0 ? (
+      <p class="empty-state">
+        Nessun articolo pubblicato ancora.
+      </p>
+    ) : (
+      <ul class="article-list">
+        {sortedArticles.map((article) => (
+          <li class="article-item">
+            <a href={`/gazzetta-civica/articoli/${article.slug}/`}>
+              <h3>{article.data.title}</h3>
+              <p class="article-date">
+                {article.data.date.toLocaleDateString('it-IT', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
 </Base>

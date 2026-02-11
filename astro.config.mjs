@@ -12,8 +12,8 @@ export default defineConfig({
         name: 'Gazzetta Civica',
         short_name: 'Gazzetta',
         description: 'Legislazione italiana e analisi',
-        theme_color: '#1a365d',
-        background_color: '#ffffff',
+        theme_color: '#1a1a1a',
+        background_color: '#f5f3f0',
         display: 'standalone',
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },

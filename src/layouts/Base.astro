@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
 }
@@ -14,7 +16,6 @@ const { title } = Astro.props;
     <meta name="description" content="Gazzetta Civica - Legislazione italiana e analisi" />
     <link rel="icon" type="image/svg+xml" href="/gazzetta-civica/favicon.svg" />
     <title>{title} | Gazzetta Civica</title>
-    <link rel="stylesheet" href="/gazzetta-civica/styles/global.css" />
   </head>
   <body>
     <header>
