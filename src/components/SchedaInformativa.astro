@@ -7,16 +7,37 @@ interface Props {
 
 const { codice } = Astro.props;
 const legge = getLegge(codice);
+
+// Format date without timezone issues
+function formatDate(date: Date | string): string {
+  const months = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
+                  'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+  if (typeof date === 'string') {
+    const [year, month, day] = date.split('-').map(Number);
+    return `${day} ${months[month - 1]} ${year}`;
+  }
+  // For Date objects, use UTC to avoid timezone shifts
+  return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+}
+
+// Extract law number from titolo-alternativo (e.g., "Legge n. 1/26 del..." -> "1/26")
+function extractLawNumber(titolo: string): string {
+  const match = titolo.match(/n\.\s*(\d+\/\d+)/);
+  return match ? match[1] : '';
+}
 ---
 
 {legge && (
   <div class="scheda-informativa">
     <h2>Scheda Informativa</h2>
+    <p class="scheda-sommario">
+      Legge n. <a href={legge['normattiva-link']}><strong>{extractLawNumber(legge['titolo-alternativo'])}</strong></a>, Gazzetta Ufficiale <a href={legge['gu-link']}><strong>n. {legge['numero-gu']} del {formatDate(legge['data-gu'])}</strong></a>
+    </p>
     <ul>
       {legge['gu-link'] && (
         <li>
           <strong>Gazzetta Ufficiale</strong>
-          <a href={legge['gu-link']}>n. {legge['numero-gu']} del {new Date(legge['data-gu']).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}</a>
+          <a href={legge['gu-link']}>n. {legge['numero-gu']} del {formatDate(legge['data-gu'])}</a>
         </li>
       )}
       {legge['senato-natura'] && (

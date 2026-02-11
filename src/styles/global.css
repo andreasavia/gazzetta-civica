@@ -281,24 +281,25 @@ article li {
 
 /* Distillato box */
 .distillato {
+  font-family: 'Montserrat', sans-serif;
   background: linear-gradient(135deg, #f5f3f0 0%, #ebe8e3 100%);
   border: 1px solid var(--color-border);
   border-left: 4px solid #009246;
   border-radius: 0 6px 6px 0;
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.25rem;
   margin: 1.5rem 0;
   position: relative;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .distillato h2 {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #009246;
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.5rem 0;
   font-weight: 600;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
   border-bottom: 1px dashed rgba(0, 146, 70, 0.3);
 }
 
@@ -306,14 +307,14 @@ article li {
   margin: 0;
   list-style: none;
   display: grid;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 .distillato li {
   position: relative;
   padding-left: 1.25rem;
   line-height: 1.4;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .distillato li::before {
@@ -331,6 +332,7 @@ article li {
 
 /* Scheda informativa */
 .scheda-informativa {
+  font-family: 'Montserrat', sans-serif;
   background: linear-gradient(135deg, #f5f3f0 0%, #ebe8e3 100%);
   border: 1px solid var(--color-border);
   border-left: 4px solid #ce2b37;
@@ -349,6 +351,13 @@ article li {
   font-weight: 600;
   padding-bottom: 0.4rem;
   border-bottom: 1px dashed rgba(206, 43, 55, 0.3);
+}
+
+.scheda-sommario {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0.5rem 0 0.75rem 0;
+  color: var(--color-text);
 }
 
 .scheda-informativa ul {
