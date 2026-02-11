@@ -4,6 +4,7 @@ const articoli = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    subtitle: z.string().optional(),
     date: z.coerce.date(),
     draft: z.boolean().optional().default(false),
   })
