@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 # Run data collection for current month
 cd scripts
-python ricerca_normattiva.py 2026 2
+python ricerca_normattiva.py 2026 2 
 ```
 
 ## Workflows
