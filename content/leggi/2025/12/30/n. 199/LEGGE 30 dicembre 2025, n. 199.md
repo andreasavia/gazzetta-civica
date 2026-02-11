@@ -1,0 +1,241 @@
+---
+codice-redazionale: 25G00212
+tipo: LEGGE
+numero-atto: 199
+data-emanazione: 2025-12-30
+data-gu: 2025-12-30
+numero-gu: 301
+data-vigenza: 01/01/2026
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-12-30;199!vig=2026-02-11
+normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-12-30&atto.codiceRedazionale=25G00212&tipoDettaglio=singolavigenza&dataVigenza=01/01/2026
+gu-link: https://www.gazzettaufficiale.it/eli/gu/2025/12/30/301/so/42/sg/pdf
+titolo-atto: "Bilancio di previsione dello Stato  per  l'anno  finanziario  2026  e bilancio pluriennale per il triennio 2026-2028. (25G00212)"
+descrizione-atto: "LEGGE 30 dicembre 2025, n. 199"
+titolo-alternativo: "Legge n. 199/25 del 30 dicembre 2025"
+atti-aggiornati:
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1934-08-09&atto.codiceRedazionale=034U1265
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1961-12-02&atto.codiceRedazionale=061U1216
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1972-11-11&atto.codiceRedazionale=072U0633
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1972-11-11&atto.codiceRedazionale=072U0642
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1973-10-16&atto.codiceRedazionale=073U0600
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1973-10-16&atto.codiceRedazionale=073U0602
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1977-05-05&atto.codiceRedazionale=077U0164
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1979-01-29&atto.codiceRedazionale=078U0915
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1981-01-06&atto.codiceRedazionale=080U0927
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1986-12-31&atto.codiceRedazionale=086U0917
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1988-05-10&atto.codiceRedazionale=088G0178
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1991-12-13&atto.codiceRedazionale=091G0441
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1992-02-15&atto.codiceRedazionale=092G0162
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1992-02-25&atto.codiceRedazionale=092G0211
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1992-12-30&atto.codiceRedazionale=092G0549
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1993-01-13&atto.codiceRedazionale=093G0006
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1994-01-14&atto.codiceRedazionale=094G0034
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1994-12-30&atto.codiceRedazionale=094G0760
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1995-11-29&atto.codiceRedazionale=095G0523
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1997-03-29&atto.codiceRedazionale=097G0123
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1997-12-23&atto.codiceRedazionale=097G0478
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1998-01-08&atto.codiceRedazionale=097G0498
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1999-08-05&atto.codiceRedazionale=099G0343
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1999-10-23&atto.codiceRedazionale=099G0441
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2000-09-28&atto.codiceRedazionale=000G0304
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2001-04-04&atto.codiceRedazionale=001G0148
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2001-04-26&atto.codiceRedazionale=001G0200
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2001-06-15&atto.codiceRedazionale=001G0272
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2001-12-29&atto.codiceRedazionale=001G0509
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2002-12-31&atto.codiceRedazionale=002G0327
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2002-12-31&atto.codiceRedazionale=002G0326
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2003-08-22&atto.codiceRedazionale=003G0260
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2003-09-15&atto.codiceRedazionale=003G0280
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2003-10-02&atto.codiceRedazionale=003G0303
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2005-10-13&atto.codiceRedazionale=005G0233
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2005-12-13&atto.codiceRedazionale=005G0278
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2005-12-29&atto.codiceRedazionale=005G0293
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2006-04-05&atto.codiceRedazionale=006G0158
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2006-04-14&atto.codiceRedazionale=006G0171
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2006-07-04&atto.codiceRedazionale=006G0242
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2006-12-27&atto.codiceRedazionale=006G0318
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2007-10-02&atto.codiceRedazionale=007G0174
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2007-12-29&atto.codiceRedazionale=007G0266
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2008-06-25&atto.codiceRedazionale=008G0135
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2009-04-28&atto.codiceRedazionale=009G0047
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2009-12-30&atto.codiceRedazionale=009G0205
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2010-03-19&atto.codiceRedazionale=010G0056
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2010-05-08&atto.codiceRedazionale=010G0089
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2010-05-31&atto.codiceRedazionale=010G0101
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2010-12-29&atto.codiceRedazionale=010G0251
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-03-28&atto.codiceRedazionale=011G0067
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-03-31&atto.codiceRedazionale=011G0074
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-05-11&atto.codiceRedazionale=011G0111
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-05-12&atto.codiceRedazionale=011G0112
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-05-13&atto.codiceRedazionale=011G0113
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-05-13&atto.codiceRedazionale=011G0109
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-07-19&atto.codiceRedazionale=011G0154
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-07-26&atto.codiceRedazionale=011G0160
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-12-06&atto.codiceRedazionale=011G0247
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2012-03-02&atto.codiceRedazionale=012G0036
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2012-07-06&atto.codiceRedazionale=012G0117
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2012-12-29&atto.codiceRedazionale=012G0252
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2013-06-05&atto.codiceRedazionale=13G00107
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2013-06-21&atto.codiceRedazionale=13G00116
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2013-12-27&atto.codiceRedazionale=13G00191
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2014-01-24&atto.codiceRedazionale=14G00009
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2014-06-24&atto.codiceRedazionale=14G00105
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2014-12-29&atto.codiceRedazionale=14G00203
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-03-06&atto.codiceRedazionale=15G00036
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-06-19&atto.codiceRedazionale=15G00093
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-06-27&atto.codiceRedazionale=15G00098
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-07-15&atto.codiceRedazionale=15G00122
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-08-18&atto.codiceRedazionale=15G00143
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-09-23&atto.codiceRedazionale=15G00160
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-10-07&atto.codiceRedazionale=15G00168
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-10-07&atto.codiceRedazionale=15G00171
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2015-12-30&atto.codiceRedazionale=15G00222
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2016-06-24&atto.codiceRedazionale=16G00126
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2016-09-08&atto.codiceRedazionale=16G00188
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2016-10-18&atto.codiceRedazionale=16G00205
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2016-10-24&atto.codiceRedazionale=16G00209
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2016-11-26&atto.codiceRedazionale=16G00233
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2016-12-21&atto.codiceRedazionale=16G00242
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2016-12-30&atto.codiceRedazionale=16G00259
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2016-12-30&atto.codiceRedazionale=16G00260
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2017-06-07&atto.codiceRedazionale=17G00089
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2017-10-13&atto.codiceRedazionale=17G00161
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2017-10-16&atto.codiceRedazionale=17G00166
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2017-11-28&atto.codiceRedazionale=17G00181
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2017-12-29&atto.codiceRedazionale=17G00222
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2018-09-28&atto.codiceRedazionale=18G00137
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2018-12-31&atto.codiceRedazionale=18G00172
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2019-04-18&atto.codiceRedazionale=19G00040
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2019-04-30&atto.codiceRedazionale=19G00043
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2019-08-29&atto.codiceRedazionale=19G00083
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2019-10-24&atto.codiceRedazionale=19G00132
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2019-12-30&atto.codiceRedazionale=19G00165
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2020-12-30&atto.codiceRedazionale=20G00202
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2021-03-18&atto.codiceRedazionale=21G00043
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2021-04-23&atto.codiceRedazionale=21G00063
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2021-06-09&atto.codiceRedazionale=21G00093
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2021-12-30&atto.codiceRedazionale=21G00255
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2021-12-30&atto.codiceRedazionale=21G00252
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2021-12-31&atto.codiceRedazionale=21G00256
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2022-02-17&atto.codiceRedazionale=22G00017
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2022-05-17&atto.codiceRedazionale=22G00059
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2022-07-01&atto.codiceRedazionale=22G00089
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2022-09-01&atto.codiceRedazionale=22G00141
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2022-09-13&atto.codiceRedazionale=22G00145
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2022-09-23&atto.codiceRedazionale=22G00154
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2022-12-29&atto.codiceRedazionale=22G00211
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2022-12-29&atto.codiceRedazionale=22G00212
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-02-24&atto.codiceRedazionale=23G00022
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-03-06&atto.codiceRedazionale=23G00025
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-03-30&atto.codiceRedazionale=23G00042
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-03-31&atto.codiceRedazionale=23G00044
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-04-14&atto.codiceRedazionale=23G00047
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-05-04&atto.codiceRedazionale=23G00057
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-06-01&atto.codiceRedazionale=23G00074
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-06-13&atto.codiceRedazionale=23G00080
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-08-10&atto.codiceRedazionale=23G00119
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-09-19&atto.codiceRedazionale=23G00137
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-09-29&atto.codiceRedazionale=23G00142
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-12-02&atto.codiceRedazionale=23G00187
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-12-30&atto.codiceRedazionale=23G00223
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-12-30&atto.codiceRedazionale=23G00227
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-01-18&atto.codiceRedazionale=24G00014
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-03-02&atto.codiceRedazionale=24G00035
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-03-29&atto.codiceRedazionale=24G00059
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-05-07&atto.codiceRedazionale=24G00077
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-05-15&atto.codiceRedazionale=24G00081
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-06-07&atto.codiceRedazionale=24G00093
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-06-11&atto.codiceRedazionale=24G00095
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-06-29&atto.codiceRedazionale=24G00106
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-07-04&atto.codiceRedazionale=24G00111
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-08-09&atto.codiceRedazionale=24G00136
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-10-19&atto.codiceRedazionale=24G00175
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-11-28&atto.codiceRedazionale=24G00191
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-11-28&atto.codiceRedazionale=24G00192
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-11-28&atto.codiceRedazionale=24G00193
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-12-12&atto.codiceRedazionale=24G00205
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-12-31&atto.codiceRedazionale=24G00229
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-03-14&atto.codiceRedazionale=25G00033
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-03-26&atto.codiceRedazionale=25G00044
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-04-01&atto.codiceRedazionale=25G00047
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-04-04&atto.codiceRedazionale=25G00052
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-05-21&atto.codiceRedazionale=25G00084
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-05-26&atto.codiceRedazionale=25G00081
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-06-26&atto.codiceRedazionale=25G00105
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-06-30&atto.codiceRedazionale=25G00107
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-06-30&atto.codiceRedazionale=25G00108
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-08-01&atto.codiceRedazionale=25G00122
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-08-12&atto.codiceRedazionale=25G00124
+lavori-preparatori:
+  - http://www.senato.it/uri-res/N2Ls?urn:senato-it:parl:ddl:senato;19.legislatura;1689
+  - http://www.camera.it/uri-res/N2Ls?urn:camera-it:parlamento:scheda.progetto.legge:camera;19.legislatura;2750
+camera-legislatura: 19
+camera-atto: C. 2750
+camera-atto-iri: http://dati.camera.it/ocd/attocamera.rdf/ac19_2750
+camera-natura: "Progetto di Legge"
+camera-iniziativa: "Governo"
+camera-data-presentazione: "23 dicembre 2025"
+camera-relazioni:
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175990.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175950.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175850.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175860.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175890.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175930.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175910.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0176100.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175880.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175830.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175940.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175920.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175840.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175970.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175820.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175800.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175810.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175870.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175960.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0176090.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0175900.pdf
+camera-firmatari:
+  - "GIORGETTI Giancarlo - Ministro dell'Economia e delle finanze"
+camera-dossier:
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014evol1.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014evol2.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014evol3.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014evol4.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014evol5.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014cvol2.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014cvol3.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014cvol4.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014c_vol_1.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ID0014d.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/VQ2750_1.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/VQ2750_2.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/AC0447.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/gi0096.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/ES0298.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/DI0181.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/TR0218.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/CU0185.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/Am0114.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/AP0213.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/LA0208.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/AS0477.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/AG0053.pdf
+senato-did: 59654
+senato-legislatura: 19
+senato-numero-fase: 1689
+senato-url: https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?did=59654
+senato-titolo: "Bilancio di previsione dello Stato per l'anno finanziario 2026 e bilancio pluriennale per il triennio 2026-2028"
+senato-natura: "di approvazione di bilancio"
+senato-iniziativa: "Governativa"
+senato-teseo:
+  - "BILANCIO DELLO STATO"
+  - "BILANCIO PREVENTIVO"
+  - "ANNO FINANZIARIO 2026"
+senato-votazioni-url: https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?tab=votazioni&did=59654
+senato-votazione-finale: https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl/votazione?did=59654&sessionId=375&voteId=3
+senato-documenti:
+  - https://www.senato.it/leg/19/BGT/Schede/FascicoloSchedeDDL/ebook/59654.pdf
+---
