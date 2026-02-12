@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import HomeSearch from '../components/HomeSearch.astro';
 import { getCollection } from 'astro:content';
 
 const articles = await getCollection('articoli', ({ data }) => !data.draft);
@@ -21,6 +22,7 @@ const sortedArticles = articles.sort((a, b) => b.data.publishedDate.valueOf() - 
           pubblicati in Gazzetta Ufficiale.
         </p>
       </div>
+      <HomeSearch />
     </section>
   </div>
 
