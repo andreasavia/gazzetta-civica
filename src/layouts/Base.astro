@@ -61,7 +61,7 @@ const {
     </header>
     <div class="tricolor-bar"></div>
     <div class="main-wrapper">
-      <main>
+      <main {...(type === 'article' ? { 'data-pagefind-filter': 'type:article' } : {})}>
         <slot />
       </main>
     </div>
