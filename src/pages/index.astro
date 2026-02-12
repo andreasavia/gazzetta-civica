@@ -26,7 +26,7 @@ const sortedArticles = articles.sort((a, b) => b.data.publishedDate.valueOf() - 
     </section>
   </div>
 
-  <section class="content-section">
+  <section class="content-section" id="articoli">
     <h2>Ultimi Aggiornamenti</h2>
     {sortedArticles.length === 0 ? (
       <p class="empty-state">
