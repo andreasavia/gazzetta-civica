@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import SchedaInformativa from '../../components/SchedaInformativa.astro';
 import StructuredData from '../../components/StructuredData.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ShareButton from '../../components/ShareButton.astro';
 import { getLegge } from '../../lib/leggi';
 
 export async function getStaticPaths() {
@@ -59,18 +60,25 @@ const breadcrumbItems = [
     <h1>{article.data.title}</h1>
     {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
     <div class="meta">
-      <span class="date">{article.data.publishedDate.toLocaleDateString('it-IT', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })}</span>
-      {categories.length > 0 && (
-        <span class="tags">
-          {categories.map((cat: string) => (
-            <span class="tag">{cat}</span>
-          ))}
-        </span>
-      )}
+      <div class="meta-left">
+        <span class="date">{article.data.publishedDate.toLocaleDateString('it-IT', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}</span>
+        {categories.length > 0 && (
+          <span class="tags">
+            {categories.map((cat: string) => (
+              <span class="tag">{cat}</span>
+            ))}
+          </span>
+        )}
+      </div>
+      <ShareButton
+        title={article.data.title}
+        url={articleUrl}
+        description={description}
+      />
     </div>
     <Content components={{ SchedaInformativa }} />
   </article>
