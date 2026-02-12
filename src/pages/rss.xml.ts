@@ -14,7 +14,10 @@ export const GET: APIRoute = async (context) => {
     site: context.site || 'https://andreasavia.github.io/gazzetta-civica',
     items: sortedArticles.map((article) => ({
       title: article.data.title,
-      description: article.data.subtitle || `Analisi e approfondimento: ${article.data.title}`,
+      description:
+        article.data.excerpt ||
+        article.data.subtitle ||
+        `Analisi e approfondimento: ${article.data.title}`,
       pubDate: article.data.publishedDate,
       link: `/articoli/${article.slug}/`,
     })),
