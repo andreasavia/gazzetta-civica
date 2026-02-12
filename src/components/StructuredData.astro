@@ -1,0 +1,90 @@
+---
+interface Props {
+  type: 'article' | 'website' | 'breadcrumb';
+  article?: {
+    title: string;
+    description: string;
+    publishedDate: Date;
+    modifiedDate?: Date;
+    author?: string;
+    url: string;
+    image?: string;
+    tags?: string[];
+  };
+  breadcrumb?: {
+    items: Array<{ name: string; url: string }>;
+  };
+}
+
+const { type, article, breadcrumb } = Astro.props;
+const site = 'https://andreasavia.github.io';
+const base = '/gazzetta-civica';
+
+let structuredData: any;
+
+if (type === 'article' && article) {
+  structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.description,
+    datePublished: article.publishedDate.toISOString(),
+    dateModified: (article.modifiedDate || article.publishedDate).toISOString(),
+    author: {
+      '@type': 'Organization',
+      name: article.author || 'Gazzetta Civica',
+      url: site + base
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Gazzetta Civica',
+      url: site + base,
+      logo: {
+        '@type': 'ImageObject',
+        url: site + base + '/favicon.svg'
+      }
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': article.url
+    },
+    inLanguage: 'it-IT',
+    keywords: article.tags?.join(', ')
+  };
+
+  if (article.image) {
+    structuredData.image = article.image.startsWith('http')
+      ? article.image
+      : site + base + article.image;
+  }
+} else if (type === 'website') {
+  structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Gazzetta Civica',
+    description: 'Trasparenza legislativa per una cittadinanza informata',
+    url: site + base,
+    inLanguage: 'it-IT',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Gazzetta Civica',
+      url: site + base
+    }
+  };
+} else if (type === 'breadcrumb' && breadcrumb) {
+  structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumb.items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url
+    }))
+  };
+}
+---
+
+{structuredData && (
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+)}

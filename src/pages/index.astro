@@ -6,7 +6,10 @@ const articles = await getCollection('articoli', ({ data }) => !data.draft);
 const sortedArticles = articles.sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
 ---
 
-<Base title="Home">
+<Base
+  title="Home"
+  description="Un archivio aperto della legislazione italiana. Raccogliamo, organizziamo e rendiamo accessibili le leggi e i decreti pubblicati in Gazzetta Ufficiale."
+>
   <div class="hero-wrapper">
     <section class="hero">
       <h1>Gazzetta Civica</h1>

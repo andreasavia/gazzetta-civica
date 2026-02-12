@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import SchedaInformativa from '../../components/SchedaInformativa.astro';
+import StructuredData from '../../components/StructuredData.astro';
 import { getLegge } from '../../lib/leggi';
 
 export async function getStaticPaths() {
@@ -16,9 +17,23 @@ const { article } = Astro.props;
 const { Content } = await article.render();
 const legge = article.data.legge ? getLegge(article.data.legge) : null;
 const categories = legge?.['senato-teseo'] || [];
+
+// Generate description from subtitle or use default
+const description = article.data.subtitle || `Analisi e approfondimento: ${article.data.title}`;
+
+// Get article URL
+const site = 'https://andreasavia.github.io';
+const base = '/gazzetta-civica';
+const articleUrl = `${site}${base}/articoli/${article.slug}/`;
 ---
 
-<Base title={article.data.title}>
+<Base
+  title={article.data.title}
+  description={description}
+  type="article"
+  publishedDate={article.data.publishedDate}
+  tags={categories}
+>
   <article>
     <h1>{article.data.title}</h1>
     {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
@@ -38,4 +53,15 @@ const categories = legge?.['senato-teseo'] || [];
     </div>
     <Content components={{ SchedaInformativa }} />
   </article>
+
+  <StructuredData
+    type="article"
+    article={{
+      title: article.data.title,
+      description: description,
+      publishedDate: article.data.publishedDate,
+      url: articleUrl,
+      tags: categories
+    }}
+  />
 </Base>

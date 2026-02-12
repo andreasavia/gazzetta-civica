@@ -1,12 +1,31 @@
 ---
 import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import StructuredData from '../components/StructuredData.astro';
 
 interface Props {
   title: string;
+  description?: string;
   fullHeight?: boolean;
+  type?: 'website' | 'article';
+  image?: string;
+  publishedDate?: Date;
+  modifiedDate?: Date;
+  author?: string;
+  tags?: string[];
 }
 
-const { title, fullHeight = false } = Astro.props;
+const {
+  title,
+  description = 'Gazzetta Civica - Legislazione italiana e analisi',
+  fullHeight = false,
+  type = 'website',
+  image,
+  publishedDate,
+  modifiedDate,
+  author,
+  tags
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -14,12 +33,25 @@ const { title, fullHeight = false } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Gazzetta Civica - Legislazione italiana e analisi" />
     <link rel="icon" type="image/svg+xml" href="/gazzetta-civica/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="Gazzetta Civica RSS Feed" href="/gazzetta-civica/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet" />
     <title>{title} | Gazzetta Civica</title>
+
+    <SEO
+      title={title}
+      description={description}
+      type={type}
+      image={image}
+      publishedDate={publishedDate}
+      modifiedDate={modifiedDate}
+      author={author}
+      tags={tags}
+    />
+
+    {type === 'website' && <StructuredData type="website" />}
   </head>
   <body>
     <header>
