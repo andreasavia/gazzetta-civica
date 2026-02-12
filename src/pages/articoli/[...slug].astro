@@ -60,25 +60,25 @@ const breadcrumbItems = [
     <h1>{article.data.title}</h1>
     {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
     <div class="meta">
-      <div class="meta-left">
+      <div class="meta-top">
         <span class="date">{article.data.publishedDate.toLocaleDateString('it-IT', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
         })}</span>
-        {categories.length > 0 && (
-          <span class="tags">
-            {categories.map((cat: string) => (
-              <span class="tag">{cat}</span>
-            ))}
-          </span>
-        )}
+        <ShareButton
+          title={article.data.title}
+          url={articleUrl}
+          description={description}
+        />
       </div>
-      <ShareButton
-        title={article.data.title}
-        url={articleUrl}
-        description={description}
-      />
+      {categories.length > 0 && (
+        <span class="tags">
+          {categories.map((cat: string) => (
+            <span class="tag">{cat}</span>
+          ))}
+        </span>
+      )}
     </div>
     <Content components={{ SchedaInformativa }} />
   </article>
