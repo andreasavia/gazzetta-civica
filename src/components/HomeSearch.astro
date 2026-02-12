@@ -1,0 +1,282 @@
+---
+// Google-style search bar for homepage
+---
+
+<div class="home-search-wrapper">
+  <div class="home-search-container">
+    <div class="search-box">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Cerca articoli e leggi..."
+        aria-label="Cerca nel sito"
+        id="home-search-input"
+      />
+    </div>
+    <p class="search-hint">
+      Premi <kbd>Invio</kbd> per cercare o <kbd>Esc</kbd> per chiudere
+    </p>
+  </div>
+
+  <dialog id="search-results-modal" class="search-modal">
+    <div class="search-modal-content">
+      <div class="search-modal-header">
+        <button id="search-modal-close" class="search-close" aria-label="Chiudi ricerca">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div id="search-results"></div>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  // @ts-ignore
+  import { PagefindUI } from '@pagefind/default-ui';
+
+  const searchInput = document.getElementById('home-search-input') as HTMLInputElement;
+  const searchModal = document.getElementById('search-results-modal') as HTMLDialogElement;
+  const searchModalClose = document.getElementById('search-modal-close');
+
+  // Initialize Pagefind UI
+  const pagefindUI = new PagefindUI({
+    element: '#search-results',
+    showSubResults: true,
+    showImages: false,
+    excerptLength: 15,
+    baseUrl: '/gazzetta-civica',
+    translations: {
+      placeholder: 'Cerca articoli e leggi...',
+      clear_search: 'Cancella',
+      load_more: 'Carica altri risultati',
+      search_label: 'Cerca in questo sito',
+      filters_label: 'Filtri',
+      zero_results: 'Nessun risultato per [SEARCH_TERM]',
+      many_results: '[COUNT] risultati per [SEARCH_TERM]',
+      one_result: '[COUNT] risultato per [SEARCH_TERM]',
+      alt_search: 'Nessun risultato per [SEARCH_TERM]. Mostrando risultati per [DIFFERENT_TERM]',
+      search_suggestion: 'Nessun risultato per [SEARCH_TERM]. Prova una di queste ricerche:',
+      searching: 'Ricerca in corso per [SEARCH_TERM]...'
+    }
+  });
+
+  // When user clicks on input or starts typing
+  searchInput?.addEventListener('focus', () => {
+    if (searchInput.value.length > 0) {
+      searchModal?.showModal();
+    }
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    const value = (e.target as HTMLInputElement).value;
+    if (value.length > 0) {
+      searchModal?.showModal();
+      // Trigger Pagefind search
+      const pagefindInput = document.querySelector('.pagefind-ui__search-input') as HTMLInputElement;
+      if (pagefindInput) {
+        pagefindInput.value = value;
+        pagefindInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    } else {
+      searchModal?.close();
+    }
+  });
+
+  // Enter key to search
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && searchInput.value.length > 0) {
+      searchModal?.showModal();
+      setTimeout(() => {
+        const pagefindInput = document.querySelector('.pagefind-ui__search-input') as HTMLInputElement;
+        if (pagefindInput) {
+          pagefindInput.value = searchInput.value;
+          pagefindInput.dispatchEvent(new Event('input', { bubbles: true }));
+          pagefindInput.focus();
+        }
+      }, 100);
+    }
+    if (e.key === 'Escape') {
+      searchModal?.close();
+    }
+  });
+
+  // Close modal
+  searchModalClose?.addEventListener('click', () => {
+    searchModal?.close();
+  });
+
+  // Close on backdrop click
+  searchModal?.addEventListener('click', (e) => {
+    if (e.target === searchModal) {
+      searchModal.close();
+    }
+  });
+
+  // Close on Escape key
+  searchModal?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      searchModal.close();
+    }
+  });
+
+  // When modal closes, keep the input value
+  searchModal?.addEventListener('close', () => {
+    // Don't clear the input when closing modal
+  });
+</script>
+
+<style>
+  .home-search-wrapper {
+    width: 100%;
+    max-width: 600px;
+    margin: 3rem auto 3rem;
+    padding: 0 1rem;
+  }
+
+  .home-search-container {
+    position: relative;
+  }
+
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 24px;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+  }
+
+  .search-box:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border-color: var(--color-primary);
+  }
+
+  .search-box:focus-within {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+    border-color: var(--color-primary);
+  }
+
+  .search-icon {
+    color: var(--color-muted);
+    flex-shrink: 0;
+    margin-right: 1rem;
+  }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1rem;
+    color: var(--color-text);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-muted);
+  }
+
+  .search-hint {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .search-hint kbd {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+  }
+
+  .search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .search-modal::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .search-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    margin: 5rem auto;
+    background: var(--color-bg);
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-modal-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem 0.5rem;
+  }
+
+  .search-close {
+    background: none;
+    border: none;
+    color: var(--color-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+  }
+
+  .search-close:hover {
+    color: var(--color-primary);
+  }
+
+  #search-results {
+    padding: 0 1.5rem 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  @media (max-width: 768px) {
+    .home-search-wrapper {
+      margin: 2rem auto;
+    }
+
+    .search-modal-content {
+      width: 95%;
+      margin: 2rem auto;
+      max-height: 90vh;
+    }
+
+    .search-hint {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+
+<link href="/_pagefind/pagefind-ui.css" rel="stylesheet">
