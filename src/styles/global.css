@@ -279,6 +279,12 @@ article .tag {
   border-radius: 3px;
 }
 
+article .share-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
 article h2 {
   margin-top: 2.5rem;
 }

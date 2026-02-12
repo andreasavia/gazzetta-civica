@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import SchedaInformativa from '../../components/SchedaInformativa.astro';
 import StructuredData from '../../components/StructuredData.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ShareButton from '../../components/ShareButton.astro';
 import { getLegge } from '../../lib/leggi';
 
 export async function getStaticPaths() {
@@ -71,6 +72,13 @@ const breadcrumbItems = [
           ))}
         </span>
       )}
+    </div>
+    <div class="share-section">
+      <ShareButton
+        title={article.data.title}
+        url={articleUrl}
+        description={description}
+      />
     </div>
     <Content components={{ SchedaInformativa }} />
   </article>
