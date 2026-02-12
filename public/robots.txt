@@ -1,0 +1,6 @@
+# robots.txt for Gazzetta Civica
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://andreasavia.github.io/gazzetta-civica/sitemap.xml
