@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import SEO from '../components/SEO.astro';
 import StructuredData from '../components/StructuredData.astro';
+import Search from '../components/Search.astro';
 
 interface Props {
   title: string;
@@ -57,6 +58,7 @@ const {
     <header>
       <nav>
         <a href="/gazzetta-civica/" class="logo"><span class="logo-prefix">la</span> Gazzetta Civica</a>
+        <Search />
       </nav>
     </header>
     <div class="tricolor-bar"></div>
