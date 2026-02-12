@@ -57,6 +57,13 @@ const breadcrumbItems = [
   <Breadcrumbs items={breadcrumbItems} />
 
   <article>
+    {categories.length > 0 && (
+      <div class="tags-header">
+        {categories.map((cat: string) => (
+          <span class="tag">{cat}</span>
+        ))}
+      </div>
+    )}
     <h1>{article.data.title}</h1>
     {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
     <div class="meta">
@@ -72,13 +79,6 @@ const breadcrumbItems = [
           description={description}
         />
       </div>
-      {categories.length > 0 && (
-        <span class="tags">
-          {categories.map((cat: string) => (
-            <span class="tag">{cat}</span>
-          ))}
-        </span>
-      )}
     </div>
     <Content components={{ SchedaInformativa }} />
   </article>
@@ -103,4 +103,14 @@ const breadcrumbItems = [
       items: breadcrumbItems
     }}
   />
+
+  <style>
+    .tags-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
 </Base>
