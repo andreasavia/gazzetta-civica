@@ -1,5 +1,5 @@
 ---
-// Google-style search bar for homepage
+// Google-style search bar with dropdown results
 ---
 
 <div class="home-search-wrapper">
@@ -14,119 +14,131 @@
         placeholder="Cerca articoli e leggi..."
         aria-label="Cerca nel sito"
         id="home-search-input"
+        autocomplete="off"
       />
     </div>
-    <p class="search-hint">
-      Premi <kbd>Invio</kbd> per cercare o <kbd>Esc</kbd> per chiudere
-    </p>
-  </div>
 
-  <dialog id="search-results-modal" class="search-modal">
-    <div class="search-modal-content">
-      <div class="search-modal-header">
-        <button id="search-modal-close" class="search-close" aria-label="Chiudi ricerca">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div id="search-results"></div>
+    <div id="search-dropdown" class="search-dropdown" style="display: none;">
+      <div id="search-results-container"></div>
     </div>
-  </dialog>
+  </div>
 </div>
 
-<script>
-  // @ts-ignore
-  import { PagefindUI } from '@pagefind/default-ui';
-
+<script is:inline>
   const searchInput = document.getElementById('home-search-input') as HTMLInputElement;
-  const searchModal = document.getElementById('search-results-modal') as HTMLDialogElement;
-  const searchModalClose = document.getElementById('search-modal-close');
+  const searchDropdown = document.getElementById('search-dropdown') as HTMLElement;
+  const searchResultsContainer = document.getElementById('search-results-container') as HTMLElement;
 
-  // Initialize Pagefind UI
-  const pagefindUI = new PagefindUI({
-    element: '#search-results',
-    showSubResults: true,
-    showImages: false,
-    excerptLength: 15,
-    baseUrl: '/gazzetta-civica',
-    translations: {
-      placeholder: 'Cerca articoli e leggi...',
-      clear_search: 'Cancella',
-      load_more: 'Carica altri risultati',
-      search_label: 'Cerca in questo sito',
-      filters_label: 'Filtri',
-      zero_results: 'Nessun risultato per [SEARCH_TERM]',
-      many_results: '[COUNT] risultati per [SEARCH_TERM]',
-      one_result: '[COUNT] risultato per [SEARCH_TERM]',
-      alt_search: 'Nessun risultato per [SEARCH_TERM]. Mostrando risultati per [DIFFERENT_TERM]',
-      search_suggestion: 'Nessun risultato per [SEARCH_TERM]. Prova una di queste ricerche:',
-      searching: 'Ricerca in corso per [SEARCH_TERM]...'
+  let debounceTimer: ReturnType<typeof setTimeout>;
+  let pagefind: any = null;
+
+  // Dynamically load Pagefind
+  async function loadPagefind() {
+    if (pagefind) return pagefind;
+    // @ts-ignore
+    pagefind = await import('/_pagefind/pagefind.js');
+    await pagefind.init();
+    return pagefind;
+  }
+
+  async function performSearch(query: string) {
+    if (query.length < 2) {
+      searchDropdown.style.display = 'none';
+      return;
     }
-  });
 
-  // When user clicks on input or starts typing
-  searchInput?.addEventListener('focus', () => {
-    if (searchInput.value.length > 0) {
-      searchModal?.showModal();
-    }
-  });
+    try {
+      const pf = await loadPagefind();
+      const search = await pf.search(query);
 
-  searchInput?.addEventListener('input', (e) => {
-    const value = (e.target as HTMLInputElement).value;
-    if (value.length > 0) {
-      searchModal?.showModal();
-      // Trigger Pagefind search
-      const pagefindInput = document.querySelector('.pagefind-ui__search-input') as HTMLInputElement;
-      if (pagefindInput) {
-        pagefindInput.value = value;
-        pagefindInput.dispatchEvent(new Event('input', { bubbles: true }));
+      if (search.results.length === 0) {
+        searchResultsContainer.innerHTML = `
+          <div class="no-results">
+            Nessun risultato per "${query}"
+          </div>
+        `;
+        searchDropdown.style.display = 'block';
+        return;
       }
-    } else {
-      searchModal?.close();
+
+      // Get first 5 results
+      const results = await Promise.all(
+        search.results.slice(0, 5).map(r => r.data())
+      );
+
+      searchResultsContainer.innerHTML = results.map(result => `
+        <a href="${result.url}" class="search-result-item">
+          <div class="result-title">${result.meta.title || 'Untitled'}</div>
+          <div class="result-excerpt">${result.excerpt || ''}</div>
+        </a>
+      `).join('');
+
+      searchDropdown.style.display = 'block';
+    } catch (error) {
+      console.error('Search error:', error);
+    }
+  }
+
+  // Search on input
+  searchInput?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value.trim();
+
+    clearTimeout(debounceTimer);
+
+    if (query.length < 2) {
+      searchDropdown.style.display = 'none';
+      return;
+    }
+
+    debounceTimer = setTimeout(() => {
+      performSearch(query);
+    }, 300);
+  });
+
+  // Hide dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!searchInput?.contains(e.target as Node) && !searchDropdown?.contains(e.target as Node)) {
+      searchDropdown.style.display = 'none';
     }
   });
 
-  // Enter key to search
+  // Show dropdown when focusing on input with existing query
+  searchInput?.addEventListener('focus', () => {
+    if (searchInput.value.trim().length >= 2) {
+      performSearch(searchInput.value.trim());
+    }
+  });
+
+  // Navigate dropdown with keyboard
   searchInput?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && searchInput.value.length > 0) {
-      searchModal?.showModal();
-      setTimeout(() => {
-        const pagefindInput = document.querySelector('.pagefind-ui__search-input') as HTMLInputElement;
-        if (pagefindInput) {
-          pagefindInput.value = searchInput.value;
-          pagefindInput.dispatchEvent(new Event('input', { bubbles: true }));
-          pagefindInput.focus();
-        }
-      }, 100);
-    }
-    if (e.key === 'Escape') {
-      searchModal?.close();
-    }
-  });
+    const items = searchDropdown.querySelectorAll('.search-result-item');
+    const activeItem = document.activeElement as HTMLElement;
 
-  // Close modal
-  searchModalClose?.addEventListener('click', () => {
-    searchModal?.close();
-  });
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (items.length === 0) return;
 
-  // Close on backdrop click
-  searchModal?.addEventListener('click', (e) => {
-    if (e.target === searchModal) {
-      searchModal.close();
+      if (!activeItem || !activeItem.classList.contains('search-result-item')) {
+        (items[0] as HTMLElement).focus();
+      } else {
+        const currentIndex = Array.from(items).indexOf(activeItem);
+        const nextIndex = (currentIndex + 1) % items.length;
+        (items[nextIndex] as HTMLElement).focus();
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (items.length === 0) return;
+
+      const currentIndex = Array.from(items).indexOf(activeItem);
+      if (currentIndex > 0) {
+        (items[currentIndex - 1] as HTMLElement).focus();
+      } else {
+        searchInput.focus();
+      }
+    } else if (e.key === 'Escape') {
+      searchDropdown.style.display = 'none';
+      searchInput.blur();
     }
-  });
-
-  // Close on Escape key
-  searchModal?.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      searchModal.close();
-    }
-  });
-
-  // When modal closes, keep the input value
-  searchModal?.addEventListener('close', () => {
-    // Don't clear the input when closing modal
   });
 </script>
 
@@ -184,82 +196,69 @@
     color: var(--color-muted);
   }
 
-  .search-hint {
-    text-align: center;
-    margin-top: 0.75rem;
-    font-size: 0.85rem;
-    color: var(--color-muted);
-    font-family: 'Montserrat', sans-serif;
-  }
-
-  .search-hint kbd {
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 3px;
-    padding: 0.1rem 0.4rem;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.8rem;
-  }
-
-  .search-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
-  }
-
-  .search-modal::backdrop {
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
-  }
-
-  .search-modal-content {
-    position: relative;
-    width: 90%;
-    max-width: 800px;
-    max-height: 80vh;
-    margin: 5rem auto;
-    background: var(--color-bg);
     border-radius: 8px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .search-modal-header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 1rem 1.5rem 0.5rem;
-  }
-
-  .search-close {
-    background: none;
-    border: none;
-    color: var(--color-muted);
-    cursor: pointer;
-    padding: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s ease;
-  }
-
-  .search-close:hover {
-    color: var(--color-primary);
-  }
-
-  #search-results {
-    padding: 0 1.5rem 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    max-height: 400px;
     overflow-y: auto;
-    flex: 1;
+    z-index: 1000;
+  }
+
+  #search-results-container {
+    padding: 0.5rem 0;
+  }
+
+  .search-result-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.15s ease;
+    cursor: pointer;
+  }
+
+  .search-result-item:last-child {
+    border-bottom: none;
+  }
+
+  .search-result-item:hover,
+  .search-result-item:focus {
+    background: var(--color-bg);
+    outline: none;
+  }
+
+  .result-title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .result-excerpt {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .no-results {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--color-muted);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
   }
 
   @media (max-width: 768px) {
@@ -267,16 +266,8 @@
       margin: 2rem auto;
     }
 
-    .search-modal-content {
-      width: 95%;
-      margin: 2rem auto;
-      max-height: 90vh;
-    }
-
-    .search-hint {
-      font-size: 0.75rem;
+    .search-dropdown {
+      max-height: 300px;
     }
   }
 </style>
-
-<link href="/_pagefind/pagefind-ui.css" rel="stylesheet">
