@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import SchedaInformativa from '../../components/SchedaInformativa.astro';
 import StructuredData from '../../components/StructuredData.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getLegge } from '../../lib/leggi';
 
 export async function getStaticPaths() {
@@ -33,6 +34,13 @@ const articleUrl = `${site}${base}/articoli/${article.slug}/`;
 const author = article.data.author || 'Gazzetta Civica';
 const modifiedDate = article.data.modifiedDate || article.data.publishedDate;
 const image = article.data.image;
+
+// Breadcrumb navigation
+const breadcrumbItems = [
+  { name: 'Home', url: `${base}/` },
+  { name: 'Articoli', url: `${base}/articoli/` },
+  { name: article.data.title, url: articleUrl }
+];
 ---
 
 <Base
@@ -45,6 +53,8 @@ const image = article.data.image;
   image={image}
   tags={categories}
 >
+  <Breadcrumbs items={breadcrumbItems} />
+
   <article>
     <h1>{article.data.title}</h1>
     {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
@@ -76,6 +86,13 @@ const image = article.data.image;
       url: articleUrl,
       image: image,
       tags: categories
+    }}
+  />
+
+  <StructuredData
+    type="breadcrumb"
+    breadcrumb={{
+      items: breadcrumbItems
     }}
   />
 </Base>
