@@ -56,12 +56,7 @@ function extractLawNumber(titolo: string): string {
         }).join(', ')}</li>
       )}
       {(legge['camera-votazione-finale'] || legge['senato-votazione-finale']) && (
-        <li>
-          <strong>Votazione finale</strong>
-          {legge['camera-votazione-finale'] && <a href={legge['camera-votazione-finale']}>Camera</a>}
-          {legge['camera-votazione-finale'] && legge['senato-votazione-finale'] && ' | '}
-          {legge['senato-votazione-finale'] && <a href={legge['senato-votazione-finale']}>Senato</a>}
-        </li>
+        <li><strong>Votazione finale</strong> <span>{legge['camera-votazione-finale'] && <a href={legge['camera-votazione-finale']}>Camera</a>}{legge['camera-votazione-finale'] && legge['senato-votazione-finale'] && ' | '}{legge['senato-votazione-finale'] && <a href={legge['senato-votazione-finale']}>Senato</a>}</span></li>
       )}
     </ul>
   </div>

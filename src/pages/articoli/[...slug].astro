@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import SchedaInformativa from '../../components/SchedaInformativa.astro';
+import { getLegge } from '../../lib/leggi';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articoli');
@@ -13,19 +14,28 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props;
 const { Content } = await article.render();
+const legge = article.data.legge ? getLegge(article.data.legge) : null;
+const categories = legge?.['senato-teseo'] || [];
 ---
 
 <Base title={article.data.title}>
   <article>
     <h1>{article.data.title}</h1>
     {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
-    <p class="meta">
-      {article.data.publishedDate.toLocaleDateString('it-IT', {
+    <div class="meta">
+      <span class="date">{article.data.publishedDate.toLocaleDateString('it-IT', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
-      })}
-    </p>
+      })}</span>
+      {categories.length > 0 && (
+        <span class="tags">
+          {categories.map((cat: string) => (
+            <span class="tag">{cat}</span>
+          ))}
+        </span>
+      )}
+    </div>
     <Content components={{ SchedaInformativa }} />
   </article>
 </Base>

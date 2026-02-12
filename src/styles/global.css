@@ -254,9 +254,29 @@ article .subtitle {
 }
 
 article .meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
   color: var(--color-muted);
   margin-bottom: 2rem;
   font-size: 0.9rem;
+}
+
+article .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+article .tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-border);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
 }
 
 article h2 {
