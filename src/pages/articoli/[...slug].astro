@@ -18,13 +18,21 @@ const { Content } = await article.render();
 const legge = article.data.legge ? getLegge(article.data.legge) : null;
 const categories = legge?.['senato-teseo'] || [];
 
-// Generate description from subtitle or use default
-const description = article.data.subtitle || `Analisi e approfondimento: ${article.data.title}`;
+// Generate description with priority: excerpt > subtitle > auto-generated
+const description =
+  article.data.excerpt ||
+  article.data.subtitle ||
+  `Analisi e approfondimento: ${article.data.title}`;
 
 // Get article URL
 const site = 'https://andreasavia.github.io';
 const base = '/gazzetta-civica';
 const articleUrl = `${site}${base}/articoli/${article.slug}/`;
+
+// Use optional metadata with sensible defaults
+const author = article.data.author || 'Gazzetta Civica';
+const modifiedDate = article.data.modifiedDate || article.data.publishedDate;
+const image = article.data.image;
 ---
 
 <Base
@@ -32,6 +40,9 @@ const articleUrl = `${site}${base}/articoli/${article.slug}/`;
   description={description}
   type="article"
   publishedDate={article.data.publishedDate}
+  modifiedDate={modifiedDate}
+  author={author}
+  image={image}
   tags={categories}
 >
   <article>
@@ -60,7 +71,10 @@ const articleUrl = `${site}${base}/articoli/${article.slug}/`;
       title: article.data.title,
       description: description,
       publishedDate: article.data.publishedDate,
+      modifiedDate: modifiedDate,
+      author: author,
       url: articleUrl,
+      image: image,
       tags: categories
     }}
   />
