@@ -13,6 +13,12 @@ function formatDate(date: Date | string): string {
   const months = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
                   'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
   if (typeof date === 'string') {
+    // Handle DD/MM/YYYY format
+    if (date.includes('/')) {
+      const [day, month, year] = date.split('/').map(Number);
+      return `${day} ${months[month - 1]} ${year}`;
+    }
+    // Handle YYYY-MM-DD format
     const [year, month, day] = date.split('-').map(Number);
     return `${day} ${months[month - 1]} ${year}`;
   }
@@ -31,37 +37,30 @@ function extractLawNumber(titolo: string): string {
   <div class="scheda-informativa">
     <h2>Scheda Informativa</h2>
     <p class="scheda-sommario">
-      Legge n. <a href={legge['normattiva-link']}><strong>{extractLawNumber(legge['titolo-alternativo'])}</strong></a>, Gazzetta Ufficiale <a href={legge['gu-link']}><strong>n. {legge['numero-gu']} del {formatDate(legge['data-gu'])}</strong></a>
+      Legge n. <a href={legge['normattiva-link']}><strong>{extractLawNumber(legge['titolo-alternativo'])}</strong></a> - Gazzetta Ufficiale <a href={legge['gu-link']}><strong>n. {legge['numero-gu']} del {formatDate(legge['data-gu'])}</strong></a>
     </p>
     <ul>
-      {legge['gu-link'] && (
-        <li>
-          <strong>Gazzetta Ufficiale</strong>
-          <a href={legge['gu-link']}>n. {legge['numero-gu']} del {formatDate(legge['data-gu'])}</a>
-        </li>
+      {legge['data-vigenza'] && (
+        <li><strong>Entrata in vigore</strong> {formatDate(legge['data-vigenza'])}</li>
       )}
       {legge['senato-natura'] && (
         <li><strong>Natura</strong> Legge {legge['senato-natura']}</li>
       )}
-      {legge['camera-iniziativa'] && legge['camera-firmatari'] && (
-        <li><strong>Iniziativa</strong> {legge['camera-iniziativa']} ({legge['camera-firmatari'].map((f: string) => f.split(' - ')[0]).join(', ')})</li>
+      {legge['camera-iniziativa'] && (
+        <li><strong>Iniziativa</strong> {legge['camera-iniziativa']}</li>
       )}
-      {legge['camera-votazione-finale'] && (
-        <li>
-          <strong>Votazione Camera</strong>
-          <a href={legge['camera-votazione-finale']}>Dettaglio</a>
-        </li>
+      {legge['camera-firmatari'] && (
+        <li><strong>Firmatari</strong> {legge['camera-firmatari'].map((f: string) => {
+          const [name, group] = f.split(' - ');
+          return `${name} (${group})`;
+        }).join(', ')}</li>
       )}
-      {legge['senato-votazione-finale'] && (
+      {(legge['camera-votazione-finale'] || legge['senato-votazione-finale']) && (
         <li>
-          <strong>Votazione Senato</strong>
-          <a href={legge['senato-votazione-finale']}>Dettaglio</a>
-        </li>
-      )}
-      {legge['normattiva-link'] && (
-        <li>
-          <strong>Testo vigente</strong>
-          <a href={legge['normattiva-link']}>Normattiva</a>
+          <strong>Votazione finale</strong>
+          {legge['camera-votazione-finale'] && <a href={legge['camera-votazione-finale']}>Camera</a>}
+          {legge['camera-votazione-finale'] && legge['senato-votazione-finale'] && ' | '}
+          {legge['senato-votazione-finale'] && <a href={legge['senato-votazione-finale']}>Senato</a>}
         </li>
       )}
     </ul>
