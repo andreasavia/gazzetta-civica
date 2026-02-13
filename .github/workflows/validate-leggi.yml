@@ -12,6 +12,7 @@ on:
     paths:
       - 'content/leggi/**/*.md'
       - 'scripts/validate_leggi.py'
+      - '.github/workflows/validate-leggi.yml'
 
 jobs:
   validate:
