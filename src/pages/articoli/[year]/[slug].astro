@@ -1,16 +1,19 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Base from '../../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import SchedaInformativa from '../../components/SchedaInformativa.astro';
-import StructuredData from '../../components/StructuredData.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import ShareButton from '../../components/ShareButton.astro';
-import { getLegge } from '../../lib/leggi';
+import SchedaInformativa from '../../../components/SchedaInformativa.astro';
+import StructuredData from '../../../components/StructuredData.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ShareButton from '../../../components/ShareButton.astro';
+import { getLegge } from '../../../lib/leggi';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articoli');
   return articles.map((article) => ({
-    params: { slug: article.slug },
+    params: {
+      year: article.data.publishedDate.getFullYear().toString(),
+      slug: article.data.urlSlug
+    },
     props: { article },
   }));
 }
@@ -29,7 +32,8 @@ const description =
 // Get article URL
 const site = 'https://andreasavia.github.io';
 const base = '/gazzetta-civica';
-const articleUrl = `${site}${base}/articoli/${article.slug}/`;
+const year = article.data.publishedDate.getFullYear();
+const articleUrl = `${site}${base}/articoli/${year}/${article.data.urlSlug}/`;
 
 // Use optional metadata with sensible defaults
 const author = article.data.author || 'Gazzetta Civica';

@@ -4,6 +4,7 @@ const articoli = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    urlSlug: z.string(), // URL-friendly slug (used in /articoli/{year}/{urlSlug})
     subtitle: z.string().optional(),
     publishedDate: z.coerce.date(),
     draft: z.boolean().optional().default(false),

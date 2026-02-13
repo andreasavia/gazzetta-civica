@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
   ];
 
   const articleUrls = articles.map((article) => ({
-    url: `/articoli/${article.slug}`,
+    url: `/articoli/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}`,
     lastmod: article.data.publishedDate.toISOString().split('T')[0],
     changefreq: 'monthly',
     priority: 0.8

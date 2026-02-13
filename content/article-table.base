@@ -1,0 +1,21 @@
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.inFolder("leggi")
+    order:
+      - data-emanazione
+      - data-vigenza
+      - file.name
+      - camera-natura
+      - camera-iniziativa
+      - lavori-preparatori
+      - senato-teseo
+    sort:
+      - property: data-vigenza
+        direction: ASC
+    columnSize:
+      note.data-emanazione: 144
+      file.name: 349
+      note.camera-natura: 150
