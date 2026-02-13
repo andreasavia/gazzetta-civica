@@ -59,7 +59,34 @@ The script will:
 3. Save JSON files in `content/leggi/{year}/{month}/` based on emanation date
 4. Generate markdown frontmatter for each law
 
+### Validation
+
+The `scripts/validate_leggi.py` script validates that all legislative markdown files have the required YAML frontmatter fields.
+
+```bash
+# Validate all files in content/leggi/
+python scripts/validate_leggi.py
+
+# Validate with verbose output (shows all files)
+python scripts/validate_leggi.py --verbose
+
+# Validate a specific directory
+python scripts/validate_leggi.py path/to/directory
+```
+
+Required fields for all legislative acts (LEGGE, DECRETO LEGISLATIVO, etc.):
+- Core metadata: `codice-redazionale`, `tipo`, `numero-atto`
+- Dates: `data-emanazione`, `data-gu`, `data-vigenza`, `numero-gu`
+- Links: `normattiva-urn`, `normattiva-link`, `gu-link`
+- Descriptions: `titolo-atto`, `descrizione-atto`, `titolo-alternativo`
+
+Optional fields (not validated but commonly present):
+- `atti-aggiornati`, `atti-correlati`, `lavori-preparatori`, `atti-parlamentari`
+- Camera metadata: `camera-legislatura`, `camera-atto`, `camera-natura`, `camera-iniziativa`, etc.
+- Senato metadata: `senato-did`, `senato-legislatura`, `senato-natura`, `senato-iniziativa`, etc.
+
 ## Workflows
 
 - **Daily Update** - Runs at 6 AM UTC, creates PR with new legislative data
+- **Validate Legislative Data** - Validates markdown files on PRs affecting `content/leggi/`
 - **Deploy** - Deploys to GitHub Pages on push to main

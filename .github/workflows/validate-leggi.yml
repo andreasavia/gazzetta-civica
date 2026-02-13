@@ -1,0 +1,45 @@
+name: Validate Legislative Data
+
+on:
+  pull_request:
+    paths:
+      - 'content/leggi/**/*.md'
+      - 'scripts/validate_leggi.py'
+      - '.github/workflows/validate-leggi.yml'
+  push:
+    branches:
+      - master
+    paths:
+      - 'content/leggi/**/*.md'
+      - 'scripts/validate_leggi.py'
+      - '.github/workflows/validate-leggi.yml'
+
+jobs:
+  validate:
+    name: Validate legislative markdown files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Make validation script executable
+        run: chmod +x scripts/validate_leggi.py
+
+      - name: Run validation
+        run: python scripts/validate_leggi.py --verbose
+
+      - name: Validation summary
+        if: always()
+        run: |
+          echo "### Validation Results" >> $GITHUB_STEP_SUMMARY
+          if [ $? -eq 0 ]; then
+            echo "✅ All legislative markdown files passed validation" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Some files failed validation. See logs above for details." >> $GITHUB_STEP_SUMMARY
+          fi
