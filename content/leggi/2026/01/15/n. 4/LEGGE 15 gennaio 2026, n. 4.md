@@ -6,7 +6,7 @@ data-emanazione: 2026-01-15
 data-gu: 2026-01-20
 numero-gu: 15
 data-vigenza: 21/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-15;4!vig=2026-02-11
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-15;4!vig=2026-02-13
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-20&atto.codiceRedazionale=26G00016&tipoDettaglio=singolavigenza&dataVigenza=21/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/20/15/sg/pdf
 titolo-atto: "Conversione  in  legge,  con  modificazioni,  del  decreto-legge   21 novembre 2025, n. 175, recante misure urgenti  in  materia  di  Piano Transizione 5.0 e di produzione  di  energia  da  fonti  rinnovabili. (26G00016)"
@@ -26,21 +26,6 @@ lavori-preparatori:
 camera-legislatura: 19
 camera-atto: C. 2758
 camera-atto-iri: http://dati.camera.it/ocd/attocamera.rdf/ac19_2758
-camera-natura: "Progetto di Legge"
-camera-iniziativa: "Governo"
-camera-data-presentazione: "8 gennaio 2026"
-camera-relazioni:
-  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0176890.pdf
-camera-firmatari:
-  - "MELONI Giorgia - Presidente del Consiglio dei ministri"
-  - "GIORGETTI Giancarlo - Ministro dell'Economia e delle finanze"
-  - "URSO Adolfo - Ministro delle Imprese e del made in Italy"
-  - "FOTI Tommaso - Ministro per gli Affari europei, il PNRR e le politiche di coesione"
-camera-dossier:
-  - http://documenti.camera.it/leg19/dossier/Pdf/NC0158.pdf
-  - http://documenti.camera.it/leg19/dossier/Pdf/Cost249.pdf
-  - http://documenti.camera.it/leg19/dossier/Pdf/VQ2758.pdf
-  - http://documenti.camera.it/leg19/dossier/Pdf/D25175b.pdf
 senato-did: 59729
 senato-legislatura: 19
 senato-numero-fase: 1718

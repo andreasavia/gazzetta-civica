@@ -6,7 +6,7 @@ data-emanazione: 2026-01-07
 data-gu: 2026-01-09
 numero-gu: 6
 data-vigenza: 24/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-07;2!vig=2026-02-11
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-07;2!vig=2026-02-13
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-09&atto.codiceRedazionale=26G00010&tipoDettaglio=singolavigenza&dataVigenza=24/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/09/6/sg/pdf
 titolo-atto: "Attuazione della direttiva (UE) 2024/884 del Parlamento europeo e del Consiglio, del 13 marzo 2024, che modifica  la  direttiva  2012/19/UE sui rifiuti di apparecchiature elettriche  ed  elettroniche  -  RAEE. (26G00010)"

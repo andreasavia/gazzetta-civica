@@ -6,7 +6,7 @@ data-emanazione: 2025-12-31
 data-gu: 2026-01-09
 numero-gu: 6
 data-vigenza: 24/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-31;213!vig=2026-02-11
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-31;213!vig=2026-02-13
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-09&atto.codiceRedazionale=26G00008&tipoDettaglio=singolavigenza&dataVigenza=24/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/09/6/sg/pdf
 titolo-atto: "Attuazione della direttiva (UE) 2023/2668 del  Parlamento  europeo  e del Consiglio, del  22  novembre  2023,  che  modifica  la  direttiva 2009/148/CE sulla protezione dei lavoratori contro i rischi  connessi con un'esposizione all'amianto durante il lavoro. (26G00008)"

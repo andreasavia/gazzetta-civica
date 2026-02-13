@@ -6,7 +6,7 @@ data-emanazione: 2025-12-30
 data-gu: 2026-01-05
 numero-gu: 3
 data-vigenza: 06/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-30;207!vig=2026-02-11
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-30;207!vig=2026-02-13
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-05&atto.codiceRedazionale=26G00001&tipoDettaglio=singolavigenza&dataVigenza=06/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/05/3/sg/pdf
 titolo-atto: "Attuazione della direttiva (UE) 2024/1438 del  Parlamento  europeo  e del  Consiglio  del  14  maggio  2024,  che  modifica  la   direttiva 2001/110/CE  del  Consiglio  concernente  il  miele,   la   direttiva 2001/112/CE del Consiglio concernente i  succhi  di  frutta  e  altri prodotti analoghi destinati  all'alimentazione  umana,  la  direttiva 2001/113/CE  del  Consiglio  relativa  alle  confetture,  gelatine  e marmellate  di   frutta   e   alla   crema   di   marroni   destinate all'alimentazione umana e  la  direttiva  2001/114/CE  del  Consiglio relativa a taluni tipi di latte conservato parzialmente o  totalmente disidratato destinato all'alimentazione umana. (26G00001)"

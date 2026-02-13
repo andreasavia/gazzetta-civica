@@ -6,7 +6,7 @@ data-emanazione: 2025-12-02
 data-gu: 2026-01-19
 numero-gu: 14
 data-vigenza: 03/02/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:consiglio.dipartimento.ministri.presidenza.sport:decreto:2025-12-02;218!vig=2026-02-11
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:consiglio.dipartimento.ministri.presidenza.sport:decreto:2025-12-02;218!vig=2026-02-13
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-19&atto.codiceRedazionale=26G00014&tipoDettaglio=singolavigenza&dataVigenza=03/02/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/19/14/sg/pdf
 titolo-atto: "Regolamento di attuazione e integrazione delle norme  in  materia  di rapporti di rappresentanza degli atleti e delle societa'  sportive  e di accesso all'esercizio di agente sportivo. (26G00014)"
