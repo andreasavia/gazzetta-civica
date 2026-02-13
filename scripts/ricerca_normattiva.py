@@ -4,9 +4,24 @@ ricerca_normattiva.py — Search Italian norms by year/month via ricerca/avanzat
 
 Usage:
   python ricerca_normattiva.py 2026 1
+
+API Behavior:
+  - The date parameters (dataInizioPubProvvedimento, dataFinePubProvvedimento) filter by
+    **Gazzetta Ufficiale publication date** (dataGU), not the law's emanation date
+  - This means a law emanated on Dec 30, 2025 but published in GU on Jan 2, 2026
+    will be retrieved when searching for January 2026 publications
+
+File Organization:
+  - Laws are stored in content/leggi/{year}/{month}/{day}/n. {numero}/ based on
+    their **emanation date** (data-emanazione), not publication date
+  - This creates a chronological organization by when laws were enacted, even though
+    they may be published in the Gazzetta Ufficiale days or weeks later
+  - Folder structure: content/leggi/YYYY/MM/DD/n. numero/LEGGE....md
+    Example: content/leggi/2025/12/30/n. 199/LEGGE 30 dicembre 2025, n. 199.md
 """
 
 import argparse
+import calendar
 import csv
 import json
 import html as html_module
@@ -673,11 +688,25 @@ def fetch_approfondimenti(session, uri):
     return result
 
 
-def ricerca_avanzata(anno: int, mese: int, pagina: int = 1, per_pagina: int = 100) -> dict:
-    """POST ricerca/avanzata filtrata per anno e mese di emanazione."""
+def ricerca_avanzata(data_inizio: str, data_fine: str, pagina: int = 1, per_pagina: int = 100) -> dict:
+    """POST ricerca/avanzata filtrata per intervallo di date di pubblicazione.
+
+    IMPORTANT: The date parameters filter by Gazzetta Ufficiale publication date (dataGU),
+    NOT by the law's emanation date (data-emanazione). Laws are returned based on when
+    they were published in the official gazette, regardless of when they were enacted.
+
+    Args:
+        data_inizio: Data di pubblicazione GU a partire da (formato YYYY-MM-DD)
+        data_fine: Data di pubblicazione GU fino a (formato YYYY-MM-DD)
+        pagina: Numero di pagina (default 1)
+        per_pagina: Risultati per pagina (default 100)
+
+    Returns:
+        dict: Response from API with 'listaAtti' containing matching laws
+    """
     payload = {
-        "annoProvvedimento": anno,
-        "meseProvvedimento": mese,
+        "dataInizioPubProvvedimento": data_inizio,  # Filters by GU publication date
+        "dataFinePubProvvedimento": data_fine,      # Filters by GU publication date
         "paginazione": {
             "paginaCorrente": str(pagina),
             "numeroElementiPerPagina": str(per_pagina),
@@ -705,7 +734,19 @@ def save_json(data, path: Path) -> None:
 
 
 def save_markdown(atti: list, vault_dir: Path) -> None:
-    """Save each atto as a markdown file for Obsidian, organized by year/month/number."""
+    """Save each atto as a markdown file, organized by emanation date.
+
+    File structure: content/leggi/{year}/{month}/{day}/n. {numero}/{descrizione}.md
+
+    IMPORTANT: Files are organized by **emanation date** (data-emanazione), not by
+    Gazzetta Ufficiale publication date (dataGU). This creates a chronological
+    organization based on when laws were enacted, even though they may be retrieved
+    based on their later publication date in the official gazette.
+
+    Example:
+        A law emanated on 2025-12-30 and published in GU on 2026-01-02 will be stored at:
+        content/leggi/2025/12/30/n. 199/LEGGE 30 dicembre 2025, n. 199.md
+    """
     if not atti:
         return
     vault_dir.mkdir(parents=True, exist_ok=True)
@@ -721,7 +762,8 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
         data_emanazione = atto.get("dataEmanazione", "")[:10]
         uri = atto.get("normattiva_uri", "")
 
-        # Parse year/month/day from dataEmanazione
+        # Parse year/month/day from dataEmanazione (NOT dataGU)
+        # This organizes files by when the law was enacted, not when it was published
         try:
             eman_date = datetime.strptime(data_emanazione, "%Y-%m-%d")
             year = str(eman_date.year)
@@ -732,7 +774,7 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
             month = "00"
             day = "00"
 
-        # Create folder: vault/YYYY/MM/DD/n. numero/
+        # Create folder structure based on emanation date: vault/YYYY/MM/DD/n. numero/
         folder_name = f"n. {numero_provv}"
         norm_dir = vault_dir / year / month / day / folder_name
         norm_dir.mkdir(parents=True, exist_ok=True)
@@ -885,12 +927,19 @@ def main():
     if not (1 <= args.mese <= 12):
         parser.error(f"mese must be 1-12, got: {args.mese}")
 
+    # Calculate date range for the month
+    # These dates represent the Gazzetta Ufficiale publication date range, NOT emanation date
+    _, last_day = calendar.monthrange(args.anno, args.mese)
+    data_inizio = f"{args.anno}-{args.mese:02d}-01"
+    data_fine = f"{args.anno}-{args.mese:02d}-{last_day:02d}"
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     safe_range = f"{args.anno}_{args.mese:02d}"
 
     print("=" * 60)
     print(f"Ricerca normattiva: {args.anno}/{args.mese:02d}")
+    print(f"GU publication date range: {data_inizio} to {data_fine}")
     print("=" * 60 + "\n")
 
     # Paginate all results
@@ -898,7 +947,7 @@ def main():
     pagina = 1
     while True:
         print(f"  Pagina {pagina}...")
-        results = ricerca_avanzata(args.anno, args.mese, pagina=pagina)
+        results = ricerca_avanzata(data_inizio, data_fine, pagina=pagina)
         batch = results.get("listaAtti", [])
         if not batch:
             break
