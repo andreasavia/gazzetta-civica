@@ -103,7 +103,7 @@ TEXT_TO_COLUMN = {
 
 def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
     """Fetch the permalink from Normattiva and extract URN and vigenza date.
-    Returns dict with 'normattiva_uri' and 'data_vigenza'."""
+    Returns dict with 'normattiva_uri' and 'data_vigenza' (in yyyy-mm-dd format)."""
     result = {"normattiva_uri": "", "data_vigenza": ""}
 
     if not data_gu or not codice:
@@ -115,10 +115,18 @@ def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
         main_resp = session.get(main_url, timeout=30)
         main_resp.raise_for_status()
 
-        # Extract "Entrata in vigore del provvedimento" date from main page
+        # Extract "Entrata in vigore del provvedimento" date from main page (dd/mm/yyyy format)
         vigenza_match = re.search(r'Entrata in vigore del provvedimento:\s*(\d{2}/\d{2}/\d{4})', main_resp.text)
+        vigenza_iso = ""
         if vigenza_match:
-            result["data_vigenza"] = vigenza_match.group(1)
+            vigenza_ddmmyyyy = vigenza_match.group(1)
+            # Convert dd/mm/yyyy to yyyy-mm-dd
+            try:
+                vigenza_date = datetime.strptime(vigenza_ddmmyyyy, "%d/%m/%Y")
+                vigenza_iso = vigenza_date.strftime("%Y-%m-%d")
+                result["data_vigenza"] = vigenza_iso
+            except ValueError:
+                pass
 
         # Fetch the permalink to get the correct URN
         permalink_url = f"https://www.normattiva.it/do/atto/vediPermalink?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
@@ -128,7 +136,19 @@ def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
         # Extract URN-NIR permalink (includes !vig= date)
         urn_match = re.search(r'href="(https://www\.normattiva\.it/uri-res/N2Ls\?urn:nir:[^"]+)"', resp.text)
         if urn_match:
-            result["normattiva_uri"] = urn_match.group(1).strip()
+            urn = urn_match.group(1).strip()
+
+            # Override !vig= parameter with the correct vigenza date from API
+            if vigenza_iso:
+                # Replace existing !vig= or append if not present
+                if "!vig=" in urn:
+                    # Replace the existing !vig= parameter
+                    urn = re.sub(r'!vig=[^&\s]*', f'!vig={vigenza_iso}', urn)
+                else:
+                    # Append !vig= parameter
+                    urn += f'!vig={vigenza_iso}'
+
+            result["normattiva_uri"] = urn
 
     except Exception:
         pass
@@ -792,7 +812,7 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
         lines.append(f"data-emanazione: {data_emanazione}")
         lines.append(f"data-gu: {data_gu}")
         lines.append(f"numero-gu: {numero_gu}")
-        # Add data-vigenza (entry into force date)
+        # Add data-vigenza (entry into force date) in yyyy-mm-dd format
         data_vigenza = atto.get("data_vigenza", "")
         if data_vigenza:
             lines.append(f"data-vigenza: {data_vigenza}")
@@ -802,7 +822,14 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
         if data_gu and codice:
             normattiva_link = f"https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
             if data_vigenza:
-                normattiva_link += f"&tipoDettaglio=singolavigenza&dataVigenza={data_vigenza}"
+                # Convert yyyy-mm-dd to dd/mm/yyyy for the URL parameter
+                try:
+                    vig_date = datetime.strptime(data_vigenza, "%Y-%m-%d")
+                    vig_ddmmyyyy = vig_date.strftime("%d/%m/%Y")
+                    normattiva_link += f"&tipoDettaglio=singolavigenza&dataVigenza={vig_ddmmyyyy}"
+                except ValueError:
+                    # If conversion fails, use as-is
+                    normattiva_link += f"&tipoDettaglio=singolavigenza&dataVigenza={data_vigenza}"
             lines.append(f"normattiva-link: {normattiva_link}")
         # GU link extracted from page
         gu_link = atto.get("gu_link", "")
