@@ -74,11 +74,16 @@ python scripts/validate_leggi.py --verbose
 python scripts/validate_leggi.py path/to/directory
 ```
 
-Required fields for all legislative acts:
+Required fields for all legislative acts (LEGGE, DECRETO LEGISLATIVO, etc.):
 - Core metadata: `codice-redazionale`, `tipo`, `numero-atto`
 - Dates: `data-emanazione`, `data-gu`, `data-vigenza`, `numero-gu`
 - Links: `normattiva-urn`, `normattiva-link`, `gu-link`
 - Descriptions: `titolo-atto`, `descrizione-atto`, `titolo-alternativo`
+
+Optional fields (not validated but commonly present):
+- `atti-aggiornati`, `atti-correlati`, `lavori-preparatori`, `atti-parlamentari`
+- Camera metadata: `camera-legislatura`, `camera-atto`, `camera-natura`, `camera-iniziativa`, etc.
+- Senato metadata: `senato-did`, `senato-legislatura`, `senato-natura`, `senato-iniziativa`, etc.
 
 ## Workflows
 

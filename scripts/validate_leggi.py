@@ -10,7 +10,7 @@ import argparse
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict, List
 
 # Required fields for all legislative acts
 COMMON_REQUIRED_FIELDS = {
@@ -30,10 +30,12 @@ COMMON_REQUIRED_FIELDS = {
 }
 
 # Additional required fields for specific types
+# Most types only require common fields; add additional requirements here if needed
 TYPE_SPECIFIC_FIELDS = {
     "LEGGE": set(),  # LEGGE uses only common fields
-    "DECRETO-LEGGE": set(),
-    "DECRETO LEGISLATIVO": set(),
+    "DECRETO-LEGGE": set(),  # DECRETO-LEGGE uses only common fields
+    "DECRETO LEGISLATIVO": set(),  # DECRETO LEGISLATIVO uses only common fields
+    "DECRETO": set(),  # DECRETO uses only common fields
     # Add more types as needed
 }
 
