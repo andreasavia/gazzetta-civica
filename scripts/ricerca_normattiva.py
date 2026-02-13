@@ -26,6 +26,7 @@ import csv
 import json
 import html as html_module
 import re
+import time
 import requests
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -1021,6 +1022,8 @@ def main():
             camera_meta = fetch_camera_metadata(session, camera_links[0])
             atto.update(camera_meta)
             print(f"legislatura {camera_meta.get('legislatura', '?')}, {camera_meta.get('camera-atto', '?')}")
+            # Add delay to avoid rate limiting
+            time.sleep(3)
         else:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}... no camera.it link")
 
