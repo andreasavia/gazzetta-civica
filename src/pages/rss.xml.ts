@@ -19,7 +19,7 @@ export const GET: APIRoute = async (context) => {
         article.data.subtitle ||
         `Analisi e approfondimento: ${article.data.title}`,
       pubDate: article.data.publishedDate,
-      link: `/articoli/${article.slug}/`,
+      link: `/articoli/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`,
     })),
     customData: '<language>it-IT</language>',
     stylesheet: '/rss/styles.xsl',

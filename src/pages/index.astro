@@ -36,7 +36,7 @@ const sortedArticles = articles.sort((a, b) => b.data.publishedDate.valueOf() - 
       <ul class="article-list">
         {sortedArticles.map((article) => (
           <li class="article-item">
-            <a href={`/gazzetta-civica/articoli/${article.slug}/`}>
+            <a href={`/gazzetta-civica/articoli/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`}>
               <h3>{article.data.title}</h3>
               <p class="article-date">
                 {article.data.publishedDate.toLocaleDateString('it-IT', {

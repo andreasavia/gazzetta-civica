@@ -1,5 +1,6 @@
 ---
 title: "Benvenuto su Gazzetta Civica"
+urlSlug: "benvenuto"
 publishedDate: 2026-02-10
 ---
 
