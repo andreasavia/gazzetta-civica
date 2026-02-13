@@ -5,8 +5,8 @@ numero-atto: 209
 data-emanazione: 2025-12-31
 data-gu: 2026-01-08
 numero-gu: 5
-data-vigenza: 23/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-31;209!vig=2026-02-13
+data-vigenza: 2026-01-23
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-31;209!vig=2026-01-23
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-08&atto.codiceRedazionale=26G00002&tipoDettaglio=singolavigenza&dataVigenza=23/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/08/5/sg/pdf
 titolo-atto: "Attuazione della direttiva (UE) 2023/2673 del  Parlamento  europeo  e del Consiglio, del  22  novembre  2023,  che  modifica  la  direttiva 2011/83/UE per quanto riguarda  i  contratti  di  servizi  finanziari conclusi a distanza e abroga la direttiva 2002/65/CE. (26G00002)"

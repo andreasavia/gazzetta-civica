@@ -5,8 +5,8 @@ numero-atto: 220
 data-emanazione: 2025-11-10
 data-gu: 2026-01-24
 numero-gu: 19
-data-vigenza: 25/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:agricoltura.alimentare.foreste.ministero.sovranita:decreto:2025-11-10;220!vig=2026-02-13
+data-vigenza: 2026-01-25
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:agricoltura.alimentare.foreste.ministero.sovranita:decreto:2025-11-10;220!vig=2026-01-25
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-24&atto.codiceRedazionale=26G00019&tipoDettaglio=singolavigenza&dataVigenza=25/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/24/19/sg/pdf
 titolo-atto: "Regolamento  recante  aggiornamento  dell'allegato  II  del   decreto legislativo 2 febbraio 2021, n. 19, relativo all'elenco dei posti  di controllo frontalieri  nazionali  e  relativi  centri  di  ispezione. (26G00019)"

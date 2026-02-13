@@ -5,8 +5,8 @@ numero-atto: 9
 data-emanazione: 2026-01-26
 data-gu: 2026-01-27
 numero-gu: 21
-data-vigenza: 11/02/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-26;9!vig=2026-02-13
+data-vigenza: 2026-02-11
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-26;9!vig=2026-02-11
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-27&atto.codiceRedazionale=26G00024&tipoDettaglio=singolavigenza&dataVigenza=11/02/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/27/21/sg/pdf
 titolo-atto: "Disposizioni in  materia  di  sicurezza  delle  attivita'  subacquee. (26G00024)"
@@ -25,6 +25,17 @@ lavori-preparatori:
 camera-legislatura: 19
 camera-atto: C. 2521
 camera-atto-iri: http://dati.camera.it/ocd/attocamera.rdf/ac19_2521
+camera-natura: "Progetto di Legge"
+camera-iniziativa: "Governo"
+camera-data-presentazione: "17 luglio 2025"
+camera-relazioni:
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0153620.pdf
+camera-firmatari:
+  - "MELONI Giorgia - Presidente del Consiglio dei ministri"
+  - "MUSUMECI Nello - Ministro per la Protezione civile e le politiche del mare"
+camera-dossier:
+  - http://documenti.camera.it/leg19/dossier/Pdf/Cost242.pdf
+  - http://documenti.camera.it/leg19/dossier/Pdf/TR0188.pdf
 senato-did: 59083
 senato-legislatura: 19
 senato-numero-fase: 1462

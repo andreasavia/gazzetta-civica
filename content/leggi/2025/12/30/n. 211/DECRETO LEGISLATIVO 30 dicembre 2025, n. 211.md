@@ -5,8 +5,8 @@ numero-atto: 211
 data-emanazione: 2025-12-30
 data-gu: 2026-01-09
 numero-gu: 6
-data-vigenza: 24/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-30;211!vig=2026-02-13
+data-vigenza: 2026-01-24
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-30;211!vig=2026-01-24
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-09&atto.codiceRedazionale=26G00003&tipoDettaglio=singolavigenza&dataVigenza=24/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/09/6/sg/pdf
 titolo-atto: "Attuazione della direttiva 2024/1226/UE del Parlamento europeo e  del Consiglio, del 24 aprile 2024, relativa alla definizione dei reati  e delle sanzioni per la violazione delle misure restrittive dell'Unione e che modifica la direttiva (UE) 2018/1673. (26G00003)"

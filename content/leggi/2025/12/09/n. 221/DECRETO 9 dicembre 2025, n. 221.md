@@ -5,8 +5,8 @@ numero-atto: 221
 data-emanazione: 2025-12-09
 data-gu: 2026-01-27
 numero-gu: 21
-data-vigenza: 11/02/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:istruzione.merito.ministero:decreto:2025-12-09;221!vig=2026-02-13
+data-vigenza: 2026-02-11
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:istruzione.merito.ministero:decreto:2025-12-09;221!vig=2026-02-11
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-27&atto.codiceRedazionale=26G00021&tipoDettaglio=singolavigenza&dataVigenza=11/02/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/27/21/sg/pdf
 titolo-atto: "Regolamento recante indicazioni  nazionali  per  il  curricolo  della scuola dell'infanzia e del primo ciclo d'istruzione. (26G00021)"

@@ -5,8 +5,8 @@ numero-atto: 214
 data-emanazione: 2025-12-03
 data-gu: 2026-01-12
 numero-gu: 8
-data-vigenza: 27/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:ministero.economia.e.finanze:decreto:2025-12-03;214!vig=2026-02-13
+data-vigenza: 2026-01-27
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:ministero.economia.e.finanze:decreto:2025-12-03;214!vig=2026-01-27
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-12&atto.codiceRedazionale=26G00012&tipoDettaglio=singolavigenza&dataVigenza=27/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/12/8/sg/pdf
 titolo-atto: "Regolamento relativo alla disciplina generale  dei  giochi  numerici, affidati in concessione. (26G00012)"

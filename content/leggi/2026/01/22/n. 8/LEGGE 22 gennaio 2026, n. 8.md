@@ -5,8 +5,8 @@ numero-atto: 8
 data-emanazione: 2026-01-22
 data-gu: 2026-01-27
 numero-gu: 21
-data-vigenza: 28/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-22;8!vig=2026-02-13
+data-vigenza: 2026-01-28
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-22;8!vig=2026-01-28
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-27&atto.codiceRedazionale=26G00023&tipoDettaglio=singolavigenza&dataVigenza=28/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/27/21/sg/pdf
 titolo-atto: "Conversione  in  legge,  con  modificazioni,  del  decreto-legge   1° dicembre 2025, n. 180,  recante  misure  urgenti  per  assicurare  la continuita' operativa degli stabilimenti ex ILVA (26G00023)"
@@ -24,6 +24,19 @@ lavori-preparatori:
 camera-legislatura: 19
 camera-atto: C. 2761
 camera-atto-iri: http://dati.camera.it/ocd/attocamera.rdf/ac19_2761
+camera-natura: "Progetto di Legge"
+camera-iniziativa: "Governo"
+camera-data-presentazione: "14 gennaio 2026"
+camera-relazioni:
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0177760.pdf
+  - http://documenti.camera.it/_dati/leg19/lavori/stampati/pdf/19PDL0177460.pdf
+camera-firmatari:
+  - "MELONI Giorgia - Presidente del Consiglio dei ministri"
+  - "URSO Adolfo - Ministro delle Imprese e del made in Italy"
+  - "CALDERONE Marina Elvira - Ministra del Lavoro e delle politiche sociali"
+  - "GIORGETTI Giancarlo - Ministro dell'Economia e delle finanze"
+camera-dossier:
+  - http://documenti.camera.it/leg19/dossier/Pdf/VQ2761.pdf
 senato-did: 59753
 senato-legislatura: 19
 senato-numero-fase: 1731

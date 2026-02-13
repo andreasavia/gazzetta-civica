@@ -5,8 +5,8 @@ numero-atto: 5
 data-emanazione: 2026-01-09
 data-gu: 2026-01-20
 numero-gu: 15
-data-vigenza: 04/02/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-09;5!vig=2026-02-13
+data-vigenza: 2026-02-04
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-09;5!vig=2026-02-04
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-20&atto.codiceRedazionale=26G00018&tipoDettaglio=singolavigenza&dataVigenza=04/02/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/20/15/sg/pdf
 titolo-atto: "Attuazione della direttiva (UE) 2023/2413 del  Parlamento  europeo  e del Consiglio, del 18 ottobre 2023, che modifica  la  direttiva  (UE) 2018/2001, il regolamento (UE) 2018/1999 e la direttiva  n.  98/70/CE per quanto riguarda la promozione dell'energia da fonti rinnovabili e che abroga la direttiva (UE) 2015/652 del Consiglio. (26G00018)"

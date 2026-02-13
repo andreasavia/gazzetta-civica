@@ -5,8 +5,8 @@ numero-atto: 212
 data-emanazione: 2025-12-31
 data-gu: 2026-01-09
 numero-gu: 6
-data-vigenza: 10/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-31;212!vig=2026-02-13
+data-vigenza: 2026-01-10
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-31;212!vig=2026-01-10
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-09&atto.codiceRedazionale=26G00009&tipoDettaglio=singolavigenza&dataVigenza=10/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/09/6/sg/pdf
 titolo-atto: "Recepimento della direttiva (UE) 2023/2225 del Parlamento  europeo  e del Consiglio, del 18 ottobre 2023, relativa ai contratti di  credito ai consumatori e che abroga la direttiva 2008/48/CE. (26G00009)"
