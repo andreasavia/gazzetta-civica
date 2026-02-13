@@ -40,7 +40,7 @@ This means laws are retrieved based on when they were published in the Gazzetta 
 
 ```bash
 # Install Python dependencies (first time only)
-pip install -r requirements.txt
+pip install -r scripts/requirements.txt
 
 # Activate virtual environment (recommended)
 source venv/bin/activate
