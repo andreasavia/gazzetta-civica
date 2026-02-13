@@ -5,8 +5,8 @@ numero-atto: 208
 data-emanazione: 2025-12-31
 data-gu: 2026-01-08
 numero-gu: 5
-data-vigenza: 09/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-31;208!vig=2026-02-11
+data-vigenza: 2026-01-09
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-31;208!vig=2026-01-09
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-08&atto.codiceRedazionale=26G00006&tipoDettaglio=singolavigenza&dataVigenza=09/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/08/5/sg/pdf
 titolo-atto: "Recepimento della direttiva (UE) 2024/1619 del Parlamento  europeo  e del  Consiglio,  del  31  maggio  2024,  che  modifica  la  direttiva 2013/36/UE per quanto riguarda i poteri di vigilanza, le sanzioni, le succursali di paesi  terzi  e  i  rischi  ambientali,  sociali  e  di governance, nonche' per l'adeguamento al regolamento  (UE)  2024/1623 del Parlamento europeo e del  Consiglio,  del  31  maggio  2024,  che modifica il regolamento  (UE)  n.  575/2013  per  quanto  concerne  i requisiti per il rischio di  credito,  il  rischio  di  aggiustamento della valutazione del credito, il rischio operativo,  il  rischio  di mercato e l'output floor. (26G00006)"

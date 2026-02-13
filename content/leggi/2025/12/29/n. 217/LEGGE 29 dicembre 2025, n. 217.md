@@ -5,8 +5,8 @@ numero-atto: 217
 data-emanazione: 2025-12-29
 data-gu: 2026-01-19
 numero-gu: 14
-data-vigenza: 20/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-12-29;217!vig=2026-02-11
+data-vigenza: 2026-01-20
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-12-29;217!vig=2026-01-20
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-19&atto.codiceRedazionale=26G00013&tipoDettaglio=singolavigenza&dataVigenza=20/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/19/14/sg/pdf
 titolo-atto: "Ratifica ed esecuzione del Protocollo di modifica dell'Accordo tra la Repubblica   Italiana   e   la   Confederazione   Svizzera   relativo all'imposizione   dei   lavoratori   frontalieri,   con    Protocollo aggiuntivo, del 23 dicembre 2020, fatto a Roma il 30 maggio 2024 e  a Berna il 6 giugno 2024. (26G00013)"

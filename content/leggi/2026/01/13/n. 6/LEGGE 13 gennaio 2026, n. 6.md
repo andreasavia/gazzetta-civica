@@ -5,8 +5,8 @@ numero-atto: 6
 data-emanazione: 2026-01-13
 data-gu: 2026-01-23
 numero-gu: 18
-data-vigenza: 24/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-13;6!vig=2026-02-11
+data-vigenza: 2026-01-24
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-13;6!vig=2026-01-24
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-23&atto.codiceRedazionale=26G00017&tipoDettaglio=singolavigenza&dataVigenza=24/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/23/18/sg/pdf
 titolo-atto: "Ratifica  ed  esecuzione  dell'Accordo  di  cooperazione   culturale, scientifica e tecnica tra il Governo della Repubblica italiana  e  il Governo della Repubblica del Camerun, fatto a Yaounde'  il  17  marzo 2016. (26G00017)"

@@ -6,6 +6,7 @@ views:
         - file.inFolder("leggi")
     order:
       - data-emanazione
+      - data-gu
       - data-vigenza
       - file.name
       - camera-natura
@@ -13,6 +14,8 @@ views:
       - lavori-preparatori
       - senato-teseo
     sort:
+      - property: data-gu
+        direction: ASC
       - property: data-vigenza
         direction: ASC
     columnSize:

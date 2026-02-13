@@ -5,8 +5,8 @@ numero-atto: 4
 data-emanazione: 2026-01-15
 data-gu: 2026-01-20
 numero-gu: 15
-data-vigenza: 21/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-15;4!vig=2026-02-11
+data-vigenza: 2026-01-21
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-15;4!vig=2026-01-21
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-20&atto.codiceRedazionale=26G00016&tipoDettaglio=singolavigenza&dataVigenza=21/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/20/15/sg/pdf
 titolo-atto: "Conversione  in  legge,  con  modificazioni,  del  decreto-legge   21 novembre 2025, n. 175, recante misure urgenti  in  materia  di  Piano Transizione 5.0 e di produzione  di  energia  da  fonti  rinnovabili. (26G00016)"

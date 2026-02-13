@@ -5,8 +5,8 @@ numero-atto: 10
 data-emanazione: 2026-01-19
 data-gu: 2026-01-30
 numero-gu: 24
-data-vigenza: 31/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-19;10!vig=2026-02-11
+data-vigenza: 2026-01-31
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-19;10!vig=2026-01-31
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-30&atto.codiceRedazionale=26G00022&tipoDettaglio=singolavigenza&dataVigenza=31/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/30/24/so/4/sg/pdf
 titolo-atto: "Testo unico delle disposizioni legislative in materia di imposta  sul valore aggiunto. (26G00022)"

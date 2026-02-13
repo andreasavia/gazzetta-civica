@@ -5,8 +5,8 @@ numero-atto: 216
 data-emanazione: 2025-12-30
 data-gu: 2026-01-15
 numero-gu: 11
-data-vigenza: 30/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-30;216!vig=2026-02-11
+data-vigenza: 2026-01-30
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-12-30;216!vig=2026-01-30
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-15&atto.codiceRedazionale=26G00005&tipoDettaglio=singolavigenza&dataVigenza=30/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/15/11/sg/pdf
 titolo-atto: "Attuazione della direttiva (UE) 2023/1544 del  Parlamento  europeo  e del Consiglio, del 12 luglio 2023, recante  norme  armonizzate  sulla designazione  di   stabilimenti   designati   e   sulla   nomina   di rappresentanti legali ai fini dell'acquisizione di prove elettroniche nei procedimenti penali. (26G00005)"

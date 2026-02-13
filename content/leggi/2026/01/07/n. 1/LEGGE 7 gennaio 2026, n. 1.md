@@ -6,7 +6,7 @@ data-emanazione: 2026-01-07
 data-gu: 2026-01-07
 numero-gu: 4
 data-vigenza: 2026-01-22
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-07;1!vig=2026-02-11
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-07;1!vig=2026-01-22
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-07&atto.codiceRedazionale=25G00211&tipoDettaglio=singolavigenza&dataVigenza=22/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/07/4/sg/pdf
 titolo-atto: "Modifiche alla legge 14 gennaio 1994, n.  20,  e  altre  disposizioni nonche' delega al Governo in materia  di  funzioni  della  Corte  dei conti e di  responsabilita'  amministrativa  e  per  danno  erariale. (25G00211)"

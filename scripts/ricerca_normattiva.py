@@ -4,13 +4,29 @@ ricerca_normattiva.py — Search Italian norms by year/month via ricerca/avanzat
 
 Usage:
   python ricerca_normattiva.py 2026 1
+
+API Behavior:
+  - The date parameters (dataInizioPubProvvedimento, dataFinePubProvvedimento) filter by
+    **Gazzetta Ufficiale publication date** (dataGU), not the law's emanation date
+  - This means a law emanated on Dec 30, 2025 but published in GU on Jan 2, 2026
+    will be retrieved when searching for January 2026 publications
+
+File Organization:
+  - Laws are stored in content/leggi/{year}/{month}/{day}/n. {numero}/ based on
+    their **emanation date** (data-emanazione), not publication date
+  - This creates a chronological organization by when laws were enacted, even though
+    they may be published in the Gazzetta Ufficiale days or weeks later
+  - Folder structure: content/leggi/YYYY/MM/DD/n. numero/LEGGE....md
+    Example: content/leggi/2025/12/30/n. 199/LEGGE 30 dicembre 2025, n. 199.md
 """
 
 import argparse
+import calendar
 import csv
 import json
 import html as html_module
 import re
+import time
 import requests
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -88,35 +104,54 @@ TEXT_TO_COLUMN = {
 
 def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
     """Fetch the permalink from Normattiva and extract URN and vigenza date.
-    Returns dict with 'normattiva_uri' and 'data_vigenza'."""
+    Returns dict with 'normattiva_uri' and 'data_vigenza' (in yyyy-mm-dd format).
+
+    Raises:
+        Exception: If HTTP request fails or parsing fails
+    """
     result = {"normattiva_uri": "", "data_vigenza": ""}
 
     if not data_gu or not codice:
         return result
 
-    try:
-        # Load the main page to get session and extract "Entrata in vigore"
-        main_url = f"https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
-        main_resp = session.get(main_url, timeout=30)
-        main_resp.raise_for_status()
+    # Load the main page to get session and extract "Entrata in vigore"
+    main_url = f"https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
+    main_resp = session.get(main_url, timeout=30)
+    main_resp.raise_for_status()
 
-        # Extract "Entrata in vigore del provvedimento" date from main page
-        vigenza_match = re.search(r'Entrata in vigore del provvedimento:\s*(\d{2}/\d{2}/\d{4})', main_resp.text)
-        if vigenza_match:
-            result["data_vigenza"] = vigenza_match.group(1)
+    # Extract "Entrata in vigore del provvedimento" date from main page (dd/mm/yyyy format)
+    vigenza_match = re.search(r'Entrata in vigore del provvedimento:\s*(\d{2}/\d{2}/\d{4})', main_resp.text)
+    vigenza_iso = ""
+    if vigenza_match:
+        vigenza_ddmmyyyy = vigenza_match.group(1)
+        # Convert dd/mm/yyyy to yyyy-mm-dd
+        vigenza_date = datetime.strptime(vigenza_ddmmyyyy, "%d/%m/%Y")
+        vigenza_iso = vigenza_date.strftime("%Y-%m-%d")
+        result["data_vigenza"] = vigenza_iso
 
-        # Fetch the permalink to get the correct URN
-        permalink_url = f"https://www.normattiva.it/do/atto/vediPermalink?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
-        resp = session.get(permalink_url, timeout=30)
-        resp.raise_for_status()
+    # Fetch the permalink to get the correct URN
+    permalink_url = f"https://www.normattiva.it/do/atto/vediPermalink?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
+    resp = session.get(permalink_url, timeout=30)
+    resp.raise_for_status()
 
-        # Extract URN-NIR permalink (includes !vig= date)
-        urn_match = re.search(r'href="(https://www\.normattiva\.it/uri-res/N2Ls\?urn:nir:[^"]+)"', resp.text)
-        if urn_match:
-            result["normattiva_uri"] = urn_match.group(1).strip()
+    # Extract URN-NIR permalink (includes !vig= date)
+    urn_match = re.search(r'href="(https://www\.normattiva\.it/uri-res/N2Ls\?urn:nir:[^"]+)"', resp.text)
+    if not urn_match:
+        raise ValueError(f"Could not find URN in permalink page for {codice}")
 
-    except Exception:
-        pass
+    urn = urn_match.group(1).strip()
+
+    # Override !vig= parameter with the correct vigenza date from API
+    if vigenza_iso:
+        # Replace existing !vig= or append if not present
+        if "!vig=" in urn:
+            # Replace the existing !vig= parameter
+            urn = re.sub(r'!vig=[^&\s]*', f'!vig={vigenza_iso}', urn)
+        else:
+            # Append !vig= parameter
+            urn += f'!vig={vigenza_iso}'
+
+    result["normattiva_uri"] = urn
 
     return result
 
@@ -136,14 +171,18 @@ def extract_links(html):
 
 def fetch_camera_metadata(session, camera_url: str) -> dict:
     """Fetch and parse metadata from a camera.it RDF endpoint.
-    Returns dict with camera-atto, legislatura, natura, data-presentazione, iniziativa-dei-deputati."""
+    Returns dict with camera-atto, legislatura, natura, data-presentazione, iniziativa-dei-deputati.
+
+    Raises:
+        Exception: If HTTP request fails or RDF parsing fails
+    """
     result = {}
 
     # Parse URL to extract legislatura and atto number
     # URL format: http://www.camera.it/uri-res/N2Ls?urn:camera-it:parlamento:scheda.progetto.legge:camera;19.legislatura;1621
     url_match = re.search(r'(\d+)\.legislatura;(\d+)', camera_url)
     if not url_match:
-        return result
+        raise ValueError(f"Could not parse legislatura/atto from camera URL: {camera_url}")
 
     legislatura = url_match.group(1)
     atto_num = url_match.group(2)
@@ -154,18 +193,12 @@ def fetch_camera_metadata(session, camera_url: str) -> dict:
     result["camera-atto-iri"] = rdf_url
 
     # Request RDF/XML format explicitly
-    try:
-        resp = session.get(rdf_url, headers={"Accept": "application/rdf+xml"}, timeout=30)
-        resp.raise_for_status()
-        rdf_text = resp.text
-    except Exception:
-        return result
+    resp = session.get(rdf_url, headers={"Accept": "application/rdf+xml"}, timeout=30)
+    resp.raise_for_status()
+    rdf_text = resp.text
 
     # Parse RDF/XML
-    try:
-        root = ET.fromstring(rdf_text)
-    except ET.ParseError:
-        return result
+    root = ET.fromstring(rdf_text)
 
     # Namespaces used in the RDF
     ns = {
@@ -301,34 +334,30 @@ def fetch_camera_metadata(session, camera_url: str) -> dict:
             result["camera-relatori"] = relatori
 
     # Fetch HTML page for votazione-finale and potentially override with HTML-based firmatari
-    html_text = None
-    try:
-        html_resp = session.get(camera_url, timeout=30)
-        html_resp.raise_for_status()
-        html_text = html_resp.text
+    html_resp = session.get(camera_url, timeout=30)
+    html_resp.raise_for_status()
+    html_text = html_resp.text
 
-        # Extract final vote
-        voto_match = re.search(r'href="([^"]*votazioni[^"]*schedaVotazione[^"]*)"', html_text)
-        if voto_match:
-            link = voto_match.group(1).replace("&amp;", "&")
-            if not link.startswith("http"):
-                link = "https://www.camera.it" + link
-            result["camera-votazione-finale"] = link
+    # Extract final vote
+    voto_match = re.search(r'href="([^"]*votazioni[^"]*schedaVotazione[^"]*)"', html_text)
+    if voto_match:
+        link = voto_match.group(1).replace("&amp;", "&")
+        if not link.startswith("http"):
+            link = "https://www.camera.it" + link
+        result["camera-votazione-finale"] = link
 
-        # Extract dossier links
-        dossier_links = []
-        dossier_pattern = r'href="([^"]*dossier[^"]*)"'
-        for match in re.finditer(dossier_pattern, html_text, re.IGNORECASE):
-            link = match.group(1).replace("&amp;", "&")
-            if not link.startswith("http"):
-                link = "https://www.camera.it" + link
-            if link not in dossier_links:
-                dossier_links.append(link)
+    # Extract dossier links
+    dossier_links = []
+    dossier_pattern = r'href="([^"]*dossier[^"]*)"'
+    for match in re.finditer(dossier_pattern, html_text, re.IGNORECASE):
+        link = match.group(1).replace("&amp;", "&")
+        if not link.startswith("http"):
+            link = "https://www.camera.it" + link
+        if link not in dossier_links:
+            dossier_links.append(link)
 
-        if dossier_links:
-            result["camera-dossier"] = dossier_links
-    except Exception:
-        pass
+    if dossier_links:
+        result["camera-dossier"] = dossier_links
 
     # For government bills, parse HTML to get ministerial roles instead of groups
     if html_text and result.get("camera-iniziativa") == "Governo":
@@ -369,23 +398,24 @@ def parse_html_firmatari(html: str, legislatura: str) -> list:
 
 
 def fetch_relatori_names(session, relatori_refs: list, ns: dict) -> list:
-    """Fetch relatore names from their RDF URIs."""
+    """Fetch relatore names from their RDF URIs.
+
+    Raises:
+        Exception: If HTTP request fails or RDF parsing fails
+    """
     relatori = []
     for ref in relatori_refs:
-        try:
-            resp = session.get(ref, headers={"Accept": "application/rdf+xml"}, timeout=10)
-            resp.raise_for_status()
-            root = ET.fromstring(resp.text)
-            # Find the Description with dc:creator (the relatore name)
-            for desc in root.findall('.//rdf:Description', ns):
-                creator = desc.find('dc:creator', ns)
-                if creator is not None and creator.text:
-                    name = creator.text.strip()
-                    if name and name not in relatori:
-                        relatori.append(name)
-                    break
-        except Exception:
-            continue
+        resp = session.get(ref, headers={"Accept": "application/rdf+xml"}, timeout=10)
+        resp.raise_for_status()
+        root = ET.fromstring(resp.text)
+        # Find the Description with dc:creator (the relatore name)
+        for desc in root.findall('.//rdf:Description', ns):
+            creator = desc.find('dc:creator', ns)
+            if creator is not None and creator.text:
+                name = creator.text.strip()
+                if name and name not in relatori:
+                    relatori.append(name)
+                break
     return relatori
 
 
@@ -404,59 +434,61 @@ def resolve_blank_node(root, node_id: str, ns: dict) -> str:
 
 
 def fetch_parliamentary_group(session, person_uri: str, ns: dict, legislatura: str = "19") -> str:
-    """Fetch parliamentary group abbreviation from person/deputato RDF."""
-    try:
-        # If persona.rdf URI, convert to deputato.rdf URI
-        # persona.rdf/p50204 → deputato.rdf/d50204_19
-        if 'persona.rdf' in person_uri:
-            person_match = re.search(r'/p(\d+)', person_uri)
-            if person_match:
-                person_id = person_match.group(1)
-                person_uri = f"http://dati.camera.it/ocd/deputato.rdf/d{person_id}_{legislatura}"
+    """Fetch parliamentary group abbreviation from person/deputato RDF.
 
-        resp = session.get(person_uri, headers={"Accept": "application/rdf+xml"}, timeout=10)
-        resp.raise_for_status()
-        root = ET.fromstring(resp.text)
+    Raises:
+        Exception: If HTTP request fails or RDF parsing fails
+    """
+    # If persona.rdf URI, convert to deputato.rdf URI
+    # persona.rdf/p50204 → deputato.rdf/d50204_19
+    if 'persona.rdf' in person_uri:
+        person_match = re.search(r'/p(\d+)', person_uri)
+        if person_match:
+            person_id = person_match.group(1)
+            person_uri = f"http://dati.camera.it/ocd/deputato.rdf/d{person_id}_{legislatura}"
 
-        # Look for gruppo parlamentare reference
-        gruppo_uri = None
-        for desc in root.findall('.//rdf:Description', ns):
-            gruppo_elem = desc.find('ocd:rif_gruppoParlamentare', ns)
-            if gruppo_elem is not None:
-                gruppo_uri = gruppo_elem.get(f"{{{ns['rdf']}}}resource", "")
-                if gruppo_uri:
-                    break
+    resp = session.get(person_uri, headers={"Accept": "application/rdf+xml"}, timeout=10)
+    resp.raise_for_status()
+    root = ET.fromstring(resp.text)
 
-        if not gruppo_uri:
-            return ""
+    # Look for gruppo parlamentare reference
+    gruppo_uri = None
+    for desc in root.findall('.//rdf:Description', ns):
+        gruppo_elem = desc.find('ocd:rif_gruppoParlamentare', ns)
+        if gruppo_elem is not None:
+            gruppo_uri = gruppo_elem.get(f"{{{ns['rdf']}}}resource", "")
+            if gruppo_uri:
+                break
 
-        # Fetch the group RDF to get the abbreviation
-        gruppo_resp = session.get(gruppo_uri, headers={"Accept": "application/rdf+xml"}, timeout=10)
-        gruppo_resp.raise_for_status()
-        gruppo_root = ET.fromstring(gruppo_resp.text)
+    if not gruppo_uri:
+        return ""
 
-        # Find the main Description for this group
-        for desc in gruppo_root.findall('.//rdf:Description', ns):
-            about = desc.get(f"{{{ns['rdf']}}}about", "")
-            if about == gruppo_uri:
-                # Try ocd:sigla first
-                sigla = desc.find('ocd:sigla', ns)
-                if sigla is not None and sigla.text:
-                    return sigla.text.strip()
+    # Fetch the group RDF to get the abbreviation
+    gruppo_resp = session.get(gruppo_uri, headers={"Accept": "application/rdf+xml"}, timeout=10)
+    gruppo_resp.raise_for_status()
+    gruppo_root = ET.fromstring(gruppo_resp.text)
 
-                # Parse abbreviation from rdfs:label
-                # Format: "FULL NAME (ABBREVIATION) (DATE"
-                label = desc.find('rdfs:label', ns)
-                if label is not None and label.text:
-                    label_text = label.text.strip()
-                    # Extract abbreviation from parentheses
-                    match = re.search(r'\(([A-Z\-]+)\)\s*\(', label_text)
-                    if match:
-                        return match.group(1)
-                    # Fallback: return full label
-                    return label_text
-    except Exception:
-        pass
+    # Find the main Description for this group
+    for desc in gruppo_root.findall('.//rdf:Description', ns):
+        about = desc.get(f"{{{ns['rdf']}}}about", "")
+        if about == gruppo_uri:
+            # Try ocd:sigla first
+            sigla = desc.find('ocd:sigla', ns)
+            if sigla is not None and sigla.text:
+                return sigla.text.strip()
+
+            # Parse abbreviation from rdfs:label
+            # Format: "FULL NAME (ABBREVIATION) (DATE"
+            label = desc.find('rdfs:label', ns)
+            if label is not None and label.text:
+                label_text = label.text.strip()
+                # Extract abbreviation from parentheses
+                match = re.search(r'\(([A-Z\-]+)\)\s*\(', label_text)
+                if match:
+                    return match.group(1)
+                # Fallback: return full label
+                return label_text
+
     return ""
 
 
@@ -483,166 +515,164 @@ def build_scheda_link(resource_uri: str, legislatura: str) -> str:
 
 def fetch_senato_metadata(session, senato_url: str) -> dict:
     """Fetch and parse metadata from a senato.it page by scraping HTML.
-    Returns dict with senato-did, senato-numero-fase, senato-titolo, etc."""
+    Returns dict with senato-did, senato-numero-fase, senato-titolo, etc.
+
+    Raises:
+        Exception: If HTTP request fails or parsing fails
+    """
     result = {}
 
     # Parse URL to extract legislatura and numero_fase
     # URL format: http://www.senato.it/uri-res/N2Ls?urn:senato-it:parl:ddl:senato;19.legislatura;1457
     url_match = re.search(r'(\d+)\.legislatura;(\d+)', senato_url)
     if not url_match:
-        return result
+        raise ValueError(f"Could not parse legislatura/numero_fase from senato URL: {senato_url}")
 
     legislatura = url_match.group(1)
     numero_fase = url_match.group(2)
 
     # Resolve URN to get the did parameter by following redirect
-    try:
-        resp = session.get(senato_url, timeout=30, allow_redirects=True)
-        resp.raise_for_status()
+    resp = session.get(senato_url, timeout=30, allow_redirects=True)
+    resp.raise_for_status()
 
-        # Extract did from final URL
-        did_match = re.search(r'[?&]did=(\d+)', resp.url)
-        if not did_match:
-            return result
+    # Extract did from final URL
+    did_match = re.search(r'[?&]did=(\d+)', resp.url)
+    if not did_match:
+        raise ValueError(f"Could not find did parameter in senato redirect URL: {resp.url}")
 
-        did = did_match.group(1)
+    did = did_match.group(1)
 
-        result["senato-did"] = did
-        result["senato-legislatura"] = legislatura
-        result["senato-numero-fase"] = numero_fase
-        result["senato-url"] = resp.url
+    result["senato-did"] = did
+    result["senato-legislatura"] = legislatura
+    result["senato-numero-fase"] = numero_fase
+    result["senato-url"] = resp.url
 
-        # Parse HTML with BeautifulSoup
-        soup = BeautifulSoup(resp.text, 'html.parser')
+    # Parse HTML with BeautifulSoup
+    soup = BeautifulSoup(resp.text, 'html.parser')
 
-        # Extract title from boxTitolo div
-        title_elem = soup.find('div', class_='boxTitolo')
-        if title_elem:
-            # Get only the first span to avoid concatenation
-            span = title_elem.find('span')
+    # Extract title from boxTitolo div
+    title_elem = soup.find('div', class_='boxTitolo')
+    if title_elem:
+        # Get only the first span to avoid concatenation
+        span = title_elem.find('span')
+        if span:
+            title_text = span.get_text(strip=True)
+            result["senato-titolo"] = title_text
+
+    # Extract short title (titolo breve)
+    title_breve = soup.find('strong', string=re.compile('Titolo breve'))
+    if title_breve:
+        em = title_breve.find_next('em')
+        if em:
+            result["senato-titolo-breve"] = em.get_text(strip=True)
+
+    # Extract natura (nature of bill)
+    natura_header = soup.find('h2', string=re.compile('Natura', re.IGNORECASE))
+    if natura_header:
+        natura_p = natura_header.find_next('p')
+        if natura_p:
+            # Get only the first span for clean text
+            span = natura_p.find('span')
             if span:
-                title_text = span.get_text(strip=True)
-                result["senato-titolo"] = title_text
+                natura_text = span.get_text(strip=True)
+            else:
+                natura_text = natura_p.get_text(strip=True)
 
-        # Extract short title (titolo breve)
-        title_breve = soup.find('strong', string=re.compile('Titolo breve'))
-        if title_breve:
-            em = title_breve.find_next('em')
-            if em:
-                result["senato-titolo-breve"] = em.get_text(strip=True)
+            # Keep only the first part before extra details
+            natura_parts = re.split(r'(?:Contenente|Relazione|Include)', natura_text)
+            natura_clean = natura_parts[0].strip()
+            # Remove trailing punctuation
+            natura_clean = re.sub(r'[,\.\s]+$', '', natura_clean)
+            result["senato-natura"] = natura_clean
 
-        # Extract natura (nature of bill)
-        natura_header = soup.find('h2', string=re.compile('Natura', re.IGNORECASE))
-        if natura_header:
-            natura_p = natura_header.find_next('p')
-            if natura_p:
-                # Get only the first span for clean text
-                span = natura_p.find('span')
-                if span:
-                    natura_text = span.get_text(strip=True)
-                else:
-                    natura_text = natura_p.get_text(strip=True)
+    # Extract iniziativa (initiative type)
+    if 'Iniziativa Parlamentare' in resp.text:
+        result["senato-iniziativa"] = "Parlamentare"
+    elif 'Iniziativa Governativa' in resp.text:
+        result["senato-iniziativa"] = "Governativa"
 
-                # Keep only the first part before extra details
-                natura_parts = re.split(r'(?:Contenente|Relazione|Include)', natura_text)
-                natura_clean = natura_parts[0].strip()
-                # Remove trailing punctuation
-                natura_clean = re.sub(r'[,\.\s]+$', '', natura_clean)
-                result["senato-natura"] = natura_clean
+    # Extract TESEO classification
+    teseo_header = soup.find('h2', string=re.compile('Classificazione TESEO', re.IGNORECASE))
+    if teseo_header:
+        teseo_p = teseo_header.find_next('p')
+        if teseo_p:
+            teseo_terms = []
+            for span in teseo_p.find_all('span'):
+                term = span.get_text(strip=True).strip(',').strip()
+                if term:
+                    teseo_terms.append(term)
+            if teseo_terms:
+                result["senato-teseo"] = teseo_terms
 
-        # Extract iniziativa (initiative type)
-        if 'Iniziativa Parlamentare' in resp.text:
-            result["senato-iniziativa"] = "Parlamentare"
-        elif 'Iniziativa Governativa' in resp.text:
-            result["senato-iniziativa"] = "Governativa"
+    # Build votazioni tab URL and fetch voting info
+    votazioni_url = f"https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?tab=votazioni&did={did}"
+    result["senato-votazioni-url"] = votazioni_url
 
-        # Extract TESEO classification
-        teseo_header = soup.find('h2', string=re.compile('Classificazione TESEO', re.IGNORECASE))
-        if teseo_header:
-            teseo_p = teseo_header.find_next('p')
-            if teseo_p:
-                teseo_terms = []
-                for span in teseo_p.find_all('span'):
-                    term = span.get_text(strip=True).strip(',').strip()
-                    if term:
-                        teseo_terms.append(term)
-                if teseo_terms:
-                    result["senato-teseo"] = teseo_terms
+    vot_resp = session.get(votazioni_url, timeout=30)
+    vot_resp.raise_for_status()
+    vot_soup = BeautifulSoup(vot_resp.text, 'html.parser')
 
-        # Build votazioni tab URL and fetch voting info
-        votazioni_url = f"https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?tab=votazioni&did={did}"
-        result["senato-votazioni-url"] = votazioni_url
-
-        try:
-            vot_resp = session.get(votazioni_url, timeout=30)
-            vot_resp.raise_for_status()
-            vot_soup = BeautifulSoup(vot_resp.text, 'html.parser')
-
-            # Find votazione finale link
-            for li in vot_soup.find_all('li'):
-                strong = li.find('strong')
-                if strong and 'Votazione finale' in strong.get_text():
-                    # Extract link to vote detail
-                    vote_link = li.find('a', class_='schedaCamera')
-                    if vote_link and vote_link.get('href'):
-                        href = vote_link['href']
-                        if not href.startswith('http'):
-                            href = 'https://www.senato.it' + href
-                        result["senato-votazione-finale"] = href
-                    break
-        except Exception:
-            pass
-
-        # Look for data presentazione (submission date)
-        for pattern in [
-            r'Data(?:\s+di)?\s+presentazione[:\s]+(\d{1,2}/\d{1,2}/\d{4})',
-            r'Presentato il[:\s]+(\d{1,2}/\d{1,2}/\d{4})',
-        ]:
-            data_match = re.search(pattern, resp.text, re.IGNORECASE)
-            if data_match:
-                result["senato-data-presentazione"] = data_match.group(1)
-                break
-
-        # Look for documento links (PDFs, XML, etc.)
-        doc_links = []
-        for link in soup.find_all('a', href=True):
-            href = link['href']
-            if any(ext in href.lower() for ext in ['.pdf', '.xml', '.doc', '/stampe/', '/testi/']):
-                # Handle protocol-relative URLs (//www.senato.it/...)
-                if href.startswith('//'):
-                    href = 'https:' + href
-                elif href.startswith('/'):
-                    # Relative URL
+    # Find votazione finale link
+    for li in vot_soup.find_all('li'):
+        strong = li.find('strong')
+        if strong and 'Votazione finale' in strong.get_text():
+            # Extract link to vote detail
+            vote_link = li.find('a', class_='schedaCamera')
+            if vote_link and vote_link.get('href'):
+                href = vote_link['href']
+                if not href.startswith('http'):
                     href = 'https://www.senato.it' + href
-                elif not href.startswith('http'):
-                    href = 'https://www.senato.it/' + href
+                result["senato-votazione-finale"] = href
+            break
 
-                # Clean up any double slashes (except in http://)
-                href = re.sub(r'([^:])//+', r'\1/', href)
+    # Look for data presentazione (submission date)
+    for pattern in [
+        r'Data(?:\s+di)?\s+presentazione[:\s]+(\d{1,2}/\d{1,2}/\d{4})',
+        r'Presentato il[:\s]+(\d{1,2}/\d{1,2}/\d{4})',
+    ]:
+        data_match = re.search(pattern, resp.text, re.IGNORECASE)
+        if data_match:
+            result["senato-data-presentazione"] = data_match.group(1)
+            break
 
-                if href not in doc_links:
-                    doc_links.append(href)
+    # Look for documento links (PDFs, XML, etc.)
+    doc_links = []
+    for link in soup.find_all('a', href=True):
+        href = link['href']
+        if any(ext in href.lower() for ext in ['.pdf', '.xml', '.doc', '/stampe/', '/testi/']):
+            # Handle protocol-relative URLs (//www.senato.it/...)
+            if href.startswith('//'):
+                href = 'https:' + href
+            elif href.startswith('/'):
+                # Relative URL
+                href = 'https://www.senato.it' + href
+            elif not href.startswith('http'):
+                href = 'https://www.senato.it/' + href
 
-        if doc_links:
-            result["senato-documenti"] = doc_links
+            # Clean up any double slashes (except in http://)
+            href = re.sub(r'([^:])//+', r'\1/', href)
 
-    except Exception:
-        pass
+            if href not in doc_links:
+                doc_links.append(href)
+
+    if doc_links:
+        result["senato-documenti"] = doc_links
 
     return result
 
 
 def fetch_approfondimenti(session, uri):
     """Load the N2Ls page, find active approfondimento endpoints, fetch and parse links.
-    Returns dict: {column_name: "link1; link2; ...", "gu_link": "..."} for all APPROFONDIMENTO_COLUMNS."""
+    Returns dict: {column_name: "link1; link2; ...", "gu_link": "..."} for all APPROFONDIMENTO_COLUMNS.
+
+    Raises:
+        Exception: If HTTP request fails
+    """
     result = {col: "" for col in APPROFONDIMENTO_COLUMNS}
     result["gu_link"] = ""
 
-    try:
-        resp = session.get(uri, timeout=30)
-        resp.raise_for_status()
-    except Exception:
-        return result
+    resp = session.get(uri, timeout=30)
+    resp.raise_for_status()
 
     # Extract GU link (gazzettaufficiale.it)
     gu_match = re.search(r'href="(https?://www\.gazzettaufficiale\.it/[^"]+)"', resp.text)
@@ -658,13 +688,11 @@ def fetch_approfondimenti(session, uri):
         if not col:
             continue
 
-        try:
-            sub = session.get(NORMATTIVA_SITE + data_href, timeout=30)
-            sub.raise_for_status()
-        except Exception:
-            continue
+        sub = session.get(NORMATTIVA_SITE + data_href, timeout=30)
+        sub.raise_for_status()
+
         if "Sessione Scaduta" in sub.text:
-            continue
+            raise RuntimeError(f"Session expired when fetching approfondimenti for {uri}")
 
         links = extract_links(sub.text)
         if links:
@@ -673,11 +701,25 @@ def fetch_approfondimenti(session, uri):
     return result
 
 
-def ricerca_avanzata(anno: int, mese: int, pagina: int = 1, per_pagina: int = 100) -> dict:
-    """POST ricerca/avanzata filtrata per anno e mese di emanazione."""
+def ricerca_avanzata(data_inizio: str, data_fine: str, pagina: int = 1, per_pagina: int = 100) -> dict:
+    """POST ricerca/avanzata filtrata per intervallo di date di pubblicazione.
+
+    IMPORTANT: The date parameters filter by Gazzetta Ufficiale publication date (dataGU),
+    NOT by the law's emanation date (data-emanazione). Laws are returned based on when
+    they were published in the official gazette, regardless of when they were enacted.
+
+    Args:
+        data_inizio: Data di pubblicazione GU a partire da (formato YYYY-MM-DD)
+        data_fine: Data di pubblicazione GU fino a (formato YYYY-MM-DD)
+        pagina: Numero di pagina (default 1)
+        per_pagina: Risultati per pagina (default 100)
+
+    Returns:
+        dict: Response from API with 'listaAtti' containing matching laws
+    """
     payload = {
-        "annoProvvedimento": anno,
-        "meseProvvedimento": mese,
+        "dataInizioPubProvvedimento": data_inizio,  # Filters by GU publication date
+        "dataFinePubProvvedimento": data_fine,      # Filters by GU publication date
         "paginazione": {
             "paginaCorrente": str(pagina),
             "numeroElementiPerPagina": str(per_pagina),
@@ -705,7 +747,19 @@ def save_json(data, path: Path) -> None:
 
 
 def save_markdown(atti: list, vault_dir: Path) -> None:
-    """Save each atto as a markdown file for Obsidian, organized by year/month/number."""
+    """Save each atto as a markdown file, organized by emanation date.
+
+    File structure: content/leggi/{year}/{month}/{day}/n. {numero}/{descrizione}.md
+
+    IMPORTANT: Files are organized by **emanation date** (data-emanazione), not by
+    Gazzetta Ufficiale publication date (dataGU). This creates a chronological
+    organization based on when laws were enacted, even though they may be retrieved
+    based on their later publication date in the official gazette.
+
+    Example:
+        A law emanated on 2025-12-30 and published in GU on 2026-01-02 will be stored at:
+        content/leggi/2025/12/30/n. 199/LEGGE 30 dicembre 2025, n. 199.md
+    """
     if not atti:
         return
     vault_dir.mkdir(parents=True, exist_ok=True)
@@ -721,7 +775,8 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
         data_emanazione = atto.get("dataEmanazione", "")[:10]
         uri = atto.get("normattiva_uri", "")
 
-        # Parse year/month/day from dataEmanazione
+        # Parse year/month/day from dataEmanazione (NOT dataGU)
+        # This organizes files by when the law was enacted, not when it was published
         try:
             eman_date = datetime.strptime(data_emanazione, "%Y-%m-%d")
             year = str(eman_date.year)
@@ -732,7 +787,7 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
             month = "00"
             day = "00"
 
-        # Create folder: vault/YYYY/MM/DD/n. numero/
+        # Create folder structure based on emanation date: vault/YYYY/MM/DD/n. numero/
         folder_name = f"n. {numero_provv}"
         norm_dir = vault_dir / year / month / day / folder_name
         norm_dir.mkdir(parents=True, exist_ok=True)
@@ -750,7 +805,7 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
         lines.append(f"data-emanazione: {data_emanazione}")
         lines.append(f"data-gu: {data_gu}")
         lines.append(f"numero-gu: {numero_gu}")
-        # Add data-vigenza (entry into force date)
+        # Add data-vigenza (entry into force date) in yyyy-mm-dd format
         data_vigenza = atto.get("data_vigenza", "")
         if data_vigenza:
             lines.append(f"data-vigenza: {data_vigenza}")
@@ -760,7 +815,14 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
         if data_gu and codice:
             normattiva_link = f"https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
             if data_vigenza:
-                normattiva_link += f"&tipoDettaglio=singolavigenza&dataVigenza={data_vigenza}"
+                # Convert yyyy-mm-dd to dd/mm/yyyy for the URL parameter
+                try:
+                    vig_date = datetime.strptime(data_vigenza, "%Y-%m-%d")
+                    vig_ddmmyyyy = vig_date.strftime("%d/%m/%Y")
+                    normattiva_link += f"&tipoDettaglio=singolavigenza&dataVigenza={vig_ddmmyyyy}"
+                except ValueError:
+                    # If conversion fails, use as-is
+                    normattiva_link += f"&tipoDettaglio=singolavigenza&dataVigenza={data_vigenza}"
             lines.append(f"normattiva-link: {normattiva_link}")
         # GU link extracted from page
         gu_link = atto.get("gu_link", "")
@@ -885,12 +947,19 @@ def main():
     if not (1 <= args.mese <= 12):
         parser.error(f"mese must be 1-12, got: {args.mese}")
 
+    # Calculate date range for the month
+    # These dates represent the Gazzetta Ufficiale publication date range, NOT emanation date
+    _, last_day = calendar.monthrange(args.anno, args.mese)
+    data_inizio = f"{args.anno}-{args.mese:02d}-01"
+    data_fine = f"{args.anno}-{args.mese:02d}-{last_day:02d}"
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     safe_range = f"{args.anno}_{args.mese:02d}"
 
     print("=" * 60)
     print(f"Ricerca normattiva: {args.anno}/{args.mese:02d}")
+    print(f"GU publication date range: {data_inizio} to {data_fine}")
     print("=" * 60 + "\n")
 
     # Paginate all results
@@ -898,7 +967,7 @@ def main():
     pagina = 1
     while True:
         print(f"  Pagina {pagina}...")
-        results = ricerca_avanzata(args.anno, args.mese, pagina=pagina)
+        results = ricerca_avanzata(data_inizio, data_fine, pagina=pagina)
         batch = results.get("listaAtti", [])
         if not batch:
             break
@@ -945,6 +1014,8 @@ def main():
             camera_meta = fetch_camera_metadata(session, camera_links[0])
             atto.update(camera_meta)
             print(f"legislatura {camera_meta.get('legislatura', '?')}, {camera_meta.get('camera-atto', '?')}")
+            # Add delay to avoid rate limiting
+            time.sleep(3)
         else:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}... no camera.it link")
 

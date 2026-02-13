@@ -5,15 +5,19 @@ numero-atto: 5
 data-emanazione: 2026-01-09
 data-gu: 2026-01-20
 numero-gu: 15
-data-vigenza: 04/02/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-09;5!vig=2026-02-11
+data-vigenza: 2026-02-04
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-09;5!vig=2026-02-04
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-20&atto.codiceRedazionale=26G00018&tipoDettaglio=singolavigenza&dataVigenza=04/02/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/20/15/sg/pdf
 titolo-atto: "Attuazione della direttiva (UE) 2023/2413 del  Parlamento  europeo  e del Consiglio, del 18 ottobre 2023, che modifica  la  direttiva  (UE) 2018/2001, il regolamento (UE) 2018/1999 e la direttiva  n.  98/70/CE per quanto riguarda la promozione dell'energia da fonti rinnovabili e che abroga la direttiva (UE) 2015/652 del Consiglio. (26G00018)"
 descrizione-atto: "DECRETO LEGISLATIVO 9 gennaio 2026, n. 5"
 titolo-alternativo: "Decreto Legislativo n. 5/26 del 9 gennaio 2026"
 atti-aggiornati:
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=1999-03-31&atto.codiceRedazionale=099G0136
   - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2005-04-27&atto.codiceRedazionale=005G0086
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-03-28&atto.codiceRedazionale=011G0067
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2011-06-28&atto.codiceRedazionale=011G0136
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2014-07-18&atto.codiceRedazionale=14G00113
   - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2021-11-30&atto.codiceRedazionale=21G00214
 atti-correlati:
   - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-06-25&atto.codiceRedazionale=25G00097

@@ -5,14 +5,16 @@ numero-atto: 8
 data-emanazione: 2026-01-22
 data-gu: 2026-01-27
 numero-gu: 21
-data-vigenza: 28/01/2026
-normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-22;8!vig=2026-02-11
+data-vigenza: 2026-01-28
+normattiva-urn: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2026-01-22;8!vig=2026-01-28
 normattiva-link: https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2026-01-27&atto.codiceRedazionale=26G00023&tipoDettaglio=singolavigenza&dataVigenza=28/01/2026
 gu-link: https://www.gazzettaufficiale.it/eli/gu/2026/01/27/21/sg/pdf
 titolo-atto: "Conversione  in  legge,  con  modificazioni,  del  decreto-legge   1° dicembre 2025, n. 180,  recante  misure  urgenti  per  assicurare  la continuita' operativa degli stabilimenti ex ILVA (26G00023)"
 descrizione-atto: "LEGGE 22 gennaio 2026, n. 8"
 titolo-alternativo: "Legge n. 8/26 del 22 gennaio 2026"
 atti-aggiornati:
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2023-09-29&atto.codiceRedazionale=23G00141
+  - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2024-12-31&atto.codiceRedazionale=24G00229
   - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-12-01&atto.codiceRedazionale=25G00188
 atti-correlati:
   - https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2025-12-01&atto.codiceRedazionale=25G00188
