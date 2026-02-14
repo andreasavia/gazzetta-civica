@@ -266,6 +266,11 @@ ul {
   font-style: italic;
 }
 
+/* Hidden state for filtered articles */
+.article-item.hidden {
+  display: none;
+}
+
 /* Article page */
 article {
   line-height: 1.8;
@@ -521,20 +526,7 @@ article li {
   }
 
   .hero {
-    padding: 2rem 1rem;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .tagline {
-    font-size: 1rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .intro p {
-    font-size: 0.95rem;
+    padding: 2.5rem 1rem;
   }
 
   /* Reduce main wrapper padding on mobile */
@@ -625,22 +617,7 @@ article li {
 
   /* Hero section - more compact on extra small screens */
   .hero {
-    padding: 1.5rem 1rem;
-  }
-
-  .hero h1 {
-    font-size: 1.65rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .tagline {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-
-  .intro p {
-    font-size: 0.875rem;
-    line-height: 1.6;
+    padding: 2rem 1rem;
   }
 
   /* Extra small screens */

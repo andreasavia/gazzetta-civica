@@ -152,13 +152,6 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"articoli": {
-"benvenuto.md": {
-	id: "benvenuto.md";
-  slug: "benvenuto";
-  body: string;
-  collection: "articoli";
-  data: InferEntrySchema<"articoli">
-} & { render(): Render[".md"] };
 "riforma-corte-dei-conti-2026.mdx": {
 	id: "riforma-corte-dei-conti-2026.mdx";
   slug: "riforma-corte-dei-conti-2026";
