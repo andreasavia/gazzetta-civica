@@ -33,18 +33,19 @@ const description =
 const site = 'https://andreasavia.github.io';
 const base = '/gazzetta-civica';
 const year = article.data.publishedDate.getFullYear();
-const articleUrl = `${site}${base}/articoli/${year}/${article.data.urlSlug}/`;
+const articlePath = `${base}/articoli/${year}/${article.data.urlSlug}/`;
+const articleUrl = `${site}${articlePath}`;
 
 // Use optional metadata with sensible defaults
 const author = article.data.author || 'Gazzetta Civica';
 const modifiedDate = article.data.modifiedDate || article.data.publishedDate;
 const image = article.data.image;
 
-// Breadcrumb navigation
+// Breadcrumb navigation (use relative paths for links)
 const breadcrumbItems = [
   { name: 'Home', url: `${base}/` },
   { name: 'Articoli', url: `${base}/#articoli` },
-  { name: article.data.title, url: articleUrl }
+  { name: article.data.title, url: articlePath }
 ];
 ---
 
@@ -62,10 +63,12 @@ const breadcrumbItems = [
 
   <article>
     {categories.length > 0 && (
-      <div class="tags-header">
-        {categories.map((cat: string) => (
-          <span class="tag">{cat}</span>
-        ))}
+      <div class="tags-wrapper">
+        <div class="tags-header">
+          {categories.map((cat: string) => (
+            <span class="tag">{cat}</span>
+          ))}
+        </div>
       </div>
     )}
     <h1>{article.data.title}</h1>
@@ -109,12 +112,45 @@ const breadcrumbItems = [
   />
 
   <style>
+    .tags-wrapper {
+      position: relative;
+    }
+
+    .tags-wrapper::before,
+    .tags-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2rem;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .tags-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, var(--color-bg) 0%, transparent 100%);
+    }
+
+    .tags-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, var(--color-bg) 0%, transparent 100%);
+    }
+
     .tags-header {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      flex-wrap: nowrap;
       gap: 0.4rem;
       margin-bottom: 0.5rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 1.5rem 0.25rem;
+    }
+
+    .tags-header::-webkit-scrollbar {
+      display: none;
     }
   </style>
 </Base>

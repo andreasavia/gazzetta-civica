@@ -28,7 +28,6 @@
   const searchInput = document.getElementById('home-search-input') as HTMLInputElement;
   const searchDropdown = document.getElementById('search-dropdown') as HTMLElement;
   const searchResultsContainer = document.getElementById('search-results-container') as HTMLElement;
-  const articleItems = document.querySelectorAll('.article-item');
 
   let debounceTimer: ReturnType<typeof setTimeout>;
   let pagefind: any = null;
@@ -36,77 +35,21 @@
   // Dynamically load Pagefind
   async function loadPagefind() {
     if (pagefind) return pagefind;
-    
+
     // Robustly handle base URL
     const base = import.meta.env.BASE_URL || '/';
     const normalizedBase = typeof base === 'string' ? (base.endsWith('/') ? base : base + '/') : '/';
     const url = normalizedBase + "pagefind/pagefind.js";
-    
+
     // @ts-ignore
     pagefind = await import(/* @vite-ignore */ url);
     await pagefind.init();
     return pagefind;
   }
 
-  function filterVisibleArticles(matchingUrls: Set<string> | null) {
-    if (!articleItems.length) return;
-
-    articleItems.forEach((item) => {
-      const link = item.querySelector('a') as HTMLAnchorElement;
-      if (!link) return;
-
-      let href;
-      try {
-        // use decoded pathname for comparison
-        href = decodeURIComponent(new URL(link.href).pathname);
-      } catch (e) {
-        return;
-      }
-      
-      if (typeof href !== 'string') return;
-
-      // Normalize href (remove trailing slash for comparison)
-      const normalizedHref = href.endsWith('/') ? href.slice(0, -1) : href;
-
-      if (matchingUrls === null) {
-        // Show all if no filter
-        (item as HTMLElement).style.display = '';
-      } else {
-        let isMatch = false;
-        
-        if (matchingUrls) {
-          for (const url of matchingUrls) {
-             if (typeof url !== 'string') continue;
-             
-             // Normalize and decode result URL
-             let decodedUrl;
-             try {
-                decodedUrl = decodeURIComponent(url);
-             } catch (e) {
-                decodedUrl = url;
-             }
-             
-             const normalizedUrl = decodedUrl.endsWith('/') ? decodedUrl.slice(0, -1) : decodedUrl;
-             
-             if (normalizedUrl === normalizedHref) {
-               isMatch = true;
-               break;
-             }
-          }
-        }
-        
-        (item as HTMLElement).style.display = isMatch ? '' : 'none';
-      }
-    });
-  }
-  
-  // Use a variable to track filtering state (unused in function, but kept for state if needed)
-  let matchUrls: Set<string> | null = null;
-
   async function performSearch(query: string) {
     if (query.length < 2) {
       searchDropdown.style.display = 'none';
-      filterVisibleArticles(null); // Reset filter
       return;
     }
 
@@ -121,16 +64,8 @@
           </div>
         `;
         searchDropdown.style.display = 'block';
-        filterVisibleArticles(new Set()); // Hide all articles
         return;
       }
-
-      // Collect all matching URLs for filtering with safety checks
-      const resultUrls = new Set<string>();
-      search.results.forEach((r: any) => {
-        if (r.url) resultUrls.add(r.url);
-      });
-      filterVisibleArticles(resultUrls);
 
       // Get first 5 results for dropdown
       const results = await Promise.all(
@@ -158,7 +93,6 @@
 
     if (query.length < 2) {
       searchDropdown.style.display = 'none';
-      filterVisibleArticles(null); // Show all
       return;
     }
 
@@ -398,11 +332,78 @@
 
   @media (max-width: 768px) {
     .home-search-wrapper {
-      margin: 2rem auto;
+      margin: 1.25rem auto;
+      padding: 0;
+      max-width: none;
     }
 
     .search-dropdown {
       max-height: 350px;
+      border-radius: 8px;
+    }
+
+    .home-search-wrapper :global(.search-result-item) {
+      padding: 0.875rem 1rem;
+    }
+
+    .home-search-wrapper :global(.result-title) {
+      font-size: 0.9rem;
+    }
+
+    .home-search-wrapper :global(.result-title::before) {
+      display: none;
+    }
+
+    .home-search-wrapper :global(.result-excerpt) {
+      font-size: 0.8rem;
+      padding-left: 0;
+      -webkit-line-clamp: 2;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .home-search-wrapper {
+      margin: 1rem auto;
+      padding: 0;
+    }
+
+    .search-box {
+      padding: 0.7rem 1rem;
+      border-radius: 20px;
+    }
+
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 0.75rem;
+    }
+
+    .search-input {
+      font-size: 0.9rem;
+    }
+
+    .search-dropdown {
+      max-height: 300px;
+      top: calc(100% + 0.5rem);
+    }
+
+    .home-search-wrapper :global(.search-result-item) {
+      padding: 0.75rem;
+    }
+
+    .home-search-wrapper :global(.result-title) {
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .home-search-wrapper :global(.result-excerpt) {
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .home-search-wrapper :global(.no-results) {
+      padding: 1.5rem 0.75rem;
+      font-size: 0.85rem;
     }
   }
 </style>
