@@ -37,14 +37,17 @@ const sortedArticles = articles.sort((a, b) => b.data.publishedDate.valueOf() - 
         {sortedArticles.map((article) => (
           <li class="article-item">
             <a href={`/gazzetta-civica/articoli/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`}>
-              <h3>{article.data.title}</h3>
-              <p class="article-date">
+              <span class="article-date">
                 {article.data.publishedDate.toLocaleDateString('it-IT', {
                   year: 'numeric',
-                  month: 'long',
+                  month: 'short',
                   day: 'numeric'
                 })}
-              </p>
+              </span>
+              <h3>{article.data.title}</h3>
+              {(article.data.excerpt || article.data.subtitle) && (
+                <p class="article-excerpt">{article.data.excerpt || article.data.subtitle}</p>
+              )}
             </a>
           </li>
         ))}
