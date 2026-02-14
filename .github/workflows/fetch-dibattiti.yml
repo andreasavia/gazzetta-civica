@@ -8,9 +8,10 @@ on:
         required: true
         type: string
       filter_title:
-        description: 'Optional: Filter by dibattito title (e.g., "Discussione in Assemblea")'
+        description: 'Filter by dibattito title (leave default for "Discussione in Assemblea", clear for all)'
         required: false
         type: string
+        default: 'Discussione in Assemblea'
 
 jobs:
   fetch:
