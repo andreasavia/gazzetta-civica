@@ -19,8 +19,10 @@ const articlesData = sortedArticles.map(a => ({
 >
   <div class="hero-wrapper">
     <section class="hero">
-      <h1 class="hero-title">Le leggi italiane,<br />spiegate in modo chiaro.</h1>
-      <p class="hero-subtitle">Ricevi analisi e approfondimenti legislativi direttamente nella tua email.</p>
+      <div class="hero-text">
+        <h1 class="hero-title" id="hero-title"></h1>
+        <p class="hero-subtitle" id="hero-subtitle"></p>
+      </div>
 
       <form id="newsletter-form" class="newsletter-form">
         <div class="form-row">
@@ -101,6 +103,21 @@ const articlesData = sortedArticles.map(a => ({
   <script type="application/json" id="articles-data" set:html={JSON.stringify(articlesData)} />
 
   <script>
+    // Random hero headline
+    const headlines = [
+      {
+        title: 'Capire le nuove leggi,<br />senza il legalese.',
+        subtitle: 'Sintesi chiare e analisi imparziali delle norme appena entrate in vigore.'
+      },
+      {
+        title: 'Leggi nuove,<br />parole semplici.',
+        subtitle: 'Iscriviti per ricevere analisi imparziali della legislazione italiana.'
+      }
+    ];
+    const randomHeadline = headlines[Math.floor(Math.random() * headlines.length)];
+    document.getElementById('hero-title')!.innerHTML = randomHeadline.title;
+    document.getElementById('hero-subtitle')!.textContent = randomHeadline.subtitle;
+
     const input = document.getElementById('search-input') as HTMLInputElement;
     const list = document.getElementById('article-list');
     const noResults = document.getElementById('no-results');
@@ -250,6 +267,11 @@ const articlesData = sortedArticles.map(a => ({
       padding: 2rem 1rem;
     }
 
+    /* Hero text */
+    .hero-text {
+      margin-bottom: 2.5rem;
+    }
+
     /* Hero with newsletter */
     .hero-title {
       font-family: 'Montserrat', sans-serif;
@@ -262,7 +284,7 @@ const articlesData = sortedArticles.map(a => ({
     .hero-subtitle {
       font-size: 1.25rem;
       color: var(--color-muted);
-      margin-bottom: 2.5rem;
+      margin-bottom: 0;
       max-width: 500px;
       margin-left: auto;
       margin-right: auto;
@@ -358,12 +380,12 @@ const articlesData = sortedArticles.map(a => ({
         font-size: 2rem;
       }
 
-      .hero-title br {
-        display: none;
-      }
 
       .hero-subtitle {
         font-size: 1.1rem;
+      }
+
+      .hero-text {
         margin-bottom: 2rem;
       }
 

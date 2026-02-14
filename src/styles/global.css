@@ -143,19 +143,17 @@ ul {
 
 /* Hero section - full viewport height */
 .hero-wrapper {
-  min-height: calc(100vh - var(--header-height));
   display: flex;
   flex-direction: column;
 }
 
 .hero {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
-  padding: 2rem;
+  padding: 6rem 2rem 0;
 }
 
 .hero h1 {
@@ -190,7 +188,7 @@ ul {
 
 /* Content section */
 .content-section {
-  padding: 4rem 2rem;
+  padding: 7rem 2rem;
   max-width: var(--max-width);
   margin: 0 auto;
 }
@@ -526,7 +524,7 @@ article li {
   }
 
   .hero {
-    padding: 2.5rem 1rem;
+    padding: 4rem 1rem 2rem;
   }
 
   /* Reduce main wrapper padding on mobile */
@@ -617,7 +615,7 @@ article li {
 
   /* Hero section - more compact on extra small screens */
   .hero {
-    padding: 2rem 1rem;
+    padding: 3rem 1rem 2rem;
   }
 
   /* Extra small screens */
