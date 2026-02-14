@@ -24,22 +24,23 @@ The workflow:
      - Short format: `ac19_1621`
      - Space-separated: `19 1621`
    - **filter_title**: (Optional) Filter dibattiti by exact title match
-     - Example: `Discussione in Assemblea`
-     - Leave empty to fetch all dibattiti
+     - Default: `Discussione in Assemblea` (most common use case)
+     - Clear the field to fetch all dibattiti
+     - Or enter a different title to filter by
 
 ### Examples
 
-#### Fetch all dibattiti for an atto:
+#### Fetch "Discussione in Assemblea" dibattiti (default):
 - **atto_iri**: `ac19_1621`
-- **filter_title**: (leave empty)
-
-**Result**: Fetches all 40 dibattiti with 615 interventi
-
-#### Fetch only "Discussione in Assemblea" dibattiti:
-- **atto_iri**: `ac19_1621`
-- **filter_title**: `Discussione in Assemblea`
+- **filter_title**: `Discussione in Assemblea` (pre-filled)
 
 **Result**: Fetches only 7 dibattiti matching the title with 308 interventi
+
+#### Fetch all dibattiti for an atto:
+- **atto_iri**: `ac19_1621`
+- **filter_title**: (clear the field)
+
+**Result**: Fetches all 40 dibattiti with 615 interventi
 
 ## Output
 
