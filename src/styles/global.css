@@ -35,9 +35,6 @@ header {
   background: var(--color-bg);
   display: flex;
   align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
 }
 
 .tricolor-bar {
@@ -47,8 +44,8 @@ header {
       #ffffff 33.33%, #ffffff 66.66%,
       #ce2b37 66.66%, #ce2b37 100%);
   position: sticky;
-  top: var(--header-height);
-  z-index: 100;
+  top: 0;
+  z-index: 1000;
 }
 
 .tricolor-bar-footer {
@@ -143,19 +140,17 @@ ul {
 
 /* Hero section - full viewport height */
 .hero-wrapper {
-  min-height: calc(100vh - var(--header-height));
   display: flex;
   flex-direction: column;
 }
 
 .hero {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
-  padding: 2rem;
+  padding: 6rem 2rem 0;
 }
 
 .hero h1 {
@@ -190,7 +185,7 @@ ul {
 
 /* Content section */
 .content-section {
-  padding: 4rem 2rem;
+  padding: 7rem 2rem;
   max-width: var(--max-width);
   margin: 0 auto;
 }
@@ -205,38 +200,70 @@ ul {
 .article-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .article-item {
-  padding: 1.25rem;
+  padding: 1.25rem 1.25rem 1.25rem 1.5rem;
   border: 1px solid var(--color-border);
+  border-left: 3px solid #009246;
   background: var(--color-surface);
+  border-radius: 0 4px 4px 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-left-color 0.2s ease;
 }
 
-.article-item h3 {
-  font-size: 1.15rem;
-  font-weight: normal;
-  margin: 0 0 0.25rem;
+.article-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left-color: #007a3d;
 }
 
 .article-item a {
   text-decoration: none;
+  display: block;
 }
 
-.article-item a:hover h3 {
-  text-decoration: underline;
-}
-
-.article-date {
+.article-item .article-date {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--color-muted);
-  font-size: 0.875rem;
+  margin-bottom: 0.35rem;
+}
+
+.article-item h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 0 0.4rem;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.article-item:hover h3 {
+  color: #009246;
+}
+
+.article-excerpt {
+  font-size: 0.9rem;
+  color: var(--color-muted);
   margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .empty-state {
   color: var(--color-muted);
   font-style: italic;
+}
+
+/* Hidden state for filtered articles */
+.article-item.hidden {
+  display: none;
 }
 
 /* Article page */
@@ -494,20 +521,7 @@ article li {
   }
 
   .hero {
-    padding: 2rem 1rem;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .tagline {
-    font-size: 1rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .intro p {
-    font-size: 0.95rem;
+    padding: 4rem 1rem 2rem;
   }
 
   /* Reduce main wrapper padding on mobile */
@@ -569,16 +583,28 @@ article li {
   }
 
   /* Article list */
+  .article-list {
+    gap: 0.75rem;
+  }
+
   .article-item {
-    padding: 1.25rem 0;
+    padding: 1rem 1rem 1rem 1.25rem;
+    border-left-width: 3px;
   }
 
   .article-item h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
   }
 
-  .article-date {
-    font-size: 0.8rem;
+  .article-item .article-date {
+    font-size: 0.7rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .article-excerpt {
+    font-size: 0.85rem;
+    line-height: 1.4;
   }
 }
 
@@ -586,22 +612,7 @@ article li {
 
   /* Hero section - more compact on extra small screens */
   .hero {
-    padding: 1.5rem 1rem;
-  }
-
-  .hero h1 {
-    font-size: 1.65rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .tagline {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-
-  .intro p {
-    font-size: 0.875rem;
-    line-height: 1.6;
+    padding: 3rem 1rem 2rem;
   }
 
   /* Extra small screens */
@@ -630,6 +641,28 @@ article li {
 
   article h2 {
     font-size: 1.25rem;
+  }
+
+  /* Article list - extra small */
+  .article-list {
+    gap: 0.6rem;
+  }
+
+  .article-item {
+    padding: 0.875rem 0.875rem 0.875rem 1rem;
+  }
+
+  .article-item h3 {
+    font-size: 0.95rem;
+  }
+
+  .article-item .article-date {
+    font-size: 0.65rem;
+  }
+
+  .article-excerpt {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 2;
   }
 
   article h3 {
