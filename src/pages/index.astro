@@ -39,7 +39,17 @@ const articlesData = sortedArticles.map(a => ({
             <span class="btn-loading" style="display: none;">...</span>
           </button>
         </div>
-        <p class="form-note">Nessuno spam. Cancellati quando vuoi.</p>
+
+        <div class="privacy-checkbox">
+          <input
+            type="checkbox"
+            id="privacy-consent"
+            name="privacy-consent"
+          />
+          <label for="privacy-consent">
+            Accetto l'informativa sulla <a href="/gazzetta-civica/privacy">privacy</a>
+          </label>
+        </div>
       </form>
 
       <div id="newsletter-success" class="newsletter-message success" style="display: none;">
@@ -48,6 +58,10 @@ const articlesData = sortedArticles.map(a => ({
 
       <div id="newsletter-error" class="newsletter-message error" style="display: none;">
         Qualcosa è andato storto. Riprova.
+      </div>
+
+      <div id="privacy-error" class="newsletter-message error" style="display: none;">
+        Devi accettare l'informativa sulla privacy per iscriverti.
       </div>
     </section>
   </div>
@@ -177,9 +191,20 @@ const articlesData = sortedArticles.map(a => ({
     const btnLoading = newsletterBtn?.querySelector('.btn-loading') as HTMLElement;
     const successMsg = document.getElementById('newsletter-success') as HTMLElement;
     const errorMsg = document.getElementById('newsletter-error') as HTMLElement;
+    const privacyError = document.getElementById('privacy-error') as HTMLElement;
 
     newsletterForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Check privacy consent
+      const privacyConsent = document.getElementById('privacy-consent') as HTMLInputElement;
+      if (!privacyConsent.checked) {
+        privacyError.style.display = 'block';
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+        return;
+      }
+
       const email = (document.getElementById('newsletter-email') as HTMLInputElement).value;
 
       btnText.style.display = 'none';
@@ -187,6 +212,7 @@ const articlesData = sortedArticles.map(a => ({
       newsletterBtn.disabled = true;
       successMsg.style.display = 'none';
       errorMsg.style.display = 'none';
+      privacyError.style.display = 'none';
 
       try {
         const response = await fetch('/api/newsletter', {
@@ -355,6 +381,35 @@ const articlesData = sortedArticles.map(a => ({
       font-size: 0.9rem;
       color: var(--color-muted);
       margin-top: 0.75rem;
+    }
+
+    .privacy-checkbox {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    .privacy-checkbox input[type="checkbox"] {
+      margin-top: 0.2rem;
+      cursor: pointer;
+    }
+
+    .privacy-checkbox label {
+      color: var(--color-muted);
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .privacy-checkbox a {
+      color: #009246;
+      text-decoration: underline;
+    }
+
+    .privacy-checkbox a:hover {
+      color: #007a3d;
     }
 
     .newsletter-message {
