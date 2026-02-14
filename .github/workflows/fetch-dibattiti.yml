@@ -1,0 +1,117 @@
+name: Fetch Dibattiti for Atto
+
+on:
+  workflow_dispatch:
+    inputs:
+      atto_iri:
+        description: 'Atto IRI (e.g., http://dati.camera.it/ocd/attocamera.rdf/ac19_1621 or ac19_1621)'
+        required: true
+        type: string
+      filter_title:
+        description: 'Optional: Filter by dibattito title (e.g., "Discussione in Assemblea")'
+        required: false
+        type: string
+
+jobs:
+  fetch:
+    name: Fetch and save dibattiti data
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Fetch dibattiti data
+        id: fetch
+        run: |
+          # Build command
+          cmd="python scripts/fetch_dibattiti_single_query.py ${{ inputs.atto_iri }} -o dibattiti_temp.json"
+
+          # Add filter if provided
+          if [ -n "${{ inputs.filter_title }}" ]; then
+            cmd="$cmd --filter-title \"${{ inputs.filter_title }}\""
+          fi
+
+          echo "Running: $cmd"
+          eval $cmd
+
+          # Extract atto ID from output file
+          atto_id=$(python -c "import json; data=json.load(open('dibattiti_temp.json')); print(data['metadata']['atto_id'])")
+          echo "atto_id=$atto_id" >> $GITHUB_OUTPUT
+
+      - name: Find target folder
+        id: find_folder
+        run: |
+          atto_id="${{ steps.fetch.outputs.atto_id }}"
+          atto_iri="http://dati.camera.it/ocd/attocamera.rdf/$atto_id"
+
+          echo "Searching for folder with camera-atto-iri: $atto_iri"
+
+          target_folder=$(python scripts/find_atto_folder.py "$atto_iri")
+
+          if [ -z "$target_folder" ]; then
+            echo "::error::Could not find folder for atto IRI: $atto_iri"
+            exit 1
+          fi
+
+          echo "Found target folder: $target_folder"
+          echo "target_folder=$target_folder" >> $GITHUB_OUTPUT
+
+      - name: Move dibattiti.json to target folder
+        run: |
+          target_folder="${{ steps.find_folder.outputs.target_folder }}"
+          mv dibattiti_temp.json "$target_folder/dibattiti.json"
+          echo "✅ Saved dibattiti.json to $target_folder"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add dibattiti data for ${{ steps.fetch.outputs.atto_id }}"
+          branch: dibattiti/${{ steps.fetch.outputs.atto_id }}-${{ github.run_number }}
+          title: "Add dibattiti data for ${{ steps.fetch.outputs.atto_id }}"
+          body: |
+            ## Dibattiti Data for ${{ steps.fetch.outputs.atto_id }}
+
+            **Atto IRI:** `${{ inputs.atto_iri }}`
+            ${{ inputs.filter_title && format('**Filter:** `{0}`', inputs.filter_title) || '' }}
+            **Target folder:** `${{ steps.find_folder.outputs.target_folder }}`
+
+            This PR adds parliamentary debate data (dibattiti) fetched from Camera.it SPARQL endpoint.
+
+            Review the data and merge when ready.
+          assignees: andreasavia
+          labels: dibattiti,automated
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Dibattiti Fetch Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Atto IRI:** \`${{ inputs.atto_iri }}\`" >> $GITHUB_STEP_SUMMARY
+
+          if [ -n "${{ inputs.filter_title }}" ]; then
+            echo "**Filter:** \`${{ inputs.filter_title }}\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ steps.find_folder.outcome }}" == "success" ]; then
+            echo "**Target folder:** \`${{ steps.find_folder.outputs.target_folder }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "✅ Dibattiti data fetched successfully" >> $GITHUB_STEP_SUMMARY
+            echo "📝 A pull request has been created for review" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "❌ Failed to fetch or save dibattiti data" >> $GITHUB_STEP_SUMMARY
+          fi

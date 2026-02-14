@@ -132,6 +132,11 @@ WHERE {
 
 **Method**: ONE comprehensive SPARQL query fetching everything
 
+**Features**:
+- Optional title filtering via `--filter-title` parameter
+- Filters dibattiti by exact title match (e.g., "Discussione in Assemblea")
+- Filter applied in SPARQL query for maximum efficiency
+
 ### The Single Query:
 
 ```sparql
@@ -157,6 +162,9 @@ WHERE {
     <atto_iri> ocd:rif_dibattito ?dibattito .
     OPTIONAL { ?dibattito dc:title ?dibattitoTitolo }
     OPTIONAL { ?dibattito dc:date ?dibattitoData }
+
+    # Optional: Filter by title if specified
+    # FILTER(?dibattitoTitolo = "Discussione in Assemblea")
 
     # Discussioni within each dibattito
     OPTIONAL {
@@ -203,12 +211,22 @@ Atto (ac19_1621)
 ```
 
 ### Results for ac19_1621:
+
+**Without filtering:**
 - **Query count**: 1
 - **Rows returned**: 915 (flattened graph traversal)
 - **Dibattiti found**: 40
 - **Discussioni found**: 40
 - **Interventi found**: 615
 - **Performance**: Fast, ~2-5 seconds
+
+**With `--filter-title "Discussione in Assemblea"`:**
+- **Query count**: 1
+- **Rows returned**: 308
+- **Dibattiti found**: 7 (only matching title)
+- **Discussioni found**: 9
+- **Interventi found**: 308
+- **Performance**: Fast, ~2-3 seconds (even faster due to smaller result set)
 
 ### Post-Processing:
 
@@ -280,10 +298,17 @@ ocd:atto
 
 ### Single Query (Recommended):
 ```bash
+# Fetch all dibattiti
 python scripts/fetch_dibattiti_single_query.py ac19_1621
 # Output: data/dibattiti/ac19_1621.single.json
 # Queries: 1
 # Time: ~3 seconds
+
+# Filter by specific title (e.g., only "Discussione in Assemblea")
+python scripts/fetch_dibattiti_single_query.py ac19_1621 --filter-title "Discussione in Assemblea"
+# Output: data/dibattiti/ac19_1621.single.json
+# Returns: Only dibattiti matching the exact title
+# Example: 7 dibattiti (filtered from 40 total)
 ```
 
 ### Multi-Query:

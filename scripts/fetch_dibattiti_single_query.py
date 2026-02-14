@@ -30,13 +30,22 @@ def build_atto_iri(input_str: str) -> str:
     raise ValueError(f"Cannot parse atto identifier: {input_str}")
 
 
-def fetch_all_dibattiti_data(atto_iri: str) -> Dict:
+def fetch_all_dibattiti_data(atto_iri: str, filter_title: str = None) -> Dict:
     """
     Fetch ALL data (metadata, dibattiti, discussioni, interventi) in ONE query.
 
     This comprehensive query traverses the entire graph:
     Atto → Dibattiti → Discussioni → Interventi → Deputies
+
+    Args:
+        atto_iri: The IRI of the atto
+        filter_title: Optional filter to only include dibattiti with this exact title
     """
+
+    # Build title filter clause
+    title_filter = ""
+    if filter_title:
+        title_filter = f'FILTER(?dibattitoTitolo = "{filter_title}")'
 
     query = f"""
     PREFIX ocd: <http://dati.camera.it/ocd/>
@@ -61,6 +70,9 @@ def fetch_all_dibattiti_data(atto_iri: str) -> Dict:
         <{atto_iri}> ocd:rif_dibattito ?dibattito .
         OPTIONAL {{ ?dibattito dc:title ?dibattitoTitolo }}
         OPTIONAL {{ ?dibattito dc:date ?dibattitoData }}
+
+        # Filter by title if specified
+        {title_filter}
 
         # Discussioni within each dibattito
         OPTIONAL {{
@@ -235,6 +247,10 @@ def main():
         "-o", "--output",
         help="Output JSON file (default: data/dibattiti/{atto_id}.single.json)"
     )
+    parser.add_argument(
+        "--filter-title",
+        help='Filter dibattiti by exact title match (e.g., "Discussione in Assemblea")'
+    )
 
     args = parser.parse_args()
 
@@ -245,10 +261,12 @@ def main():
 
     print(f"Fetching dibattiti for: {atto_iri}")
     print(f"Atto ID: {atto_id}")
+    if args.filter_title:
+        print(f"Filtering by title: {args.filter_title}")
     print()
 
     # Execute single comprehensive query
-    data = fetch_all_dibattiti_data(atto_iri)
+    data = fetch_all_dibattiti_data(atto_iri, filter_title=args.filter_title)
 
     # Print summary
     metadata = data["metadata"]
