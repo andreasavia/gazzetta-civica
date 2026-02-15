@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'content/leggi/**/*.md'
+      - '!content/leggi/**/interventi/*.md'
       - 'scripts/validate_leggi.py'
       - '.github/workflows/validate-leggi.yml'
   push:
@@ -11,6 +12,7 @@ on:
       - master
     paths:
       - 'content/leggi/**/*.md'
+      - '!content/leggi/**/interventi/*.md'
       - 'scripts/validate_leggi.py'
       - '.github/workflows/validate-leggi.yml'
 
