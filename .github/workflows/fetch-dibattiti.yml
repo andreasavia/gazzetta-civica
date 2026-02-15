@@ -73,8 +73,20 @@ jobs:
       - name: Move dibattiti.json to target folder
         run: |
           target_folder="${{ steps.find_folder.outputs.target_folder }}"
-          mv dibattiti_temp.json "$target_folder/dibattiti.json"
-          echo "✅ Saved dibattiti.json to $target_folder"
+          interventi_folder="$target_folder/interventi"
+          mkdir -p "$interventi_folder"
+          mv dibattiti_temp.json "$interventi_folder/dibattiti.json"
+          echo "✅ Saved dibattiti.json to $interventi_folder"
+
+      - name: Fetch all interventi
+        run: |
+          target_folder="${{ steps.find_folder.outputs.target_folder }}"
+          interventi_folder="$target_folder/interventi"
+
+          echo "Fetching interventi from dibattiti.json..."
+          python scripts/fetch_all_interventi.py "$interventi_folder/dibattiti.json"
+
+          echo "✅ Fetched all interventi"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -84,13 +96,15 @@ jobs:
           branch: dibattiti/${{ steps.fetch.outputs.atto_id }}-${{ github.run_number }}
           title: "Add dibattiti data for ${{ steps.fetch.outputs.atto_id }}"
           body: |
-            ## Dibattiti Data for ${{ steps.fetch.outputs.atto_id }}
+            ## Dibattiti and Interventi Data for ${{ steps.fetch.outputs.atto_id }}
 
             **Atto IRI:** `${{ inputs.atto_iri }}`
             ${{ inputs.filter_title && format('**Filter:** `{0}`', inputs.filter_title) || '' }}
-            **Target folder:** `${{ steps.find_folder.outputs.target_folder }}`
+            **Target folder:** `${{ steps.find_folder.outputs.target_folder }}/interventi`
 
-            This PR adds parliamentary debate data (dibattiti) fetched from Camera.it SPARQL endpoint.
+            This PR adds:
+            - Parliamentary debate data (dibattiti.json) fetched from Camera.it SPARQL endpoint
+            - Full stenographic transcripts (interventi) in markdown format, one file per seduta
 
             Review the data and merge when ready.
           assignees: andreasavia
@@ -99,7 +113,7 @@ jobs:
       - name: Summary
         if: always()
         run: |
-          echo "### Dibattiti Fetch Results" >> $GITHUB_STEP_SUMMARY
+          echo "### Dibattiti and Interventi Fetch Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Atto IRI:** \`${{ inputs.atto_iri }}\`" >> $GITHUB_STEP_SUMMARY
 
@@ -108,9 +122,9 @@ jobs:
           fi
 
           if [ "${{ steps.find_folder.outcome }}" == "success" ]; then
-            echo "**Target folder:** \`${{ steps.find_folder.outputs.target_folder }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "**Target folder:** \`${{ steps.find_folder.outputs.target_folder }}/interventi\`" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "✅ Dibattiti data fetched successfully" >> $GITHUB_STEP_SUMMARY
+            echo "✅ Dibattiti data and interventi fetched successfully" >> $GITHUB_STEP_SUMMARY
             echo "📝 A pull request has been created for review" >> $GITHUB_STEP_SUMMARY
           else
             echo "" >> $GITHUB_STEP_SUMMARY

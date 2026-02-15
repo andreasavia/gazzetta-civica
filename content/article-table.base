@@ -8,6 +8,7 @@ views:
       - data-emanazione
       - data-gu
       - data-vigenza
+      - tipo
       - file.name
       - camera-natura
       - camera-iniziativa
