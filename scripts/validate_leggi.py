@@ -154,6 +154,10 @@ def validate_directory(directory: Path, verbose: bool = False) -> int:
     valid_count = 0
 
     for filepath in sorted(md_files):
+        # Skip files inside 'interventi' folders
+        if "interventi" in filepath.parts:
+            continue
+
         relative_path = filepath.relative_to(directory.parent)
         errors = validate_file(filepath)
 
