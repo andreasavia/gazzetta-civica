@@ -122,13 +122,18 @@ def parse_xml_stenografico(xml_content: str, anchor: str) -> dict:
     target_interventi = []
 
     if section_id:
-        # Extract the title part (e.g., "tit00110")
-        title_prefix = section_id.split('.')[0]
-
-        for intervento in all_interventi:
-            intervento_id = intervento.get('id', '')
-            if intervento_id.startswith(title_prefix):
-                target_interventi.append(intervento)
+        # If the ID contains a dot, it's a specific intervention (e.g., tit00110.int00010)
+        # In this case, we want an exact match.
+        if '.' in section_id:
+            for intervento in all_interventi:
+                if intervento.get('id') == section_id:
+                    target_interventi.append(intervento)
+        else:
+            # It's a title-level ID (e.g., tit00110), match all starting with it
+            for intervento in all_interventi:
+                intervento_id = intervento.get('id', '')
+                if intervento_id.startswith(section_id):
+                    target_interventi.append(intervento)
     else:
         target_interventi = all_interventi
 
@@ -192,6 +197,7 @@ def parse_xml_stenografico(xml_content: str, anchor: str) -> dict:
                     display_name = ' '.join(parts[::-1])  # Reverse order
 
             speeches.append({
+                'id': intervento_id,
                 'speaker': display_name.title(),
                 'party': party,
                 'text': full_text

@@ -36,12 +36,24 @@ def extract_interventi_by_seduta(dibattiti_data: dict) -> dict:
                 url = intervento.get('testo')
 
                 if url:
-                    # Extract seduta ID from URL
+                    # Extract seduta ID and anchor from URL
                     parsed = urlparse(url)
                     params = parse_qs(parsed.query)
                     seduta_id = params.get('idSeduta', ['unknown'])[0]
 
-                    sedute[seduta_id].append(url)
+                    # Extract the intervention ID part from the anchor fragment
+                    anchor = parsed.fragment
+                    if anchor:
+                        parts = anchor.split('.')
+                        for j, part in enumerate(parts):
+                            if part.startswith('tit'):
+                                anchor = '.'.join(parts[j:])
+                                break
+
+                    sedute[seduta_id].append({
+                        'url': url,
+                        'anchor': anchor
+                    })
 
     return sedute
 
@@ -102,12 +114,12 @@ def main():
     successful = 0
     failed = 0
 
-    for i, (seduta_id, urls) in enumerate(sorted(sedute.items()), 1):
-        print(f"\n[{i}/{len(sedute)}] Processing seduta {seduta_id} ({len(urls)} interventi)")
+    for i, (seduta_id, items) in enumerate(sorted(sedute.items()), 1):
+        print(f"\n[{i}/{len(sedute)}] Processing seduta {seduta_id} ({len(items)} interventi)")
 
         try:
             # Parse first URL to get legislatura
-            first_url = urls[0]
+            first_url = items[0]['url']
             parsed = urlparse(first_url)
             params = parse_qs(parsed.query)
             legislatura = params.get('idLegislatura', ['19'])[0]
@@ -130,10 +142,25 @@ def main():
                 failed += 1
                 continue
 
+            # Filter speeches based on the anchors found in dibattiti.json
+            json_anchors = {item['anchor'] for item in items if item['anchor']}
+            if json_anchors:
+                original_count = len(xml_data['speeches'])
+                xml_data['speeches'] = [
+                    s for s in xml_data['speeches']
+                    if any(s['id'].startswith(a) for a in json_anchors)
+                ]
+                print(f"  Found {len(xml_data['speeches'])} matching interventions (out of {original_count} in XML)")
+
+            if not xml_data['speeches']:
+                print(f"  ✗ None of the requested interventions found in XML for seduta {seduta_id}")
+                failed += 1
+                continue
+
             # Add metadata
             xml_data['seduta_id'] = seduta_id
-            xml_data['anchor_id'] = f"sed{seduta_id}.complete"
-            xml_data['url'] = f"Seduta {seduta_id} completa"
+            xml_data['anchor_id'] = ", ".join(sorted(json_anchors)) if json_anchors else f"sed{seduta_id}.complete"
+            xml_data['url'] = items[0]['url']  # Use first URL as reference
 
             # Generate markdown
             markdown = format_as_markdown(xml_data)
