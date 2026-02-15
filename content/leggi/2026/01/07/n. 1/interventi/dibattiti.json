@@ -1,0 +1,2305 @@
+{
+  "metadata": {
+    "atto_iri": "http://dati.camera.it/ocd/attocamera.rdf/ac19_1621",
+    "atto_id": "ac19_1621",
+    "tipo": "http://dati.camera.it/ocd/atto",
+    "titolo": " FOTI: &quot;Modifiche alla legge 14 gennaio 1994, n. 20, al codice della giustizia contabile, di cui all&rsquo;allegato 1 al decreto legislativo 26 agosto 2016, n. 174, e altre disposizioni in materia di funzioni di controllo e consultive della Corte dei conti e di responsabilit&agrave; per danno erariale&quot; (1621) ",
+    "iniziativa": "Parlamentare",
+    "dataPresentazione": null
+  },
+  "dibattiti": [
+    {
+      "dibattito": "http://dati.camera.it/ocd/dibattito.rdf/dib184090_19",
+      "titolo": "Discussione in Assemblea",
+      "data": null,
+      "discussioni": [
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184090_19",
+          "argomento": "Organizzazione dei tempi di esame di progetti di legge",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_461",
+          "dataSeduta": "20250402",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768077",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0461&nomefile=stenografico&ancora=sed0461.stenografico.tit00110.int00010#sed0461.stenografico.tit00110.int00010"
+            }
+          ]
+        }
+      ],
+      "num_discussioni": 1,
+      "num_interventi": 1
+    },
+    {
+      "dibattito": "http://dati.camera.it/ocd/dibattito.rdf/dib184209_19",
+      "titolo": "Discussione in Assemblea",
+      "data": null,
+      "discussioni": [
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184209_19",
+          "argomento": "Per richiamo al Regolamento e sull'ordine dei lavori, in merito alla convocazione del Comitato dei nove e per la sospensione della seduta, nell'ambito dell'esame dell'articolo 3 - A.C. 1621-A e abbinata",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_463",
+          "dataSeduta": "20250408",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768649",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00020#sed0463.stenografico.tit00070.sub00050.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768645",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d300480_19",
+              "nome": "ROBERTO",
+              "cognome": "GIACHETTI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00120#sed0463.stenografico.tit00070.sub00050.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768646",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00060#sed0463.stenografico.tit00070.sub00050.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768648",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307223_19",
+              "nome": "PIETRO",
+              "cognome": "PITTALIS",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00040#sed0463.stenografico.tit00070.sub00050.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768647",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307223_19",
+              "nome": "PIETRO",
+              "cognome": "PITTALIS",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00140#sed0463.stenografico.tit00070.sub00050.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768651",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00010#sed0463.stenografico.tit00070.sub00050.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768650",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00150#sed0463.stenografico.tit00070.sub00050.int00150"
+            }
+          ]
+        }
+      ],
+      "num_discussioni": 1,
+      "num_interventi": 7
+    },
+    {
+      "dibattito": "http://dati.camera.it/ocd/dibattito.rdf/dib184207_19",
+      "titolo": "Discussione in Assemblea",
+      "data": null,
+      "discussioni": [
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184207_19",
+          "argomento": "Per la disciplina della discussione, nell'ambito dell'esame dell'A.C. 1621-A e abbinata",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_463",
+          "dataSeduta": "20250408",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768641",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00730#sed0463.stenografico.tit00070.sub00030.int00730"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768639",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00260#sed0463.stenografico.tit00070.sub00030.int00260"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768637",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00190#sed0463.stenografico.tit00070.sub00010.int00190"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768640",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00720#sed0463.stenografico.tit00070.sub00030.int00720"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768636",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00010#sed0463.stenografico.tit00070.sub00010.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768638",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00030#sed0463.stenografico.tit00070.sub00020.int00030"
+            }
+          ]
+        }
+      ],
+      "num_discussioni": 1,
+      "num_interventi": 6
+    },
+    {
+      "dibattito": "http://dati.camera.it/ocd/dibattito.rdf/dib184208_19",
+      "titolo": "Discussione in Assemblea",
+      "data": null,
+      "discussioni": [
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184208_19",
+          "argomento": "Per richiamo al Regolamento, sulla conduzione della seduta da parte della Presidenza, perché richiami i deputati che usano espressioni offensive, nell'ambito dell'esame dell'articolo 1 - A.C. 1621-A e abbinata",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_463",
+          "dataSeduta": "20250408",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768642",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307219_19",
+              "nome": "SALVATORE",
+              "cognome": "DEIDDA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00610#sed0463.stenografico.tit00070.sub00030.int00610"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768643",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00620#sed0463.stenografico.tit00070.sub00030.int00620"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768644",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00600#sed0463.stenografico.tit00070.sub00030.int00600"
+            }
+          ]
+        }
+      ],
+      "num_discussioni": 1,
+      "num_interventi": 3
+    },
+    {
+      "dibattito": "http://dati.camera.it/ocd/dibattito.rdf/dib184460_19",
+      "titolo": "Discussione in Assemblea",
+      "data": null,
+      "discussioni": [
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184460_19",
+          "argomento": "Per la disciplina della discussione, nell'ambito della ripresa dell'esame dell'articolo 3 - A.C. 1621-A e abbinata",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_464",
+          "dataSeduta": "20250409",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769427",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00030#sed0464.stenografico.tit00030.sub00010.int00030"
+            }
+          ]
+        }
+      ],
+      "num_discussioni": 1,
+      "num_interventi": 1
+    },
+    {
+      "dibattito": "http://dati.camera.it/ocd/dibattito.rdf/dib184461_19",
+      "titolo": "Discussione in Assemblea",
+      "data": null,
+      "discussioni": [
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184461_19",
+          "argomento": "Per la disciplina della seduta, nell'ambito della ripresa della discussione dell'A.C. 1621-A e abbinata",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_464",
+          "dataSeduta": "20250409",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769450",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00420#sed0464.stenografico.tit00050.sub00010.int00420"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769451",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00050.int00010#sed0464.stenografico.tit00050.sub00050.int00010"
+            }
+          ]
+        }
+      ],
+      "num_discussioni": 1,
+      "num_interventi": 2
+    },
+    {
+      "dibattito": "http://dati.camera.it/ocd/dibattito.rdf/dib184127_19",
+      "titolo": "Discussione in Assemblea",
+      "data": "20250407-20250409",
+      "discussioni": [
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184127_19",
+          "argomento": "Proposta di legge: Foti ed altri: \"Modifiche alla legge 14 gennaio 1994, n. 20, e altre disposizioni nonché delega al Governo in materia di funzioni della Corte dei conti e di responsabilità amministrativa e per danno erariale\" (A.C. 1621-A) e dell'abbinata proposta di legge: Candiani ed altri (A.C. 340)",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_462",
+          "dataSeduta": "20250407",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768177",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308887_19",
+              "nome": "FRANCESCO",
+              "cognome": "MICHELOTTI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00010.int00040#sed0462.stenografico.tit00040.sub00010.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768181",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308846_19",
+              "nome": "CARMELA",
+              "cognome": "AURIEMMA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00010.int00120#sed0462.stenografico.tit00040.sub00010.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768180",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308600_19",
+              "nome": "ANDREA",
+              "cognome": "CASU",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00010.int00100#sed0462.stenografico.tit00040.sub00010.int00100"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768210",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308904_19",
+              "nome": "SARA",
+              "cognome": "KELANY",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00090.int00010#sed0462.stenografico.tit00090.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768176",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308904_19",
+              "nome": "SARA",
+              "cognome": "KELANY",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00010.int00020#sed0462.stenografico.tit00040.sub00010.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768178",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00010.int00060#sed0462.stenografico.tit00040.sub00010.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768179",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308620_19",
+              "nome": "ANDREA",
+              "cognome": "GENTILE",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00010.int00080#sed0462.stenografico.tit00040.sub00010.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768226",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00010.int00130#sed0462.stenografico.tit00040.sub00010.int00130"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768183",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00030.int00010#sed0462.stenografico.tit00040.sub00030.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768182",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00020.int00010#sed0462.stenografico.tit00040.sub00020.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768175",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.sub00010.int00010#sed0462.stenografico.tit00040.sub00010.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768174",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0462&nomefile=stenografico&ancora=sed0462.stenografico.tit00040.int00010#sed0462.stenografico.tit00040.int00010"
+            }
+          ]
+        },
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184154_19",
+          "argomento": "Proposta di legge: Foti ed altri: \"Modifiche alla legge 14 gennaio 1994, n. 20, e altre disposizioni nonché delega al Governo in materia di funzioni della Corte dei conti e di responsabilità amministrativa e per danno erariale\" (A.C. 1621-A) e abbinata proposta di legge: Candiani ed altri (A.C. 340)",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_463",
+          "dataSeduta": "20250408",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768406",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00450#sed0463.stenografico.tit00070.sub00030.int00450"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768407",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01110#sed0463.stenografico.tit00070.sub00030.int01110"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768425",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00200#sed0463.stenografico.tit00070.sub00040.int00200"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768337",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308875_19",
+              "nome": "ANTONIO",
+              "cognome": "D'ALESSIO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00200#sed0463.stenografico.tit00070.sub00010.int00200"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768378",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307634_19",
+              "nome": "DEVIS",
+              "cognome": "DORI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00100#sed0463.stenografico.tit00070.sub00030.int00100"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768333",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307634_19",
+              "nome": "DEVIS",
+              "cognome": "DORI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00120#sed0463.stenografico.tit00070.sub00010.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768408",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307892_19",
+              "nome": "AGOSTINO",
+              "cognome": "SANTILLO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00470#sed0463.stenografico.tit00070.sub00030.int00470"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768409",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307892_19",
+              "nome": "AGOSTINO",
+              "cognome": "SANTILLO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00530#sed0463.stenografico.tit00070.sub00030.int00530"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768379",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00120#sed0463.stenografico.tit00070.sub00030.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768334",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00140#sed0463.stenografico.tit00070.sub00010.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768385",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01170#sed0463.stenografico.tit00070.sub00030.int01170"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768380",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00180#sed0463.stenografico.tit00070.sub00030.int00180"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768381",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00310#sed0463.stenografico.tit00070.sub00030.int00310"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768382",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00350#sed0463.stenografico.tit00070.sub00030.int00350"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768384",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01030#sed0463.stenografico.tit00070.sub00030.int01030"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768383",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00910#sed0463.stenografico.tit00070.sub00030.int00910"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768423",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00280#sed0463.stenografico.tit00070.sub00040.int00280"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768436",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00060#sed0463.stenografico.tit00070.sub00050.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768422",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00100#sed0463.stenografico.tit00070.sub00040.int00100"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768336",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306349_19",
+              "nome": "STEFANO",
+              "cognome": "CANDIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00180#sed0463.stenografico.tit00070.sub00010.int00180"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768338",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307334_19",
+              "nome": "GIANLUCA",
+              "cognome": "VINCI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00220#sed0463.stenografico.tit00070.sub00010.int00220"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768437",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d300480_19",
+              "nome": "ROBERTO",
+              "cognome": "GIACHETTI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00120#sed0463.stenografico.tit00070.sub00050.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768413",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306352_19",
+              "nome": "ENRICO",
+              "cognome": "CAPPELLETTI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00650#sed0463.stenografico.tit00070.sub00030.int00650"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768428",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00240#sed0463.stenografico.tit00070.sub00040.int00240"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768429",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00260#sed0463.stenografico.tit00070.sub00040.int00260"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768352",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00090#sed0463.stenografico.tit00070.sub00020.int00090"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768351",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00040#sed0463.stenografico.tit00070.sub00020.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768404",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00730#sed0463.stenografico.tit00070.sub00030.int00730"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768354",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00110#sed0463.stenografico.tit00070.sub00020.int00110"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768405",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01190#sed0463.stenografico.tit00070.sub00030.int01190"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768403",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00330#sed0463.stenografico.tit00070.sub00030.int00330"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768635",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00300#sed0463.stenografico.tit00070.sub00040.int00300"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768634",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00300#sed0463.stenografico.tit00070.sub00040.int00300"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768349",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00020#sed0463.stenografico.tit00070.sub00020.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768412",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307219_19",
+              "nome": "SALVATORE",
+              "cognome": "DEIDDA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00610#sed0463.stenografico.tit00070.sub00030.int00610"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768433",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307223_19",
+              "nome": "PIETRO",
+              "cognome": "PITTALIS",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00040#sed0463.stenografico.tit00070.sub00050.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768434",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307223_19",
+              "nome": "PIETRO",
+              "cognome": "PITTALIS",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00140#sed0463.stenografico.tit00070.sub00050.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768411",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307564_19",
+              "nome": "ANNA LAURA",
+              "cognome": "ORRICO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00590#sed0463.stenografico.tit00070.sub00030.int00590"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768356",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308857_19",
+              "nome": "FRANCESCO EMILIO",
+              "cognome": "BORRELLI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00130#sed0463.stenografico.tit00070.sub00020.int00130"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768421",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308857_19",
+              "nome": "FRANCESCO EMILIO",
+              "cognome": "BORRELLI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00080#sed0463.stenografico.tit00070.sub00040.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768358",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308904_19",
+              "nome": "SARA",
+              "cognome": "KELANY",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00170#sed0463.stenografico.tit00070.sub00020.int00170"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768377",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d305549_19",
+              "nome": "SIMONA",
+              "cognome": "BONAFE'",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01150#sed0463.stenografico.tit00070.sub00030.int01150"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768374",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d305549_19",
+              "nome": "SIMONA",
+              "cognome": "BONAFE'",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00060#sed0463.stenografico.tit00070.sub00030.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768376",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d305549_19",
+              "nome": "SIMONA",
+              "cognome": "BONAFE'",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00390#sed0463.stenografico.tit00070.sub00030.int00390"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768375",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d305549_19",
+              "nome": "SIMONA",
+              "cognome": "BONAFE'",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00080#sed0463.stenografico.tit00070.sub00030.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768415",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308872_19",
+              "nome": "ENRICA",
+              "cognome": "ALIFANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00930#sed0463.stenografico.tit00070.sub00030.int00930"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768331",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308872_19",
+              "nome": "ENRICA",
+              "cognome": "ALIFANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00020#sed0463.stenografico.tit00070.sub00010.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768332",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308872_19",
+              "nome": "ENRICA",
+              "cognome": "ALIFANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00080#sed0463.stenografico.tit00070.sub00010.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768365",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308841_19",
+              "nome": "ALFONSO",
+              "cognome": "COLUCCI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00630#sed0463.stenografico.tit00070.sub00030.int00630"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768364",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308841_19",
+              "nome": "ALFONSO",
+              "cognome": "COLUCCI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00510#sed0463.stenografico.tit00070.sub00030.int00510"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768363",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308841_19",
+              "nome": "ALFONSO",
+              "cognome": "COLUCCI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00490#sed0463.stenografico.tit00070.sub00030.int00490"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768361",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308841_19",
+              "nome": "ALFONSO",
+              "cognome": "COLUCCI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00020#sed0463.stenografico.tit00070.sub00030.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768362",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308841_19",
+              "nome": "ALFONSO",
+              "cognome": "COLUCCI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00140#sed0463.stenografico.tit00070.sub00030.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768357",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308841_19",
+              "nome": "ALFONSO",
+              "cognome": "COLUCCI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00150#sed0463.stenografico.tit00070.sub00020.int00150"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768424",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308841_19",
+              "nome": "ALFONSO",
+              "cognome": "COLUCCI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00140#sed0463.stenografico.tit00070.sub00040.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768386",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308933_19",
+              "nome": "FEDERICO",
+              "cognome": "CAFIERO DE RAHO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00160#sed0463.stenografico.tit00070.sub00030.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768410",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308809_19",
+              "nome": "ANTONINO",
+              "cognome": "IARIA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00570#sed0463.stenografico.tit00070.sub00030.int00570"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768419",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00040#sed0463.stenografico.tit00070.sub00040.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768402",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01050#sed0463.stenografico.tit00070.sub00030.int01050"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768401",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00830#sed0463.stenografico.tit00070.sub00030.int00830"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768420",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00120#sed0463.stenografico.tit00070.sub00040.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768400",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00290#sed0463.stenografico.tit00070.sub00030.int00290"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768431",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00020#sed0463.stenografico.tit00070.sub00050.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768390",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00790#sed0463.stenografico.tit00070.sub00030.int00790"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768417",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00020#sed0463.stenografico.tit00070.sub00040.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768393",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00890#sed0463.stenografico.tit00070.sub00030.int00890"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768418",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00180#sed0463.stenografico.tit00070.sub00040.int00180"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768392",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00810#sed0463.stenografico.tit00070.sub00030.int00810"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768396",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00970#sed0463.stenografico.tit00070.sub00030.int00970"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768395",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00950#sed0463.stenografico.tit00070.sub00030.int00950"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768399",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01070#sed0463.stenografico.tit00070.sub00030.int01070"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768398",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01010#sed0463.stenografico.tit00070.sub00030.int01010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768388",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00230#sed0463.stenografico.tit00070.sub00030.int00230"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768389",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00550#sed0463.stenografico.tit00070.sub00030.int00550"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768368",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00270#sed0463.stenografico.tit00070.sub00030.int00270"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768367",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00250#sed0463.stenografico.tit00070.sub00030.int00250"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768366",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00040#sed0463.stenografico.tit00070.sub00030.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768427",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00220#sed0463.stenografico.tit00070.sub00040.int00220"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768372",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00990#sed0463.stenografico.tit00070.sub00030.int00990"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768373",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01130#sed0463.stenografico.tit00070.sub00030.int01130"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768370",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00430#sed0463.stenografico.tit00070.sub00030.int00430"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768371",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00870#sed0463.stenografico.tit00070.sub00030.int00870"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768369",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00410#sed0463.stenografico.tit00070.sub00030.int00410"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768387",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306521_19",
+              "nome": "FILIBERTO",
+              "cognome": "ZARATTI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00200#sed0463.stenografico.tit00070.sub00030.int00200"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768414",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307348_19",
+              "nome": "LEONARDO",
+              "cognome": "DONNO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00690#sed0463.stenografico.tit00070.sub00030.int00690"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768335",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308620_19",
+              "nome": "ANDREA",
+              "cognome": "GENTILE",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00160#sed0463.stenografico.tit00070.sub00010.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768328",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.int00010#sed0463.stenografico.tit00070.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768416",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00010#sed0463.stenografico.tit00070.sub00040.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768617",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00300#sed0463.stenografico.tit00070.sub00030.int00300"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768616",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00280#sed0463.stenografico.tit00070.sub00030.int00280"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768619",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00600#sed0463.stenografico.tit00070.sub00030.int00600"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768629",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01120#sed0463.stenografico.tit00070.sub00030.int01120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768630",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01200#sed0463.stenografico.tit00070.sub00030.int01200"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768603",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00190#sed0463.stenografico.tit00070.sub00010.int00190"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768360",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00010#sed0463.stenografico.tit00070.sub00030.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768618",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00520#sed0463.stenografico.tit00070.sub00030.int00520"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768628",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01040#sed0463.stenografico.tit00070.sub00030.int01040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768631",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00110#sed0463.stenografico.tit00070.sub00040.int00110"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768633",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00150#sed0463.stenografico.tit00070.sub00050.int00150"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768627",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int01000#sed0463.stenografico.tit00070.sub00030.int01000"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768604",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00240#sed0463.stenografico.tit00070.sub00010.int00240"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768613",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00210#sed0463.stenografico.tit00070.sub00030.int00210"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768632",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00040.int00290#sed0463.stenografico.tit00070.sub00040.int00290"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768626",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00960#sed0463.stenografico.tit00070.sub00030.int00960"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768605",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00030#sed0463.stenografico.tit00070.sub00020.int00030"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768347",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00010#sed0463.stenografico.tit00070.sub00020.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768330",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00010.int00010#sed0463.stenografico.tit00070.sub00010.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768612",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00190#sed0463.stenografico.tit00070.sub00030.int00190"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768430",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00050.int00010#sed0463.stenografico.tit00070.sub00050.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768625",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00940#sed0463.stenografico.tit00070.sub00030.int00940"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768615",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00260#sed0463.stenografico.tit00070.sub00030.int00260"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768606",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00160#sed0463.stenografico.tit00070.sub00020.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768608",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00090#sed0463.stenografico.tit00070.sub00030.int00090"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768610",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00130#sed0463.stenografico.tit00070.sub00030.int00130"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768622",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00780#sed0463.stenografico.tit00070.sub00030.int00780"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768623",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00880#sed0463.stenografico.tit00070.sub00030.int00880"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768614",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00240#sed0463.stenografico.tit00070.sub00030.int00240"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768620",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00620#sed0463.stenografico.tit00070.sub00030.int00620"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768611",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00170#sed0463.stenografico.tit00070.sub00030.int00170"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768624",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00900#sed0463.stenografico.tit00070.sub00030.int00900"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768609",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00110#sed0463.stenografico.tit00070.sub00030.int00110"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768607",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00030#sed0463.stenografico.tit00070.sub00030.int00030"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768621",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00030.int00720#sed0463.stenografico.tit00070.sub00030.int00720"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768359",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0463&nomefile=stenografico&ancora=sed0463.stenografico.tit00070.sub00020.int00250#sed0463.stenografico.tit00070.sub00020.int00250"
+            }
+          ]
+        },
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib184213_19",
+          "argomento": "Proposta di legge: Foti ed altri: \"Modifiche alla legge 14 gennaio 1994, n. 20, e altre disposizioni nonché delega al Governo in materia di funzioni della Corte dei conti e di responsabilità amministrativa e per danno erariale\" (A.C. 1621-A) e dell'abbinata proposta di legge: Candiani ed altri (A.C. 340)",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_464",
+          "dataSeduta": "20250409",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768678",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00970#sed0464.stenografico.tit00050.sub00010.int00970"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768717",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00100#sed0464.stenografico.tit00050.sub00020.int00100"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768718",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00240#sed0464.stenografico.tit00050.sub00020.int00240"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768747",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00020#sed0464.stenografico.tit00050.sub00040.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768716",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00020#sed0464.stenografico.tit00050.sub00020.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768673",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00130#sed0464.stenografico.tit00050.sub00010.int00130"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768672",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00020#sed0464.stenografico.tit00050.sub00010.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768665",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00140#sed0464.stenografico.tit00030.sub00010.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768675",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00550#sed0464.stenografico.tit00050.sub00010.int00550"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768674",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00170#sed0464.stenografico.tit00050.sub00010.int00170"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768733",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00100#sed0464.stenografico.tit00050.sub00030.int00100"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768677",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00890#sed0464.stenografico.tit00050.sub00010.int00890"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768734",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00140#sed0464.stenografico.tit00050.sub00030.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768676",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306398_19",
+              "nome": "FEDERICO",
+              "cognome": "FORNARO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00630#sed0464.stenografico.tit00050.sub00010.int00630"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768707",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307302_19",
+              "nome": "STEFANIA",
+              "cognome": "ASCARI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00370#sed0464.stenografico.tit00050.sub00010.int00370"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768708",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307302_19",
+              "nome": "STEFANIA",
+              "cognome": "ASCARI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00510#sed0464.stenografico.tit00050.sub00010.int00510"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768726",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307302_19",
+              "nome": "STEFANIA",
+              "cognome": "ASCARI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00200#sed0464.stenografico.tit00050.sub00020.int00200"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768755",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307302_19",
+              "nome": "STEFANIA",
+              "cognome": "ASCARI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00180#sed0464.stenografico.tit00050.sub00040.int00180"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768754",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307302_19",
+              "nome": "STEFANIA",
+              "cognome": "ASCARI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00160#sed0464.stenografico.tit00050.sub00040.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768709",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307302_19",
+              "nome": "STEFANIA",
+              "cognome": "ASCARI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00810#sed0464.stenografico.tit00050.sub00010.int00810"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768738",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308875_19",
+              "nome": "ANTONIO",
+              "cognome": "D'ALESSIO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00260#sed0464.stenografico.tit00050.sub00030.int00260"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768816",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308875_19",
+              "nome": "ANTONIO",
+              "cognome": "D'ALESSIO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00100#sed0464.stenografico.tit00090.sub00020.int00100"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768748",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307634_19",
+              "nome": "DEVIS",
+              "cognome": "DORI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00040#sed0464.stenografico.tit00050.sub00040.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768815",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307634_19",
+              "nome": "DEVIS",
+              "cognome": "DORI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00080#sed0464.stenografico.tit00090.sub00020.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768667",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307634_19",
+              "nome": "DEVIS",
+              "cognome": "DORI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00180#sed0464.stenografico.tit00030.sub00010.int00180"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768712",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307634_19",
+              "nome": "DEVIS",
+              "cognome": "DORI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00950#sed0464.stenografico.tit00050.sub00010.int00950"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768810",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307892_19",
+              "nome": "AGOSTINO",
+              "cognome": "SANTILLO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00010.int00020#sed0464.stenografico.tit00090.sub00010.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768817",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308790_19",
+              "nome": "GIUSEPPE",
+              "cognome": "BICCHIELLI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00120#sed0464.stenografico.tit00090.sub00020.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768742",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308846_19",
+              "nome": "CARMELA",
+              "cognome": "AURIEMMA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00360#sed0464.stenografico.tit00050.sub00030.int00360"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768737",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00180#sed0464.stenografico.tit00050.sub00030.int00180"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768811",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00010.int00060#sed0464.stenografico.tit00090.sub00010.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768703",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00250#sed0464.stenografico.tit00050.sub00010.int00250"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768704",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00570#sed0464.stenografico.tit00050.sub00010.int00570"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768659",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00020#sed0464.stenografico.tit00030.sub00010.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768750",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00080#sed0464.stenografico.tit00050.sub00040.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768662",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00260#sed0464.stenografico.tit00030.sub00010.int00260"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768661",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00200#sed0464.stenografico.tit00030.sub00010.int00200"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768660",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308880_19",
+              "nome": "FEDERICO",
+              "cognome": "GIANASSI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00060#sed0464.stenografico.tit00030.sub00010.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768822",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306349_19",
+              "nome": "STEFANO",
+              "cognome": "CANDIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00280#sed0464.stenografico.tit00090.sub00020.int00280"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768702",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d306349_19",
+              "nome": "STEFANO",
+              "cognome": "CANDIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00230#sed0464.stenografico.tit00050.sub00010.int00230"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768813",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d300480_19",
+              "nome": "ROBERTO",
+              "cognome": "GIACHETTI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00020#sed0464.stenografico.tit00090.sub00020.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768814",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d300480_19",
+              "nome": "ROBERTO",
+              "cognome": "GIACHETTI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00040#sed0464.stenografico.tit00090.sub00020.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768719",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00040#sed0464.stenografico.tit00050.sub00020.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768753",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00140#sed0464.stenografico.tit00050.sub00040.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768720",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307308_19",
+              "nome": "MARCO",
+              "cognome": "LACARRA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00280#sed0464.stenografico.tit00050.sub00020.int00280"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768745",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308817_19",
+              "nome": "CLAUDIO MICHELE",
+              "cognome": "STEFANAZZI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00480#sed0464.stenografico.tit00050.sub00030.int00480"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768821",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307223_19",
+              "nome": "PIETRO",
+              "cognome": "PITTALIS",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00240#sed0464.stenografico.tit00090.sub00020.int00240"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768820",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307223_19",
+              "nome": "PIETRO",
+              "cognome": "PITTALIS",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00220#sed0464.stenografico.tit00090.sub00020.int00220"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768739",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307564_19",
+              "nome": "ANNA LAURA",
+              "cognome": "ORRICO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00300#sed0464.stenografico.tit00050.sub00030.int00300"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768701",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308857_19",
+              "nome": "FRANCESCO EMILIO",
+              "cognome": "BORRELLI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00210#sed0464.stenografico.tit00050.sub00010.int00210"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768740",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308857_19",
+              "nome": "FRANCESCO EMILIO",
+              "cognome": "BORRELLI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00320#sed0464.stenografico.tit00050.sub00030.int00320"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768824",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308904_19",
+              "nome": "SARA",
+              "cognome": "KELANY",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00320#sed0464.stenografico.tit00090.sub00020.int00320"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768743",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308904_19",
+              "nome": "SARA",
+              "cognome": "KELANY",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00400#sed0464.stenografico.tit00050.sub00030.int00400"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768713",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d305549_19",
+              "nome": "SIMONA",
+              "cognome": "BONAFE'",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00990#sed0464.stenografico.tit00050.sub00010.int00990"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768668",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d305549_19",
+              "nome": "SIMONA",
+              "cognome": "BONAFE'",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00220#sed0464.stenografico.tit00030.sub00010.int00220"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768705",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308872_19",
+              "nome": "ENRICA",
+              "cognome": "ALIFANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00310#sed0464.stenografico.tit00050.sub00010.int00310"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768706",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308872_19",
+              "nome": "ENRICA",
+              "cognome": "ALIFANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00790#sed0464.stenografico.tit00050.sub00010.int00790"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768669",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308933_19",
+              "nome": "FEDERICO",
+              "cognome": "CAFIERO DE RAHO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00240#sed0464.stenografico.tit00030.sub00010.int00240"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768710",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308933_19",
+              "nome": "FEDERICO",
+              "cognome": "CAFIERO DE RAHO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00390#sed0464.stenografico.tit00050.sub00010.int00390"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768711",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308933_19",
+              "nome": "FEDERICO",
+              "cognome": "CAFIERO DE RAHO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00490#sed0464.stenografico.tit00050.sub00010.int00490"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768744",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d301541_19",
+              "nome": "ENRICO",
+              "cognome": "COSTA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00460#sed0464.stenografico.tit00050.sub00030.int00460"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768741",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308809_19",
+              "nome": "ANTONINO",
+              "cognome": "IARIA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00340#sed0464.stenografico.tit00050.sub00030.int00340"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768688",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00330#sed0464.stenografico.tit00050.sub00010.int00330"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768690",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00590#sed0464.stenografico.tit00050.sub00010.int00590"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768728",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00020#sed0464.stenografico.tit00050.sub00030.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768691",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00650#sed0464.stenografico.tit00050.sub00010.int00650"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768729",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00160#sed0464.stenografico.tit00050.sub00030.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768692",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00750#sed0464.stenografico.tit00050.sub00010.int00750"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768693",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00830#sed0464.stenografico.tit00050.sub00010.int00830"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768687",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00060#sed0464.stenografico.tit00050.sub00010.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768664",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00120#sed0464.stenografico.tit00030.sub00010.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768723",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00080#sed0464.stenografico.tit00050.sub00020.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768724",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00160#sed0464.stenografico.tit00050.sub00020.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768749",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00060#sed0464.stenografico.tit00050.sub00040.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768689",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307388_19",
+              "nome": "VALENTINA",
+              "cognome": "D'ORSO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00430#sed0464.stenografico.tit00050.sub00010.int00430"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768694",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00080#sed0464.stenografico.tit00050.sub00010.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768695",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00350#sed0464.stenografico.tit00050.sub00010.int00350"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768819",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00160#sed0464.stenografico.tit00090.sub00020.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768751",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00100#sed0464.stenografico.tit00050.sub00040.int00100"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768698",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00770#sed0464.stenografico.tit00050.sub00010.int00770"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768818",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00140#sed0464.stenografico.tit00090.sub00020.int00140"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768699",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00850#sed0464.stenografico.tit00050.sub00010.int00850"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768730",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00040#sed0464.stenografico.tit00050.sub00030.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768700",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int01030#sed0464.stenografico.tit00050.sub00010.int01030"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768696",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00450#sed0464.stenografico.tit00050.sub00010.int00450"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768731",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00240#sed0464.stenografico.tit00050.sub00030.int00240"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768697",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00610#sed0464.stenografico.tit00050.sub00010.int00610"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768732",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00440#sed0464.stenografico.tit00050.sub00030.int00440"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768663",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00100#sed0464.stenografico.tit00030.sub00010.int00100"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768721",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00060#sed0464.stenografico.tit00050.sub00020.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768722",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307370_19",
+              "nome": "CARLA",
+              "cognome": "GIULIANO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00180#sed0464.stenografico.tit00050.sub00020.int00180"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768823",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00300#sed0464.stenografico.tit00090.sub00020.int00300"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768725",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00120#sed0464.stenografico.tit00050.sub00020.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768683",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00670#sed0464.stenografico.tit00050.sub00010.int00670"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768682",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00410#sed0464.stenografico.tit00050.sub00010.int00410"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768681",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00190#sed0464.stenografico.tit00050.sub00010.int00190"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768680",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00150#sed0464.stenografico.tit00050.sub00010.int00150"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768752",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00120#sed0464.stenografico.tit00050.sub00040.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768666",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00160#sed0464.stenografico.tit00030.sub00010.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768686",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int01010#sed0464.stenografico.tit00050.sub00010.int01010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768685",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00930#sed0464.stenografico.tit00050.sub00010.int00930"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768684",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00730#sed0464.stenografico.tit00050.sub00010.int00730"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768735",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00120#sed0464.stenografico.tit00050.sub00030.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768679",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00040#sed0464.stenografico.tit00050.sub00010.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768736",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307374_19",
+              "nome": "DEBORA",
+              "cognome": "SERRACCHIANI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00380#sed0464.stenografico.tit00050.sub00030.int00380"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768714",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308820_19",
+              "nome": "IDA",
+              "cognome": "CARMINA",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int01050#sed0464.stenografico.tit00050.sub00010.int01050"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769447",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00130#sed0464.stenografico.tit00050.sub00040.int00130"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769437",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00820#sed0464.stenografico.tit00050.sub00010.int00820"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769444",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00270#sed0464.stenografico.tit00050.sub00030.int00270"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768812",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00010#sed0464.stenografico.tit00090.sub00020.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769430",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00160#sed0464.stenografico.tit00050.sub00010.int00160"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768746",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00010#sed0464.stenografico.tit00050.sub00040.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768727",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00010#sed0464.stenografico.tit00050.sub00030.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769445",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00390#sed0464.stenografico.tit00050.sub00030.int00390"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769431",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00320#sed0464.stenografico.tit00050.sub00010.int00320"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769442",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00290#sed0464.stenografico.tit00050.sub00020.int00290"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769459",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00010.int00070#sed0464.stenografico.tit00090.sub00010.int00070"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769432",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00420#sed0464.stenografico.tit00050.sub00010.int00420"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769443",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00130#sed0464.stenografico.tit00050.sub00030.int00130"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769458",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00010.int00030#sed0464.stenografico.tit00090.sub00010.int00030"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769433",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00540#sed0464.stenografico.tit00050.sub00010.int00540"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768825",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00030.int00010#sed0464.stenografico.tit00090.sub00030.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768757",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00050.int00020#sed0464.stenografico.tit00050.sub00050.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768826",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00040.int00010#sed0464.stenografico.tit00090.sub00040.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769440",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00110#sed0464.stenografico.tit00050.sub00020.int00110"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768756",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00050.int00010#sed0464.stenografico.tit00050.sub00050.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769441",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00230#sed0464.stenografico.tit00050.sub00020.int00230"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769421",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00030#sed0464.stenografico.tit00030.sub00010.int00030"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768657",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.int00010#sed0464.stenografico.tit00030.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769460",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00030#sed0464.stenografico.tit00090.sub00020.int00030"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768671",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00010#sed0464.stenografico.tit00050.sub00010.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768715",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00020.int00010#sed0464.stenografico.tit00050.sub00020.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768658",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00010#sed0464.stenografico.tit00030.sub00010.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769424",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00170#sed0464.stenografico.tit00030.sub00010.int00170"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_768809",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00010.int00010#sed0464.stenografico.tit00090.sub00010.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769438",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00940#sed0464.stenografico.tit00050.sub00010.int00940"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769463",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00330#sed0464.stenografico.tit00090.sub00020.int00330"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769461",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00170#sed0464.stenografico.tit00090.sub00020.int00170"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769425",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00250#sed0464.stenografico.tit00030.sub00010.int00250"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769439",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int01060#sed0464.stenografico.tit00050.sub00010.int01060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769462",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00090.sub00020.int00310#sed0464.stenografico.tit00090.sub00020.int00310"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769422",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00070#sed0464.stenografico.tit00030.sub00010.int00070"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769423",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00110#sed0464.stenografico.tit00030.sub00010.int00110"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769428",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00050#sed0464.stenografico.tit00050.sub00010.int00050"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769448",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00040.int00190#sed0464.stenografico.tit00050.sub00040.int00190"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769434",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00620#sed0464.stenografico.tit00050.sub00010.int00620"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769429",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00120#sed0464.stenografico.tit00050.sub00010.int00120"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769449",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00050.int00070#sed0464.stenografico.tit00050.sub00050.int00070"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769435",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00740#sed0464.stenografico.tit00050.sub00010.int00740"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769426",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00030.sub00010.int00270#sed0464.stenografico.tit00030.sub00010.int00270"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769436",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00010.int00780#sed0464.stenografico.tit00050.sub00010.int00780"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_769446",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0464&nomefile=stenografico&ancora=sed0464.stenografico.tit00050.sub00030.int00450#sed0464.stenografico.tit00050.sub00030.int00450"
+            }
+          ]
+        }
+      ],
+      "num_discussioni": 3,
+      "num_interventi": 288
+    }
+  ],
+  "fetched_at": "2026-02-15T01:54:44.187566",
+  "fetch_method": "single_sparql_query"
+}
