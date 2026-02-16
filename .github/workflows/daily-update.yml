@@ -133,15 +133,15 @@ jobs:
             fi
 
             # Commit with descriptive message
-            git commit -m "$(cat <<EOF
-feat: add $titolo_alt
-
-Codice redazionale: $codice
-Data emanazione: $data_emanazione
-
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
-EOF
-)"
+            {
+              echo "feat: add $titolo_alt"
+              echo ""
+              echo "Codice redazionale: $codice"
+              echo "Data emanazione: $data_emanazione"
+              echo ""
+              echo "Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+            } > /tmp/commit_msg.txt
+            git commit -F /tmp/commit_msg.txt
 
             # Push branch
             git push -u origin "$branch_name"
