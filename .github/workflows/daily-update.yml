@@ -91,13 +91,17 @@ jobs:
             echo "⚠ Found $failure_count request failures that will be flagged in PRs"
 
             # Build warnings section for PR body
-            warnings_section="
+            warnings_section=$(cat <<'EOF_WARNINGS'
+
 
 ## ⚠️ Request Failures
 
-During data collection, **$failure_count HTTP request(s) failed** after 3 retry attempts. These may require manual review:
+During data collection, **FAILURE_COUNT HTTP request(s) failed** after 3 retry attempts. These may require manual review:
 
-"
+EOF_WARNINGS
+)
+            warnings_section="${warnings_section//FAILURE_COUNT/$failure_count}"
+
             # Add failure details
             for j in $(seq 0 $((failure_count - 1))); do
               func=$(jq -r ".failures[$j].function" data/request_failures.json)
