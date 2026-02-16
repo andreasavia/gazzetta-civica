@@ -661,6 +661,48 @@ def fetch_senato_metadata(session, senato_url: str) -> dict:
     return result
 
 
+def fetch_article_html(session, data_gu: str, codice: str, id_articolo: int, data_vigenza: str) -> str:
+    """
+    Fetch HTML for a SPECIFIC article from Normattiva API.
+
+    IMPORTANT: Must call this for EACH article individually.
+    The API returns different HTML for each idArticolo value.
+
+    Args:
+        session: requests.Session with established cookies
+        data_gu: Data pubblicazione GU (YYYY-MM-DD format)
+        codice: Codice redazionale
+        id_articolo: Article number (REQUIRED - must fetch each article separately)
+        data_vigenza: Data di vigenza from markdown (YYYY-MM-DD format)
+
+    Returns:
+        str: HTML of the specific article, or empty string if failed
+    """
+    url = f"{BASE_URL}/atto/dettaglio-atto"
+
+    payload = {
+        "dataGU": data_gu,
+        "codiceRedazionale": codice,
+        "idArticolo": id_articolo,
+        "versione": 0,
+        "dataVigenza": data_vigenza,
+    }
+
+    try:
+        resp = session.post(url, json=payload, timeout=30)
+        resp.raise_for_status()
+        result = resp.json()
+
+        if result.get("success") and "data" in result:
+            atto = result["data"].get("atto", {})
+            return atto.get("articoloHtml", "")
+
+        return ""
+
+    except Exception as e:
+        return ""
+
+
 def fetch_approfondimenti(session, uri):
     """Load the N2Ls page, find active approfondimento endpoints, fetch and parse links.
     Returns dict: {column_name: "link1; link2; ...", "gu_link": "..."} for all APPROFONDIMENTO_COLUMNS.
@@ -928,8 +970,17 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
 
         lines.append("---")
 
+        # Write frontmatter
         with filepath.open("w", encoding="utf-8") as f:
             f.write("\n".join(lines))
+
+            # Add article HTML content to the body
+            articoli = atto.get("articoli", [])
+            if articoli:
+                f.write("\n\n")  # Add spacing between frontmatter and body
+                for art in articoli:
+                    f.write(art['html'])
+                    f.write("\n")
 
     print(f"  Vault: {vault_dir}/ ({len(atti)} norms)")
 
@@ -999,10 +1050,55 @@ def main():
                 atto[col] = ""
             continue
         print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}...", end=" ", flush=True)
-        appro = fetch_approfondimenti(session, uri)
-        atto.update(appro)
-        populated = [col for col in APPROFONDIMENTO_COLUMNS if appro[col]]
-        print(f"{', '.join(populated) if populated else 'nessuno'}")
+        try:
+            appro = fetch_approfondimenti(session, uri)
+            atto.update(appro)
+            populated = [col for col in APPROFONDIMENTO_COLUMNS if appro[col]]
+            print(f"{', '.join(populated) if populated else 'nessuno'}")
+        except Exception as e:
+            print(f"error ({str(e)[:50]}...)")
+            # Initialize empty approfondimenti on error
+            for col in APPROFONDIMENTO_COLUMNS:
+                atto[col] = ""
+
+    # Fetch article HTML for each atto
+    print("[Fetching article HTML]")
+    for i, atto in enumerate(atti):
+        data_gu = atto.get("dataGU", "")
+        codice = atto.get("codiceRedazionale", "")
+        data_vigenza = atto.get("data_vigenza", "")
+
+        if not data_gu or not codice or not data_vigenza:
+            print(f"  [{i+1}/{len(atti)}] {codice}... skipping (missing data)")
+            atto["articoli"] = []
+            continue
+
+        print(f"  [{i+1}/{len(atti)}] {codice}...", end=" ", flush=True)
+
+        # Try fetching up to 30 articles (stop when we get empty response)
+        articoli = []
+        for article_num in range(1, 31):
+            html = fetch_article_html(session, data_gu, codice, article_num, data_vigenza)
+
+            if not html or len(html) < 100:
+                # No more articles found
+                break
+
+            articoli.append({
+                "numero": article_num,
+                "html": html
+            })
+
+            # Small delay to avoid rate limiting
+            time.sleep(0.3)
+
+        atto["articoli"] = articoli
+        print(f"{len(articoli)} articles ({sum(len(a['html']) for a in articoli):,} chars)")
+
+    # Save after article HTML fetching (most time-consuming and important step)
+    print("\n[Saving after article HTML fetch]")
+    save_markdown(atti, VAULT_DIR)
+    print("  ✅ Markdown files saved with article HTML\n")
 
     # Fetch camera.it metadata from lavori_preparatori
     print("[Fetching camera.it metadata]")
@@ -1019,6 +1115,11 @@ def main():
         else:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}... no camera.it link")
 
+    # Save after camera metadata
+    print("\n[Saving after camera.it metadata]")
+    save_markdown(atti, VAULT_DIR)
+    print("  ✅ Markdown files updated with camera metadata\n")
+
     # Fetch senato.it metadata from lavori_preparatori
     print("[Fetching senato.it metadata]")
     for i, atto in enumerate(atti):
@@ -1026,14 +1127,17 @@ def main():
         senato_links = [l for l in lavori.split("\n") if "senato.it" in l and "ddl" in l]
         if senato_links:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}...", end=" ", flush=True)
-            senato_meta = fetch_senato_metadata(session, senato_links[0])
-            atto.update(senato_meta)
-            print(f"DDL {senato_meta.get('senato-numero-fase', '?')}, did {senato_meta.get('senato-did', '?')}")
+            try:
+                senato_meta = fetch_senato_metadata(session, senato_links[0])
+                atto.update(senato_meta)
+                print(f"DDL {senato_meta.get('senato-numero-fase', '?')}, did {senato_meta.get('senato-did', '?')}")
+            except Exception as e:
+                print(f"error ({str(e)[:50]}...)")
         else:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}... no senato.it link")
 
-    # Save
-    print("[Saving]")
+    # Final save with all metadata
+    print("\n[Final save - all metadata included]")
     save_json({"listaAtti": atti}, OUTPUT_DIR / f"ricerca_{safe_range}_raw_{timestamp}.json")
     save_csv(atti, OUTPUT_DIR / f"ricerca_{safe_range}_{timestamp}.csv")
     save_markdown(atti, VAULT_DIR)
