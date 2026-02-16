@@ -55,3 +55,64 @@ senato-votazione-finale: https://www.senato.it/leggi-e-documenti/disegni-di-legg
 senato-documenti:
   - https://www.senato.it/leg/19/BGT/Schede/FascicoloSchedeDDL/ebook/59753.pdf
 ---
+
+<div class="bodyTesto">
+        <div class="preamble-before-title-akn">La Camera dei deputati ed il Senato della Repubblica hanno approvato;</div>
+        <h2 class="preamble-title-akn">IL PRESIDENTE DELLA REPUBBLICA</h2>
+        <h2 class="preamble-end-akn">Promulga</h2>
+        <p class="formula-introduttiva"> la seguente legge:</p>
+        <h2 class="article-num-akn" id="art_1">Art. 1</h2>
+        <div class="art-commi-div-akn">
+            <div class="art-comma-div-akn">
+                <span class="comma-num-akn">1. </span><span class="art_text_in_comma">Il <a href="http://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2025-12-01;180" target="_blank">decreto-legge 1° dicembre 2025, n. 180</a>, recante misure urgenti per assicurare la continuit&agrave; operativa degli stabilimenti ex ILVA, &egrave; convertito in legge con le modificazioni riportate in allegato alla presente legge. 
+                    <br>
+                    
+                </span>
+            </div>
+            <div class="art-comma-div-akn">
+                <span class="comma-num-akn">2. </span><span class="art_text_in_comma">La presente legge entra in vigore il giorno successivo a quello della sua pubblicazione nella Gazzetta Ufficiale. 
+                    <br>
+                     La presente legge, munita del sigillo dello Stato, sar&agrave; inserita nella Raccolta ufficiale degli atti normativi della Repubblica italiana. &Egrave; fatto obbligo a chiunque spetti di osservarla e di farla osservare come legge dello Stato. 
+                    <br>
+                     
+                    <br>
+                     Data a Roma, add&igrave; 22 gennaio 2026 
+                    <br>
+                     
+                    <br>
+                     MATTARELLA 
+                    <br>
+                     
+                    <br>
+                     Meloni, Presidente del Consiglio dei ministri 
+                    <br>
+                     
+                    <br>
+                     Urso, Ministro delle imprese e del made in Italy 
+                    <br>
+                     
+                    <br>
+                     Calderone, Ministro del lavoro e delle politiche sociali 
+                    <br>
+                     
+                    <br>
+                    Visto, il Guardasigilli: Nordio 
+                    <br>
+                    
+                </span>
+            </div>
+        </div>
+        <div class="note-akn">
+             Avvertenza: 
+            <br>
+             Il <a href="http://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2025-12-01;180" target="_blank">decreto-legge 1° dicembre 2025, n. 180</a>, &egrave; stato pubblicato nella Gazzetta Ufficiale - Serie generale - n. 279 del 1° dicembre 2025. 
+            <br>
+             A norma dell'<a href="http://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1988-08-23;400~art15-com5" target="_blank">art. 15, comma 5, della legge 23 agosto 1988, n. 400</a> (Disciplina dell'attivit&agrave; di Governo e ordinamento della Presidenza del Consiglio dei ministri), le modifiche apportate dalla presente legge di conversione hanno efficacia dal giorno successivo a quello della sua pubblicazione. 
+            <br>
+             Il testo del decreto-legge coordinato con la legge di conversione &egrave; pubblicato in questa stessa Gazzetta Ufficiale alla pag. 156. 
+            <br>
+             
+            <br>
+            
+        </div>
+    </div>
