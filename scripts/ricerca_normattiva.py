@@ -669,25 +669,36 @@ def fetch_senato_metadata(session, senato_url: str) -> dict:
                 result["senato-teseo"] = teseo_terms
 
     # Build votazioni tab URL and fetch voting info
+    # This is optional - if it fails, we still return the metadata collected so far
     votazioni_url = f"https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?tab=votazioni&did={did}"
     result["senato-votazioni-url"] = votazioni_url
 
-    vot_resp = session.get(votazioni_url, timeout=30)
-    vot_resp.raise_for_status()
-    vot_soup = BeautifulSoup(vot_resp.text, 'html.parser')
+    try:
+        vot_resp = session.get(votazioni_url, timeout=30)
+        vot_resp.raise_for_status()
+        vot_soup = BeautifulSoup(vot_resp.text, 'html.parser')
 
-    # Find votazione finale link
-    for li in vot_soup.find_all('li'):
-        strong = li.find('strong')
-        if strong and 'Votazione finale' in strong.get_text():
-            # Extract link to vote detail
-            vote_link = li.find('a', class_='schedaCamera')
-            if vote_link and vote_link.get('href'):
-                href = vote_link['href']
-                if not href.startswith('http'):
-                    href = 'https://www.senato.it' + href
-                result["senato-votazione-finale"] = href
-            break
+        # Find votazione finale link
+        found_vote_link = False
+        for li in vot_soup.find_all('li'):
+            strong = li.find('strong')
+            if strong and 'Votazione finale' in strong.get_text():
+                # Extract link to vote detail
+                vote_link = li.find('a', class_='schedaCamera')
+                if vote_link and vote_link.get('href'):
+                    href = vote_link['href']
+                    if not href.startswith('http'):
+                        href = 'https://www.senato.it' + href
+                    result["senato-votazione-finale"] = href
+                    found_vote_link = True
+                break
+
+        # Warn if voting page loaded but no final vote link found
+        if not found_vote_link:
+            result["senato-votazione-finale-warning"] = "Votazione finale link not found on voting page"
+    except Exception as e:
+        # If voting data is unavailable, record the failure reason
+        result["senato-votazione-finale-warning"] = f"Voting page unavailable: {str(e)[:100]}"
 
     # Look for data presentazione (submission date)
     for pattern in [
@@ -1091,6 +1102,8 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             lines.append(f"senato-votazioni-url: {atto.get('senato-votazioni-url')}")
         if atto.get("senato-votazione-finale"):
             lines.append(f"senato-votazione-finale: {atto.get('senato-votazione-finale')}")
+        if atto.get("senato-votazione-finale-warning"):
+            lines.append(f"senato-votazione-finale-warning: \"{atto.get('senato-votazione-finale-warning')}\"")
         if atto.get("senato-documenti"):
             lines.append("senato-documenti:")
             for doc_link in atto.get("senato-documenti", []):
@@ -1301,6 +1314,9 @@ def main():
                 senato_meta = fetch_senato_metadata(session, senato_links[0])
                 atto.update(senato_meta)
                 print(f"DDL {senato_meta.get('senato-numero-fase', '?')}, did {senato_meta.get('senato-did', '?')}")
+                # Check for voting link warning
+                if senato_meta.get("senato-votazione-finale-warning"):
+                    print(f"    ⚠ {senato_meta.get('senato-votazione-finale-warning')}")
             except Exception as e:
                 print(f"error ({str(e)[:50]}...)")
         else:
