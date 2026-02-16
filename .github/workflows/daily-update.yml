@@ -144,7 +144,8 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
             git push -u origin "$branch_name"
 
             # Create pull request with warnings if any
-            pr_body="$(cat <<EOF
+            # Write PR body to temp file to avoid YAML escaping issues
+            cat > /tmp/pr_body.md <<EOF
 ## New Legislative Act
 
 **Tipo:** $tipo
@@ -160,7 +161,6 @@ Automatically collected from Normattiva for ${{ steps.date.outputs.year }}/${{ s
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 EOF
-)"
 
             # Add 'needs-review' label if there were failures
             labels="automated,new-law"
@@ -170,7 +170,7 @@ EOF
 
             gh pr create \
               --title "New law: $titolo_alt" \
-              --body "$pr_body" \
+              --body-file /tmp/pr_body.md \
               --label "$labels" \
               --assignee andreasavia
 
