@@ -34,22 +34,95 @@ camera-votazione-finale: https://documenti.camera.it/apps/votazioni/votazionitut
 camera-dossier:
   - http://documenti.camera.it/leg19/dossier/Pdf/ES0129a.pdf
   - http://documenti.camera.it/leg19/dossier/Pdf/ES0129.pdf
-senato-did: 59523
-senato-legislatura: 19
-senato-numero-fase: 1645
-senato-url: https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?did=59523
-senato-titolo: "Ratifica ed esecuzione dell'Accordo tra il Governo della Repubblica italiana e il Governo del Regno del Bahrein sulla cooperazione nei settori della cultura, dell'istruzione, della scienza, della tecnologia e dell'informazione, fatto a Roma il 4 febbraio 2020"
-senato-titolo-breve: "Ratifica Accordo Italia-Bahrein sulla cooperazione nei settori della cultura, dell'istruzione, della scienza, della tecnologia e dell'informazione"
-senato-natura: "ordinaria"
-senato-iniziativa: "Governativa"
-senato-teseo:
-  - "RATIFICA DEI TRATTATI"
-  - "BAHRAIN"
-  - "COOPERAZIONE INTERNAZIONALE"
-  - "RICERCA SCIENTIFICA E TECNOLOGICA"
-  - "ISTRUZIONE"
-  - "SCAMBI CULTURALI"
-senato-votazioni-url: https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?tab=votazioni&did=59523
-senato-documenti:
-  - https://www.senato.it/leg/19/BGT/Schede/FascicoloSchedeDDL/ebook/59523.pdf
 ---
+
+<div class="bodyTesto">
+        <div class="preamble-before-title-akn">La Camera dei deputati ed il Senato della Repubblica hanno approvato;</div>
+        <h2 class="preamble-title-akn">IL PRESIDENTE DELLA REPUBBLICA</h2>
+        <h2 class="preamble-end-akn">Promulga</h2>
+        <p class="formula-introduttiva"> la seguente legge:</p>
+        <h2 class="article-num-akn" id="art_1">Art. 1</h2>
+        <div class="article-heading-akn"> Autorizzazione alla ratifica</div>
+        <div class="art-commi-div-akn">
+            <div class="art-comma-div-akn">
+                <span class="comma-num-akn">1. </span><span class="art_text_in_comma">Il Presidente della Repubblica &egrave; autorizzato a ratificare l'Accordo tra il Governo della Repubblica italiana e il Governo del Regno del Bahrein sulla cooperazione nei settori della cultura, dell'istruzione, della scienza, della tecnologia e dell'informazione, fatto a Roma il 4 febbraio 2020. 
+                    <br>
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+<div class="bodyTesto">
+        <h2 class="preamble-title-akn"></h2>
+        <h2 class="preamble-end-akn"></h2>
+        <h2 class="article-num-akn" id="art_2">Art. 2</h2>
+        <div class="article-heading-akn"> Ordine di esecuzione</div>
+        <div class="art-commi-div-akn">
+            <div class="art-comma-div-akn">
+                <span class="comma-num-akn">1. </span><span class="art_text_in_comma">Piena ed intera esecuzione &egrave; data all'Accordo di cui all'articolo 1 della presente legge a decorrere dalla data della sua entrata in vigore, in conformit&agrave; a quanto disposto dall'articolo 6 dell'Accordo stesso. 
+                    <br>
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+<div class="bodyTesto">
+        <h2 class="preamble-title-akn"></h2>
+        <h2 class="preamble-end-akn"></h2>
+        <h2 class="article-num-akn" id="art_3">Art. 3</h2>
+        <div class="article-heading-akn"> Disposizioni finanziarie</div>
+        <div class="art-commi-div-akn">
+            <div class="art-comma-div-akn">
+                <span class="comma-num-akn">1. </span><span class="art_text_in_comma">Agli oneri derivanti dalle spese di missione di cui all'articolo 6 dell'Accordo di cui all'articolo 1 della presente legge, valutati in euro 10.720 ogni tre anni a decorrere dall'anno 2028, e a quelli derivanti dalle spese di cui agli articoli 1, 2 e 3 dell'Accordo medesimo, pari a euro 231.620 annui a decorrere dall'anno 2026, si provvede mediante riduzione, per euro 231.620 annui per l'anno 2026 e per euro 242.340 annui a decorrere dall'anno 2027, delle proiezioni dello stanziamento del fondo speciale di parte corrente iscritto, ai fini del bilancio triennale 2025-2027, nell'ambito del programma &laquo;Fondi di riserva e speciali&raquo; della missione &laquo;Fondi da ripartire&raquo; dello stato di previsione del Ministero dell'economia e delle finanze per l'anno 2025, allo scopo parzialmente utilizzando l'accantonamento relativo al Ministero degli affari esteri e della cooperazione internazionale. 
+                    <br>
+                    
+                </span>
+            </div>
+            <div class="art-comma-div-akn">
+                <span class="comma-num-akn">2. </span><span class="art_text_in_comma">Dalle disposizioni dell'Accordo di cui all'articolo 1 della presente legge, ad esclusione degli articoli 1, 2, 3 e 6 dell'Accordo, non devono derivare nuovi o maggiori oneri a carico della finanza pubblica. 
+                    <br>
+                    
+                </span>
+            </div>
+            <div class="art-comma-div-akn">
+                <span class="comma-num-akn">3. </span><span class="art_text_in_comma">Agli eventuali ulteriori oneri relativi all'articolo 6 dell'Accordo di cui all'articolo 1 della presente legge, si far&agrave; fronte con apposito provvedimento legislativo. 
+                    <br>
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+<div class="bodyTesto">
+        <h2 class="preamble-title-akn"></h2>
+        <h2 class="preamble-end-akn"></h2>
+        <h2 class="article-num-akn" id="art_4">Art. 4</h2>
+        <div class="article-heading-akn"> Entrata in vigore</div>
+        <div class="art-commi-div-akn">
+            <div class="art-comma-div-akn">
+                <span class="comma-num-akn">1. </span><span class="art_text_in_comma">La presente legge entra in vigore il giorno successivo a quello della sua pubblicazione nella Gazzetta Ufficiale. 
+                    <br>
+                     La presente legge, munita del sigillo dello Stato, sar&agrave; inserita nella Raccolta ufficiale degli atti normativi della Repubblica italiana. &Egrave; fatto obbligo a chiunque spetti di osservarla e di farla osservare come legge dello Stato. 
+                    <br>
+                     Data a Roma, add&igrave; 13 gennaio 2026 
+                    <br>
+                     
+                    <br>
+                     MATTARELLA 
+                    <br>
+                     
+                    <br>
+                     Meloni, Presidente del Consiglio dei ministri 
+                    <br>
+                     
+                    <br>
+                     Tajani, Ministro degli affari esteri e della cooperazione internazionale 
+                    <br>
+                     
+                    <br>
+                    Visto, il Guardasigilli: Nordio 
+                    <br>
+                    
+                </span>
+            </div>
+        </div>
+    </div>
