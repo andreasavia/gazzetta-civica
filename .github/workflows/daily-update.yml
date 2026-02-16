@@ -91,26 +91,22 @@ jobs:
             echo "⚠ Found $failure_count request failures that will be flagged in PRs"
 
             # Build warnings section for PR body
-            warnings_section=$(cat <<'EOF_WARNINGS'
-
+            warnings_section="
 
 ## ⚠️ Request Failures
 
-During data collection, **FAILURE_COUNT HTTP request(s) failed** after 3 retry attempts. These may require manual review:
+During data collection, **${failure_count} HTTP request(s) failed** after 3 retry attempts. These may require manual review:
 
-EOF_WARNINGS
-)
-            warnings_section="${warnings_section//FAILURE_COUNT/$failure_count}"
-
+"
             # Add failure details
             for j in $(seq 0 $((failure_count - 1))); do
               func=$(jq -r ".failures[$j].function" data/request_failures.json)
               error=$(jq -r ".failures[$j].error" data/request_failures.json | head -c 200)
-              warnings_section+="- **$func**: \`${error}\`
+              warnings_section="${warnings_section}- **${func}**: \`${error}\`
 "
             done
 
-            warnings_section+="
+            warnings_section="${warnings_section}
 Please verify the law data is complete. Check the [workflow run logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
 "
           fi
