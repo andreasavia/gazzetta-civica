@@ -35,15 +35,23 @@ jobs:
       - name: Get year and month
         id: date
         run: |
-          if [ -n "${{ inputs.year }}" ]; then
-            echo "year=${{ inputs.year }}" >> $GITHUB_OUTPUT
-          else
+          # For scheduled runs, always use current date
+          # For manual runs, use inputs if provided, otherwise current date
+          if [ "${{ github.event_name }}" = "schedule" ]; then
             echo "year=$(date +%Y)" >> $GITHUB_OUTPUT
-          fi
-          if [ -n "${{ inputs.month }}" ]; then
-            echo "month=${{ inputs.month }}" >> $GITHUB_OUTPUT
-          else
             echo "month=$(date +%-m)" >> $GITHUB_OUTPUT
+          else
+            # Manual dispatch - use inputs or fallback to current date
+            if [ -n "${{ inputs.year }}" ] && [ "${{ inputs.year }}" != "" ]; then
+              echo "year=${{ inputs.year }}" >> $GITHUB_OUTPUT
+            else
+              echo "year=$(date +%Y)" >> $GITHUB_OUTPUT
+            fi
+            if [ -n "${{ inputs.month }}" ] && [ "${{ inputs.month }}" != "" ]; then
+              echo "month=${{ inputs.month }}" >> $GITHUB_OUTPUT
+            else
+              echo "month=$(date +%-m)" >> $GITHUB_OUTPUT
+            fi
           fi
 
       - name: Run data collection
