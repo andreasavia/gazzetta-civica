@@ -123,14 +123,14 @@ jobs:
             echo "[$((i+1))/$count] Processing: $descrizione"
 
             # Check if a branch already exists for this codice (PR already created)
-            existing_branch=$(git branch -r | grep "origin/legge/${codice}-" | head -n 1 | xargs || echo "")
+            existing_branch=$(git branch -r | grep "origin/legge/${codice}" | head -n 1 | xargs || echo "")
             if [ -n "$existing_branch" ]; then
               echo "  ⏭ Skipping - PR branch already exists: $existing_branch"
               continue
             fi
 
-            # Create unique branch name
-            branch_name="legge/${codice}-${GITHUB_RUN_NUMBER}"
+            # Create branch name from codice
+            branch_name="legge/${codice}"
 
             # Create and checkout new branch from latest master
             git checkout master

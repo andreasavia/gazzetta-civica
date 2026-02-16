@@ -889,7 +889,7 @@ def check_pr_branch_exists(codice: str) -> bool:
         codice: Codice redazionale
 
     Returns:
-        bool: True if a branch exists with pattern legge/{codice}-*, False otherwise
+        bool: True if a branch exists with pattern legge/{codice}, False otherwise
     """
     import subprocess
     try:
@@ -902,8 +902,8 @@ def check_pr_branch_exists(codice: str) -> bool:
         )
         if result.returncode == 0:
             branches = result.stdout
-            # Check if any branch matches legge/{codice}-*
-            pattern = f"origin/legge/{codice}-"
+            # Check if branch matches legge/{codice}
+            pattern = f"origin/legge/{codice}"
             return pattern in branches
     except (subprocess.TimeoutExpired, subprocess.SubprocessError, FileNotFoundError):
         # If git command fails, continue processing (don't skip)
