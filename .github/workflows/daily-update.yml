@@ -84,6 +84,33 @@ jobs:
           count=$(jq '.new_laws | length' data/new_laws.json)
           echo "Creating $count pull requests..."
 
+          # Check for request failures
+          warnings_section=""
+          if [ -f "data/request_failures.json" ]; then
+            failure_count=$(jq '.count' data/request_failures.json)
+            echo "⚠ Found $failure_count request failures that will be flagged in PRs"
+
+            # Build warnings section for PR body
+            warnings_section="
+
+## ⚠️ Request Failures
+
+During data collection, **$failure_count HTTP request(s) failed** after 3 retry attempts. These may require manual review:
+
+"
+            # Add failure details
+            for j in $(seq 0 $((failure_count - 1))); do
+              func=$(jq -r ".failures[$j].function" data/request_failures.json)
+              error=$(jq -r ".failures[$j].error" data/request_failures.json | head -c 200)
+              warnings_section+="- **$func**: \`${error}\`
+"
+            done
+
+            warnings_section+="
+Please verify the law data is complete. Check the [workflow run logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
+"
+          fi
+
           # Process each new law
           for i in $(seq 0 $((count - 1))); do
             # Extract law metadata
@@ -125,10 +152,8 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
             # Push branch
             git push -u origin "$branch_name"
 
-            # Create pull request
-            gh pr create \
-              --title "New law: $titolo_alt" \
-              --body "## New Legislative Act
+            # Create pull request with warnings if any
+            pr_body="## New Legislative Act
 
 **Tipo:** $tipo
 **Numero:** $numero
@@ -137,12 +162,22 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
 
 ### Description
 $descrizione
-
+${warnings_section}
 ---
 Automatically collected from Normattiva for ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}.
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)" \
-              --label "automated,new-law" \
+🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+
+            # Add 'needs-review' label if there were failures
+            labels="automated,new-law"
+            if [ -f "data/request_failures.json" ]; then
+              labels="$labels,needs-review"
+            fi
+
+            gh pr create \
+              --title "New law: $titolo_alt" \
+              --body "$pr_body" \
+              --label "$labels" \
               --assignee andreasavia
 
             echo "  ✓ Created PR for $titolo_alt"

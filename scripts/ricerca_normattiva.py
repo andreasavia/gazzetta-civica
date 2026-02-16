@@ -32,12 +32,16 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from datetime import datetime
 from bs4 import BeautifulSoup
+from functools import wraps
 
 BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
 HEADERS = {"Content-Type": "application/json"}
 OUTPUT_DIR = Path(__file__).parent.parent / "data"
 VAULT_DIR = Path(__file__).parent.parent / "content" / "leggi"
 NORMATTIVA_SITE = "https://www.normattiva.it"
+
+# Global list to track failed requests for manual review
+REQUEST_FAILURES = []
 
 # denominazioneAtto  →  segmento URN di normattiva.it
 URN_TIPO = {
@@ -102,6 +106,62 @@ TEXT_TO_COLUMN = {
 }
 
 
+def retry_request(max_retries=3, initial_delay=2, backoff_factor=2):
+    """Decorator to retry HTTP requests with exponential backoff.
+
+    Args:
+        max_retries: Maximum number of retry attempts (default: 3)
+        initial_delay: Initial delay between retries in seconds (default: 2)
+        backoff_factor: Multiplier for delay on each retry (default: 2)
+
+    Tracks failures in global REQUEST_FAILURES list for manual review.
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            delay = initial_delay
+            last_exception = None
+
+            for attempt in range(max_retries + 1):
+                try:
+                    return func(*args, **kwargs)
+                except (requests.RequestException, requests.HTTPError, ConnectionError, TimeoutError) as e:
+                    last_exception = e
+                    if attempt < max_retries:
+                        print(f"    ⚠ Retry {attempt + 1}/{max_retries} after {delay}s: {str(e)[:100]}")
+                        time.sleep(delay)
+                        delay *= backoff_factor
+                    else:
+                        # Final failure - track for manual review
+                        failure_info = {
+                            "function": func.__name__,
+                            "args": str(args)[:200],
+                            "error": str(e)[:500],
+                            "timestamp": datetime.now().isoformat(),
+                        }
+                        REQUEST_FAILURES.append(failure_info)
+                        print(f"    ✗ Failed after {max_retries} retries: {str(e)[:100]}")
+                        # Return appropriate empty value depending on function
+                        if func.__name__ in ['fetch_normattiva_permalink', 'fetch_camera_metadata',
+                                             'fetch_senato_metadata', 'fetch_approfondimenti']:
+                            return {}
+                        elif func.__name__ == 'ricerca_avanzata':
+                            return {"listaAtti": []}
+                        elif func.__name__ in ['fetch_parliamentary_group']:
+                            return ""
+                        elif func.__name__ in ['fetch_relatori_names']:
+                            return []
+                        raise
+                except Exception as e:
+                    # Non-network errors shouldn't be retried
+                    raise
+
+            return {}
+        return wrapper
+    return decorator
+
+
+@retry_request(max_retries=3, initial_delay=2)
 def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
     """Fetch the permalink from Normattiva and extract URN and vigenza date.
     Returns dict with 'normattiva_uri' and 'data_vigenza' (in yyyy-mm-dd format).
@@ -169,6 +229,7 @@ def extract_links(html):
     return links
 
 
+@retry_request(max_retries=3, initial_delay=2)
 def fetch_camera_metadata(session, camera_url: str) -> dict:
     """Fetch and parse metadata from a camera.it RDF endpoint.
     Returns dict with camera-atto, legislatura, natura, data-presentazione, iniziativa-dei-deputati.
@@ -397,6 +458,7 @@ def parse_html_firmatari(html: str, legislatura: str) -> list:
     return firmatari
 
 
+@retry_request(max_retries=3, initial_delay=2)
 def fetch_relatori_names(session, relatori_refs: list, ns: dict) -> list:
     """Fetch relatore names from their RDF URIs.
 
@@ -433,6 +495,7 @@ def resolve_blank_node(root, node_id: str, ns: dict) -> str:
     return ""
 
 
+@retry_request(max_retries=3, initial_delay=2)
 def fetch_parliamentary_group(session, person_uri: str, ns: dict, legislatura: str = "19") -> str:
     """Fetch parliamentary group abbreviation from person/deputato RDF.
 
@@ -513,6 +576,7 @@ def build_scheda_link(resource_uri: str, legislatura: str) -> str:
     return resource_uri
 
 
+@retry_request(max_retries=3, initial_delay=2)
 def fetch_senato_metadata(session, senato_url: str) -> dict:
     """Fetch and parse metadata from a senato.it page by scraping HTML.
     Returns dict with senato-did, senato-numero-fase, senato-titolo, etc.
@@ -661,6 +725,7 @@ def fetch_senato_metadata(session, senato_url: str) -> dict:
     return result
 
 
+@retry_request(max_retries=3, initial_delay=2)
 def fetch_article_html(session, data_gu: str, codice: str, id_articolo: int, data_vigenza: str) -> str:
     """
     Fetch HTML for a SPECIFIC article from Normattiva API.
@@ -703,6 +768,7 @@ def fetch_article_html(session, data_gu: str, codice: str, id_articolo: int, dat
         return ""
 
 
+@retry_request(max_retries=3, initial_delay=2)
 def fetch_approfondimenti(session, uri):
     """Load the N2Ls page, find active approfondimento endpoints, fetch and parse links.
     Returns dict: {column_name: "link1; link2; ...", "gu_link": "..."} for all APPROFONDIMENTO_COLUMNS.
@@ -743,6 +809,7 @@ def fetch_approfondimenti(session, uri):
     return result
 
 
+@retry_request(max_retries=3, initial_delay=2)
 def ricerca_avanzata(data_inizio: str, data_fine: str, pagina: int = 1, per_pagina: int = 100) -> dict:
     """POST ricerca/avanzata filtrata per intervallo di date di pubblicazione.
 
@@ -1172,6 +1239,17 @@ def main():
         new_laws_file = OUTPUT_DIR / "new_laws.json"
         save_json({"new_laws": new_laws}, new_laws_file)
         print(f"  New laws metadata: {new_laws_file} ({len(new_laws)} laws)")
+
+    # Save request failures for manual review in PR
+    if REQUEST_FAILURES:
+        failures_file = OUTPUT_DIR / "request_failures.json"
+        save_json({
+            "failures": REQUEST_FAILURES,
+            "count": len(REQUEST_FAILURES),
+            "timestamp": datetime.now().isoformat()
+        }, failures_file)
+        print(f"  ⚠ Request failures: {failures_file} ({len(REQUEST_FAILURES)} failures)")
+        print(f"    These will be flagged in the PR for manual review")
 
     # Preview
     if atti:
