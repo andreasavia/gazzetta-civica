@@ -118,7 +118,7 @@ jobs:
             echo "[$((i+1))/$count] Processing: $descrizione"
 
             # Create unique branch name
-            branch_name="law/${codice}-${GITHUB_RUN_NUMBER}"
+            branch_name="legge/${codice}-${GITHUB_RUN_NUMBER}"
 
             # Create and checkout new branch from master
             git checkout master
@@ -151,33 +151,37 @@ jobs:
             # Create pull request with warnings if any
             # Write PR body to temp file using echo to avoid YAML/heredoc issues
             {
-              echo "## New Legislative Act"
+              echo "## Atto Normativo"
               echo ""
               echo "**Tipo:** $tipo"
               echo "**Numero:** $numero"
               echo "**Data emanazione:** $data_emanazione"
               echo "**Codice redazionale:** $codice"
               echo ""
-              echo "### Description"
+              echo "### Descrizione"
               echo "$descrizione"
               echo "${warnings_section}"
               echo "---"
-              echo "Automatically collected from Normattiva for ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}."
+              echo "Raccolto automaticamente da Normattiva per ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}."
               echo ""
-              echo "🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+              echo "🤖 Generato con [Claude Code](https://claude.com/claude-code)"
             } > /tmp/pr_body.md
 
-            # Add 'needs-review' label if there were failures
-            labels="automated,new-law"
-            if [ -f "data/request_failures.json" ]; then
-              labels="$labels,needs-review"
-            fi
-
-            gh pr create \
-              --title "New law: $titolo_alt" \
+            # Create PR (labels and assignee are optional - don't fail if they don't work)
+            pr_url=$(gh pr create \
+              --title "$titolo_alt" \
               --body-file /tmp/pr_body.md \
-              --label "$labels" \
-              --assignee andreasavia
+              --assignee andreasavia 2>/dev/null || \
+            gh pr create \
+              --title "$titolo_alt" \
+              --body-file /tmp/pr_body.md)
+
+            # Try to add labels (don't fail if labels don't exist)
+            if [ -f "data/request_failures.json" ]; then
+              gh pr edit "$pr_url" --add-label "nuova-legge,automatizzato,richiede-revisione" 2>/dev/null || true
+            else
+              gh pr edit "$pr_url" --add-label "nuova-legge,automatizzato" 2>/dev/null || true
+            fi
 
             echo "  ✓ Created PR for $titolo_alt"
           done
