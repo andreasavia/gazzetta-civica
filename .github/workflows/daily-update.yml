@@ -144,23 +144,23 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
             git push -u origin "$branch_name"
 
             # Create pull request with warnings if any
-            # Write PR body to temp file to avoid YAML escaping issues
-            cat > /tmp/pr_body.md <<EOF
-## New Legislative Act
-
-**Tipo:** $tipo
-**Numero:** $numero
-**Data emanazione:** $data_emanazione
-**Codice redazionale:** $codice
-
-### Description
-$descrizione
-${warnings_section}
----
-Automatically collected from Normattiva for ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}.
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-EOF
+            # Write PR body to temp file using echo to avoid YAML/heredoc issues
+            {
+              echo "## New Legislative Act"
+              echo ""
+              echo "**Tipo:** $tipo"
+              echo "**Numero:** $numero"
+              echo "**Data emanazione:** $data_emanazione"
+              echo "**Codice redazionale:** $codice"
+              echo ""
+              echo "### Description"
+              echo "$descrizione"
+              echo "${warnings_section}"
+              echo "---"
+              echo "Automatically collected from Normattiva for ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}."
+              echo ""
+              echo "🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+            } > /tmp/pr_body.md
 
             # Add 'needs-review' label if there were failures
             labels="automated,new-law"
