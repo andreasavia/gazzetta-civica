@@ -144,7 +144,8 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
             git push -u origin "$branch_name"
 
             # Create pull request with warnings if any
-            pr_body="## New Legislative Act
+            pr_body="$(cat <<EOF
+## New Legislative Act
 
 **Tipo:** $tipo
 **Numero:** $numero
@@ -157,7 +158,9 @@ ${warnings_section}
 ---
 Automatically collected from Normattiva for ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}.
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+EOF
+)"
 
             # Add 'needs-review' label if there were failures
             labels="automated,new-law"
