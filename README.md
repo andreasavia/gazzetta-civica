@@ -9,7 +9,7 @@ Analisi e approfondimenti sulla legislazione italiana.
 - `scripts/` - Data collection scripts
 - `src/` - Astro frontend
 
-## Development
+## Development 
 
 ```bash
 # Install dependencies
