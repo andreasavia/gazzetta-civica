@@ -855,6 +855,33 @@ def save_json(data, path: Path) -> None:
     print(f"  JSON: {path}")
 
 
+def check_norm_exists(atto: dict, vault_dir: Path) -> bool:
+    """Check if a norm's markdown file already exists.
+
+    Args:
+        atto: Atto dict with dataEmanazione and numeroProvvedimento
+        vault_dir: Base vault directory path
+
+    Returns:
+        bool: True if the norm's directory exists, False otherwise
+    """
+    data_emanazione = atto.get("dataEmanazione", "")[:10]
+    numero_provv = atto.get("numeroProvvedimento", "0")
+
+    try:
+        eman_date = datetime.strptime(data_emanazione, "%Y-%m-%d")
+        year = str(eman_date.year)
+        month = f"{eman_date.month:02d}"
+        day = f"{eman_date.day:02d}"
+    except ValueError:
+        return False
+
+    folder_name = f"n. {numero_provv}"
+    norm_dir = vault_dir / year / month / day / folder_name
+
+    return norm_dir.exists()
+
+
 def save_markdown(atti: list, vault_dir: Path) -> list:
     """Save each atto as a markdown file, organized by emanation date.
 
@@ -870,13 +897,13 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
         content/leggi/2025/12/30/n. 199/LEGGE 30 dicembre 2025, n. 199.md
 
     Returns:
-        list: Metadata about new laws (those whose directory didn't exist before)
+        list: Metadata about all processed laws
     """
     if not atti:
         return []
     vault_dir.mkdir(parents=True, exist_ok=True)
 
-    new_laws = []
+    law_metadata = []
 
     for atto in atti:
         codice = atto.get("codiceRedazionale", "unknown")
@@ -904,10 +931,6 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
         # Create folder structure based on emanation date: vault/YYYY/MM/DD/n. numero/
         folder_name = f"n. {numero_provv}"
         norm_dir = vault_dir / year / month / day / folder_name
-
-        # Check if this is a new law (directory doesn't exist yet)
-        is_new_law = not norm_dir.exists()
-
         norm_dir.mkdir(parents=True, exist_ok=True)
 
         # Main markdown file
@@ -1058,23 +1081,22 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
                     f.write(art['html'])
                     f.write("\n")
 
-        # Track new laws for separate PR creation
-        if is_new_law:
-            # Get relative path from project root
-            relative_path = filepath.relative_to(vault_dir.parent.parent)
-            new_laws.append({
-                "codice": codice,
-                "descrizione": descrizione,
-                "tipo": tipo,
-                "numero": numero_provv,
-                "data_emanazione": data_emanazione,
-                "titolo_alternativo": atto.get("titolo_alternativo", descrizione),
-                "filepath": str(relative_path),
-                "directory": str(norm_dir.relative_to(vault_dir.parent.parent)),
-            })
+        # Track processed laws metadata
+        # Get relative path from project root
+        relative_path = filepath.relative_to(vault_dir.parent.parent)
+        law_metadata.append({
+            "codice": codice,
+            "descrizione": descrizione,
+            "tipo": tipo,
+            "numero": numero_provv,
+            "data_emanazione": data_emanazione,
+            "titolo_alternativo": atto.get("titolo_alternativo", descrizione),
+            "filepath": str(relative_path),
+            "directory": str(norm_dir.relative_to(vault_dir.parent.parent)),
+        })
 
-    print(f"  Vault: {vault_dir}/ ({len(atti)} norms, {len(new_laws)} new)")
-    return new_laws
+    print(f"  Vault: {vault_dir}/ ({len(atti)} norms)")
+    return law_metadata
 
 
 def main():
@@ -1118,7 +1140,24 @@ def main():
         print(f"    {len(batch)} risultati")
         pagina += 1
 
-    print(f"\n  Totale norme: {len(atti)}\n")
+    print(f"\n  Totale norme fetched: {len(atti)}")
+
+    # Filter out norms that already exist
+    print("\n[Checking for existing norms]")
+    original_count = len(atti)
+    atti = [atto for atto in atti if not check_norm_exists(atto, VAULT_DIR)]
+    filtered_count = original_count - len(atti)
+
+    if filtered_count > 0:
+        print(f"  Skipped {filtered_count} existing norms")
+    print(f"  Processing {len(atti)} new norms\n")
+
+    if len(atti) == 0:
+        print("  No new norms to process. Exiting.")
+        print("\n" + "=" * 60)
+        print("Done!")
+        print("=" * 60)
+        return
 
     # Fetch normattiva.it permalink (URN and vigenza) for each atto
     print("[Fetching normattiva permalinks]")
@@ -1232,13 +1271,13 @@ def main():
     print("\n[Final save - all metadata included]")
     save_json({"listaAtti": atti}, OUTPUT_DIR / f"ricerca_{safe_range}_raw_{timestamp}.json")
     save_csv(atti, OUTPUT_DIR / f"ricerca_{safe_range}_{timestamp}.csv")
-    new_laws = save_markdown(atti, VAULT_DIR)
+    processed_laws = save_markdown(atti, VAULT_DIR)
 
-    # Save new laws metadata for GitHub Actions workflow
-    if new_laws:
+    # Save processed laws metadata for GitHub Actions workflow
+    if processed_laws:
         new_laws_file = OUTPUT_DIR / "new_laws.json"
-        save_json({"new_laws": new_laws}, new_laws_file)
-        print(f"  New laws metadata: {new_laws_file} ({len(new_laws)} laws)")
+        save_json({"new_laws": processed_laws}, new_laws_file)
+        print(f"  Processed laws metadata: {new_laws_file} ({len(processed_laws)} laws)")
 
     # Save request failures for manual review in PR
     if REQUEST_FAILURES:
