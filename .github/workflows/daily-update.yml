@@ -59,29 +59,95 @@ jobs:
           cd scripts
           python ricerca_normattiva.py ${{ steps.date.outputs.year }} ${{ steps.date.outputs.month }}
 
-      - name: Check for changes
-        id: changes
+      - name: Check for new laws
+        id: check_new
         run: |
-          git add -A
-          if git diff --staged --quiet; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
+          if [ -f "data/new_laws.json" ]; then
+            count=$(jq '.new_laws | length' data/new_laws.json)
+            echo "has_new_laws=true" >> $GITHUB_OUTPUT
+            echo "count=$count" >> $GITHUB_OUTPUT
+            echo "Found $count new laws"
           else
-            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "has_new_laws=false" >> $GITHUB_OUTPUT
+            echo "count=0" >> $GITHUB_OUTPUT
+            echo "No new laws found"
           fi
 
-      - name: Create Pull Request
-        if: steps.changes.outputs.has_changes == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: update legislative data for ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}"
-          branch: update/normattiva-${{ github.run_number }}
-          title: "New legislative data - ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}"
-          body: |
-            ## Automated Daily Update
+      - name: Create PR for each new law
+        if: steps.check_new.outputs.has_new_laws == 'true'
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-            New legislative data collected from Normattiva for **${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}**.
+          # Read new laws data
+          count=$(jq '.new_laws | length' data/new_laws.json)
+          echo "Creating $count pull requests..."
 
-            Review the changes and merge when ready.
-          assignees: andreasavia
-          labels: automated,data-update
+          # Process each new law
+          for i in $(seq 0 $((count - 1))); do
+            # Extract law metadata
+            codice=$(jq -r ".new_laws[$i].codice" data/new_laws.json)
+            descrizione=$(jq -r ".new_laws[$i].descrizione" data/new_laws.json)
+            tipo=$(jq -r ".new_laws[$i].tipo" data/new_laws.json)
+            numero=$(jq -r ".new_laws[$i].numero" data/new_laws.json)
+            data_emanazione=$(jq -r ".new_laws[$i].data_emanazione" data/new_laws.json)
+            titolo_alt=$(jq -r ".new_laws[$i].titolo_alternativo" data/new_laws.json)
+            directory=$(jq -r ".new_laws[$i].directory" data/new_laws.json)
+
+            echo "[$((i+1))/$count] Processing: $descrizione"
+
+            # Create unique branch name
+            branch_name="law/${codice}-${GITHUB_RUN_NUMBER}"
+
+            # Create and checkout new branch from master
+            git checkout master
+            git checkout -b "$branch_name"
+
+            # Add only this law's directory and the article-table.base
+            git add "$directory"
+            git add content/article-table.base
+
+            # Check if there are changes to commit
+            if git diff --staged --quiet; then
+              echo "  No changes to commit, skipping"
+              continue
+            fi
+
+            # Commit with descriptive message
+            git commit -m "feat: add $titolo_alt
+
+Codice redazionale: $codice
+Data emanazione: $data_emanazione
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+
+            # Push branch
+            git push -u origin "$branch_name"
+
+            # Create pull request
+            gh pr create \
+              --title "New law: $titolo_alt" \
+              --body "## New Legislative Act
+
+**Tipo:** $tipo
+**Numero:** $numero
+**Data emanazione:** $data_emanazione
+**Codice redazionale:** $codice
+
+### Description
+$descrizione
+
+---
+Automatically collected from Normattiva for ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)" \
+              --label "automated,new-law" \
+              --assignee andreasavia
+
+            echo "  ✓ Created PR for $titolo_alt"
+          done
+
+          # Return to master and clean up
+          git checkout master
+          echo "All PRs created successfully!"

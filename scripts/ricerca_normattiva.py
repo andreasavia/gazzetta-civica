@@ -788,7 +788,7 @@ def save_json(data, path: Path) -> None:
     print(f"  JSON: {path}")
 
 
-def save_markdown(atti: list, vault_dir: Path) -> None:
+def save_markdown(atti: list, vault_dir: Path) -> list:
     """Save each atto as a markdown file, organized by emanation date.
 
     File structure: content/leggi/{year}/{month}/{day}/n. {numero}/{descrizione}.md
@@ -801,10 +801,15 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
     Example:
         A law emanated on 2025-12-30 and published in GU on 2026-01-02 will be stored at:
         content/leggi/2025/12/30/n. 199/LEGGE 30 dicembre 2025, n. 199.md
+
+    Returns:
+        list: Metadata about new laws (those whose directory didn't exist before)
     """
     if not atti:
-        return
+        return []
     vault_dir.mkdir(parents=True, exist_ok=True)
+
+    new_laws = []
 
     for atto in atti:
         codice = atto.get("codiceRedazionale", "unknown")
@@ -832,6 +837,10 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
         # Create folder structure based on emanation date: vault/YYYY/MM/DD/n. numero/
         folder_name = f"n. {numero_provv}"
         norm_dir = vault_dir / year / month / day / folder_name
+
+        # Check if this is a new law (directory doesn't exist yet)
+        is_new_law = not norm_dir.exists()
+
         norm_dir.mkdir(parents=True, exist_ok=True)
 
         # Main markdown file
@@ -982,7 +991,23 @@ def save_markdown(atti: list, vault_dir: Path) -> None:
                     f.write(art['html'])
                     f.write("\n")
 
-    print(f"  Vault: {vault_dir}/ ({len(atti)} norms)")
+        # Track new laws for separate PR creation
+        if is_new_law:
+            # Get relative path from project root
+            relative_path = filepath.relative_to(vault_dir.parent.parent)
+            new_laws.append({
+                "codice": codice,
+                "descrizione": descrizione,
+                "tipo": tipo,
+                "numero": numero_provv,
+                "data_emanazione": data_emanazione,
+                "titolo_alternativo": atto.get("titolo_alternativo", descrizione),
+                "filepath": str(relative_path),
+                "directory": str(norm_dir.relative_to(vault_dir.parent.parent)),
+            })
+
+    print(f"  Vault: {vault_dir}/ ({len(atti)} norms, {len(new_laws)} new)")
+    return new_laws
 
 
 def main():
@@ -1140,7 +1165,13 @@ def main():
     print("\n[Final save - all metadata included]")
     save_json({"listaAtti": atti}, OUTPUT_DIR / f"ricerca_{safe_range}_raw_{timestamp}.json")
     save_csv(atti, OUTPUT_DIR / f"ricerca_{safe_range}_{timestamp}.csv")
-    save_markdown(atti, VAULT_DIR)
+    new_laws = save_markdown(atti, VAULT_DIR)
+
+    # Save new laws metadata for GitHub Actions workflow
+    if new_laws:
+        new_laws_file = OUTPUT_DIR / "new_laws.json"
+        save_json({"new_laws": new_laws}, new_laws_file)
+        print(f"  New laws metadata: {new_laws_file} ({len(new_laws)} laws)")
 
     # Preview
     if atti:
