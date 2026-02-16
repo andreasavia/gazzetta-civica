@@ -91,22 +91,29 @@ jobs:
           count=$(jq '.new_laws | length' data/new_laws.json)
           echo "Creating $count pull requests..."
 
-          # Check for request failures
-          warnings_section=""
+          # Check for request failures and prepare warnings file
+          has_warnings=false
           if [ -f "data/request_failures.json" ]; then
             failure_count=$(jq '.count' data/request_failures.json)
             echo "⚠ Found $failure_count request failures that will be flagged in PRs"
+            has_warnings=true
 
-            # Build warnings section for PR body
-            warnings_section=$'\\n\\n## ⚠️ Request Failures\\n\\nDuring data collection, **'"${failure_count}"$' HTTP request(s) failed** after 3 retry attempts. These may require manual review:\\n\\n'
-            # Add failure details
-            for j in $(seq 0 $((failure_count - 1))); do
-              func=$(jq -r ".failures[$j].function" data/request_failures.json)
-              error=$(jq -r ".failures[$j].error" data/request_failures.json | head -c 200)
-              warnings_section="${warnings_section}- **${func}**: \`${error}\`"$'\\n'
-            done
-
-            warnings_section="${warnings_section}"$'\\nPlease verify the law data is complete. Check the [workflow run logs]('"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"$') for details.\\n'
+            # Build warnings section in a separate file
+            {
+              echo ""
+              echo "## ⚠️ Request Failures"
+              echo ""
+              echo "During data collection, **${failure_count} HTTP request(s) failed** after 3 retry attempts. These may require manual review:"
+              echo ""
+              # Add failure details
+              for j in $(seq 0 $((failure_count - 1))); do
+                func=$(jq -r ".failures[$j].function" data/request_failures.json)
+                error=$(jq -r ".failures[$j].error" data/request_failures.json | head -c 200)
+                echo "- **${func}**: \`${error}\`"
+              done
+              echo ""
+              echo "Please verify the law data is complete. Check the [workflow run logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+            } > /tmp/warnings.md
           fi
 
           # Process each new law
@@ -161,7 +168,6 @@ jobs:
             git push -u origin "$branch_name"
 
             # Create pull request with warnings if any
-            # Write PR body to temp file using echo to avoid YAML/heredoc issues
             {
               echo "## Atto Normativo"
               echo ""
@@ -171,9 +177,17 @@ jobs:
               echo "**Codice redazionale:** $codice"
               echo ""
               echo "### Descrizione"
+              echo ""
               echo "$descrizione"
-              echo "${warnings_section}"
+
+              # Include warnings if they exist
+              if [ "$has_warnings" = true ]; then
+                cat /tmp/warnings.md
+              fi
+
+              echo ""
               echo "---"
+              echo ""
               echo "Raccolto automaticamente da Normattiva per ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}."
               echo ""
               echo "🤖 Generato con [Claude Code](https://claude.com/claude-code)"
