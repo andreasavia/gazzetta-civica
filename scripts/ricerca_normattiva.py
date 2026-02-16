@@ -882,6 +882,35 @@ def check_norm_exists(atto: dict, vault_dir: Path) -> bool:
     return norm_dir.exists()
 
 
+def check_pr_branch_exists(codice: str) -> bool:
+    """Check if a PR branch already exists for this norm.
+
+    Args:
+        codice: Codice redazionale
+
+    Returns:
+        bool: True if a branch exists with pattern legge/{codice}-*, False otherwise
+    """
+    import subprocess
+    try:
+        # List all remote branches matching the pattern
+        result = subprocess.run(
+            ["git", "branch", "-r"],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if result.returncode == 0:
+            branches = result.stdout
+            # Check if any branch matches legge/{codice}-*
+            pattern = f"origin/legge/{codice}-"
+            return pattern in branches
+    except (subprocess.TimeoutExpired, subprocess.SubprocessError, FileNotFoundError):
+        # If git command fails, continue processing (don't skip)
+        pass
+    return False
+
+
 def save_markdown(atti: list, vault_dir: Path) -> list:
     """Save each atto as a markdown file, organized by emanation date.
 
@@ -1150,7 +1179,17 @@ def main():
 
     if filtered_count > 0:
         print(f"  Skipped {filtered_count} existing norms")
-    print(f"  Processing {len(atti)} new norms\n")
+    print(f"  Processing {len(atti)} new norms")
+
+    # Filter out norms that already have PR branches
+    print("\n[Checking for existing PR branches]")
+    pre_pr_count = len(atti)
+    atti = [atto for atto in atti if not check_pr_branch_exists(atto.get("codiceRedazionale", ""))]
+    pr_filtered_count = pre_pr_count - len(atti)
+
+    if pr_filtered_count > 0:
+        print(f"  Skipped {pr_filtered_count} norms with existing PR branches")
+    print(f"  Processing {len(atti)} remaining norms\n")
 
     if len(atti) == 0:
         print("  No new norms to process. Exiting.")

@@ -82,6 +82,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          # Ensure we have the latest master
+          git fetch origin
+          git checkout master
+          git pull origin master
+
           # Read new laws data
           count=$(jq '.new_laws | length' data/new_laws.json)
           echo "Creating $count pull requests..."
@@ -117,10 +122,17 @@ jobs:
 
             echo "[$((i+1))/$count] Processing: $descrizione"
 
+            # Check if a branch already exists for this codice (PR already created)
+            existing_branch=$(git branch -r | grep "origin/legge/${codice}-" | head -n 1 | xargs || echo "")
+            if [ -n "$existing_branch" ]; then
+              echo "  ⏭ Skipping - PR branch already exists: $existing_branch"
+              continue
+            fi
+
             # Create unique branch name
             branch_name="legge/${codice}-${GITHUB_RUN_NUMBER}"
 
-            # Create and checkout new branch from master
+            # Create and checkout new branch from latest master
             git checkout master
             git checkout -b "$branch_name"
 
