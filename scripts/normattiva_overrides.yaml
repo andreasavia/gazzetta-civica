@@ -1,0 +1,41 @@
+# Manual overrides for ricerca_normattiva.py
+#
+# Use this file to manually set or override metadata fields for specific laws.
+# Fields specified here will take precedence over automatically scraped data.
+#
+# Format:
+#   <codice-redazionale>:
+#     <field-name>: <value>
+#
+# Example:
+#   26G00036:
+#     lavori-preparatori: |
+#       Decreto-legge 27 dicembre 2025, n. 196
+#       Convertito con modificazioni dalla L. 13 febbraio 2026, n. 18
+#     camera-atto: "C. 1234"
+#     senato-url: "https://www.senato.it/..."
+#
+# Notes:
+# - Use the pipe (|) for multi-line text content
+# - Use standard YAML syntax for lists:
+#     field-name:
+#       - item1
+#       - item2
+# - Fields will be merged with scraped data, with manual values taking precedence
+#
+# Available fields:
+# - Any field from APPROFONDIMENTO_COLUMNS: lavori-preparatori, atti-aggiornati,
+#   atti-correlati, aggiornamenti-atto, note-atto, relazioni, etc.
+# - Camera metadata: camera-atto, camera-natura, camera-iniziativa, etc.
+# - Senato metadata: senato-url, senato-did, senato-titolo, etc.
+#
+# Example overrides:
+# 26G00036:
+#   lavori-preparatori: |
+#     Decreto-legge 27 dicembre 2025, n. 196
+#     Convertito con modificazioni dalla L. 13 febbraio 2026, n. 18
+
+26G00036:
+  lavori-preparatori:
+    - http://www.camera.it/uri-res/N2Ls?urn:camera-it:parlamento:scheda.progetto.legge:camera;19.legislatura;2751
+    - https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?did=59873

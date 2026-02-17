@@ -27,6 +27,7 @@ import json
 import html as html_module
 import re
 import time
+import yaml
 import requests
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -39,9 +40,56 @@ HEADERS = {"Content-Type": "application/json"}
 OUTPUT_DIR = Path(__file__).parent.parent / "data"
 VAULT_DIR = Path(__file__).parent.parent / "content" / "leggi"
 NORMATTIVA_SITE = "https://www.normattiva.it"
+MANUAL_OVERRIDES_FILE = Path(__file__).parent / "normattiva_overrides.yaml"
 
 # Global list to track failed requests for manual review
 REQUEST_FAILURES = []
+
+
+def load_manual_overrides():
+    """Load manual overrides from YAML file.
+
+    Returns:
+        dict: Dictionary mapping codice-redazionale to field overrides
+    """
+    if not MANUAL_OVERRIDES_FILE.exists():
+        return {}
+
+    try:
+        with MANUAL_OVERRIDES_FILE.open('r', encoding='utf-8') as f:
+            overrides = yaml.safe_load(f) or {}
+            return overrides
+    except Exception as e:
+        print(f"  ⚠ Warning: Could not load manual overrides: {str(e)[:100]}")
+        return {}
+
+
+def apply_manual_overrides(atto: dict, overrides: dict) -> dict:
+    """Apply manual overrides to an atto.
+
+    Args:
+        atto: Atto dictionary with scraped data
+        overrides: Dictionary of overrides from YAML file
+
+    Returns:
+        dict: Atto with overrides applied
+    """
+    codice = atto.get("codiceRedazionale", "")
+    if not codice or codice not in overrides:
+        return atto
+
+    atto_overrides = overrides[codice]
+    print(f"    Applying {len(atto_overrides)} manual override(s) for {codice}")
+
+    # Apply each override, converting field names to match internal format
+    for field, value in atto_overrides.items():
+        # Convert hyphenated field names to underscored (lavori-preparatori → lavori_preparatori)
+        internal_field = field.replace("-", "_")
+        atto[internal_field] = value
+        print(f"      • {field}: {str(value)[:60]}{'...' if len(str(value)) > 60 else ''}")
+
+    return atto
+
 
 # denominazioneAtto  →  segmento URN di normattiva.it
 URN_TIPO = {
@@ -1421,6 +1469,16 @@ def main():
                 print(f"error ({str(e)[:50]}...)")
         else:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}... no senato.it link")
+
+    # Apply manual overrides from YAML file
+    print("\n[Applying manual overrides]")
+    manual_overrides = load_manual_overrides()
+    if manual_overrides:
+        print(f"  Loaded {len(manual_overrides)} override(s) from {MANUAL_OVERRIDES_FILE.name}")
+        for i, atto in enumerate(atti):
+            atti[i] = apply_manual_overrides(atto, manual_overrides)
+    else:
+        print(f"  No manual overrides found in {MANUAL_OVERRIDES_FILE.name}")
 
     # Final save with all metadata
     print("\n[Final save - all metadata included]")
