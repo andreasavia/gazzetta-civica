@@ -1408,8 +1408,18 @@ def main():
             for col in APPROFONDIMENTO_COLUMNS:
                 atto[col] = ""
 
+    # Apply manual overrides from YAML file (before camera/senato fetching)
+    print("\n[Applying manual overrides]")
+    manual_overrides = load_manual_overrides()
+    if manual_overrides:
+        print(f"  Loaded {len(manual_overrides)} override(s) from {MANUAL_OVERRIDES_FILE.name}")
+        for i, atto in enumerate(atti):
+            atti[i] = apply_manual_overrides(atto, manual_overrides)
+    else:
+        print(f"  No manual overrides found in {MANUAL_OVERRIDES_FILE.name}")
+
     # Fetch article HTML for each atto using web scraping
-    print("[Fetching article HTML via web scraping]")
+    print("\n[Fetching article HTML via web scraping]")
     for i, atto in enumerate(atti):
         data_gu = atto.get("dataGU", "")
         codice = atto.get("codiceRedazionale", "")
@@ -1441,7 +1451,9 @@ def main():
     print("[Fetching camera.it metadata]")
     for i, atto in enumerate(atti):
         lavori = atto.get("lavori_preparatori", "")
-        camera_links = [l for l in lavori.split("\n") if "camera.it" in l]
+        # Handle both string (from scraping) and list (from manual overrides)
+        lavori_list = lavori if isinstance(lavori, list) else lavori.split("\n") if lavori else []
+        camera_links = [l for l in lavori_list if "camera.it" in str(l)]
         if camera_links:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}...", end=" ", flush=True)
             camera_meta = fetch_camera_metadata(session, camera_links[0])
@@ -1461,7 +1473,9 @@ def main():
     print("[Fetching senato.it metadata]")
     for i, atto in enumerate(atti):
         lavori = atto.get("lavori_preparatori", "")
-        senato_links = [l for l in lavori.split("\n") if "senato.it" in l and "ddl" in l]
+        # Handle both string (from scraping) and list (from manual overrides)
+        lavori_list = lavori if isinstance(lavori, list) else lavori.split("\n") if lavori else []
+        senato_links = [l for l in lavori_list if "senato.it" in str(l) and "ddl" in str(l)]
         if senato_links:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}...", end=" ", flush=True)
             try:
@@ -1475,16 +1489,6 @@ def main():
                 print(f"error ({str(e)[:50]}...)")
         else:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}... no senato.it link")
-
-    # Apply manual overrides from YAML file
-    print("\n[Applying manual overrides]")
-    manual_overrides = load_manual_overrides()
-    if manual_overrides:
-        print(f"  Loaded {len(manual_overrides)} override(s) from {MANUAL_OVERRIDES_FILE.name}")
-        for i, atto in enumerate(atti):
-            atti[i] = apply_manual_overrides(atto, manual_overrides)
-    else:
-        print(f"  No manual overrides found in {MANUAL_OVERRIDES_FILE.name}")
 
     # Final save with all metadata
     print("\n[Final save - all metadata included]")
