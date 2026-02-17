@@ -229,6 +229,21 @@ def extract_links(html):
     return links
 
 
+def extract_text_content(html):
+    """Extract cleaned text content from HTML, preserving some structure."""
+    # Remove script and style elements
+    soup = BeautifulSoup(html, 'html.parser')
+    for script in soup(["script", "style"]):
+        script.decompose()
+
+    # Get text
+    text = soup.get_text(separator='\n', strip=True)
+
+    # Clean up excessive whitespace while preserving line breaks
+    lines = [line.strip() for line in text.split('\n') if line.strip()]
+    return '\n'.join(lines)
+
+
 @retry_request(max_retries=3, initial_delay=2)
 def fetch_camera_metadata(session, camera_url: str) -> dict:
     """Fetch and parse metadata from a camera.it RDF endpoint.
@@ -669,25 +684,36 @@ def fetch_senato_metadata(session, senato_url: str) -> dict:
                 result["senato-teseo"] = teseo_terms
 
     # Build votazioni tab URL and fetch voting info
+    # This is optional - if it fails, we still return the metadata collected so far
     votazioni_url = f"https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?tab=votazioni&did={did}"
     result["senato-votazioni-url"] = votazioni_url
 
-    vot_resp = session.get(votazioni_url, timeout=30)
-    vot_resp.raise_for_status()
-    vot_soup = BeautifulSoup(vot_resp.text, 'html.parser')
+    try:
+        vot_resp = session.get(votazioni_url, timeout=30)
+        vot_resp.raise_for_status()
+        vot_soup = BeautifulSoup(vot_resp.text, 'html.parser')
 
-    # Find votazione finale link
-    for li in vot_soup.find_all('li'):
-        strong = li.find('strong')
-        if strong and 'Votazione finale' in strong.get_text():
-            # Extract link to vote detail
-            vote_link = li.find('a', class_='schedaCamera')
-            if vote_link and vote_link.get('href'):
-                href = vote_link['href']
-                if not href.startswith('http'):
-                    href = 'https://www.senato.it' + href
-                result["senato-votazione-finale"] = href
-            break
+        # Find votazione finale link
+        found_vote_link = False
+        for li in vot_soup.find_all('li'):
+            strong = li.find('strong')
+            if strong and 'Votazione finale' in strong.get_text():
+                # Extract link to vote detail
+                vote_link = li.find('a', class_='schedaCamera')
+                if vote_link and vote_link.get('href'):
+                    href = vote_link['href']
+                    if not href.startswith('http'):
+                        href = 'https://www.senato.it' + href
+                    result["senato-votazione-finale"] = href
+                    found_vote_link = True
+                break
+
+        # Warn if voting page loaded but no final vote link found
+        if not found_vote_link:
+            result["senato-votazione-finale-warning"] = "Votazione finale link not found on voting page"
+    except Exception as e:
+        # If voting data is unavailable, record the failure reason
+        result["senato-votazione-finale-warning"] = f"Voting page unavailable: {str(e)[:100]}"
 
     # Look for data presentazione (submission date)
     for pattern in [
@@ -726,52 +752,116 @@ def fetch_senato_metadata(session, senato_url: str) -> dict:
 
 
 @retry_request(max_retries=3, initial_delay=2)
-def fetch_article_html(session, data_gu: str, codice: str, id_articolo: int, data_vigenza: str) -> str:
+def fetch_articles_via_scraping(session, data_gu: str, codice: str, data_vigenza: str) -> list:
     """
-    Fetch HTML for a SPECIFIC article from Normattiva API.
+    Fetch ALL articles by scraping the normattiva.it web page directly.
 
-    IMPORTANT: Must call this for EACH article individually.
-    The API returns different HTML for each idArticolo value.
+    This method replaces the old API-based approach which required individual requests
+    per article. Instead, we:
+    1. Load the main page to get the article index
+    2. Fetch each article's HTML from the web interface
+    3. Return all articles in a single call
 
     Args:
         session: requests.Session with established cookies
         data_gu: Data pubblicazione GU (YYYY-MM-DD format)
         codice: Codice redazionale
-        id_articolo: Article number (REQUIRED - must fetch each article separately)
-        data_vigenza: Data di vigenza from markdown (YYYY-MM-DD format)
+        data_vigenza: Data di vigenza (YYYY-MM-DD format)
 
     Returns:
-        str: HTML of the specific article, or empty string if failed
+        list: List of dicts with 'numero' (int) and 'html' (str) keys
+              Returns empty list if scraping fails
     """
-    url = f"{BASE_URL}/atto/dettaglio-atto"
+    articoli = []
 
-    payload = {
-        "dataGU": data_gu,
-        "codiceRedazionale": codice,
-        "idArticolo": id_articolo,
-        "versione": 0,
-        "dataVigenza": data_vigenza,
-    }
+    if not data_gu or not codice or not data_vigenza:
+        return articoli
+
+    # Convert yyyy-mm-dd to dd/mm/yyyy for URL parameter
+    try:
+        vig_date = datetime.strptime(data_vigenza, "%Y-%m-%d")
+        data_vigenza_ddmmyyyy = vig_date.strftime("%d/%m/%Y")
+    except ValueError:
+        data_vigenza_ddmmyyyy = data_vigenza
+
+    # Load the main page to get the article index
+    main_url = f"https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}&tipoDettaglio=singolavigenza&dataVigenza={data_vigenza_ddmmyyyy}"
 
     try:
-        resp = session.post(url, json=payload, timeout=30)
-        resp.raise_for_status()
-        result = resp.json()
-
-        if result.get("success") and "data" in result:
-            atto = result["data"].get("atto", {})
-            return atto.get("articoloHtml", "")
-
-        return ""
-
+        main_resp = session.get(main_url, timeout=30)
+        main_resp.raise_for_status()
     except Exception as e:
-        return ""
+        print(f"\n      Error loading main page: {str(e)[:100]}")
+        return articoli
+
+    soup = BeautifulSoup(main_resp.text, 'html.parser')
+
+    # Find all article links in the index
+    articles_links = soup.find_all('a', class_='numero_articolo', onclick=True)
+
+    if not articles_links:
+        # No articles found - might be a single-article act or different structure
+        # Try to get the main content directly
+        content_div = soup.find('div', class_='bodyTesto')
+        if content_div:
+            # Single article or full text available
+            articoli.append({
+                "numero": 1,
+                "html": str(content_div)
+            })
+        return articoli
+
+    # Process each article link
+    for link in articles_links:
+        art_num_text = link.get_text(strip=True)
+        onclick_content = link.get('onclick', '')
+
+        # Extract article path from onclick="return showArticle('/atto/caricaArticolo?...', this);"
+        match = re.search(r"showArticle\('([^']+)'", onclick_content)
+        if not match:
+            continue
+
+        art_path = match.group(1)
+        art_url = NORMATTIVA_SITE + art_path.replace("&amp;", "&")
+
+        try:
+            art_resp = session.get(art_url, timeout=30)
+            art_resp.raise_for_status()
+
+            art_soup = BeautifulSoup(art_resp.text, 'html.parser')
+            content_div = art_soup.find('div', class_='bodyTesto')
+
+            if content_div:
+                # Determine article number
+                # art_num_text might be "1", "2", "Allegato", etc.
+                try:
+                    art_num = int(art_num_text)
+                except ValueError:
+                    # For non-numeric articles (Allegato, etc.), use position-based numbering
+                    art_num = len(articoli) + 1
+
+                articoli.append({
+                    "numero": art_num,
+                    "html": str(content_div)
+                })
+
+            # Small delay to avoid rate limiting
+            time.sleep(0.3)
+
+        except Exception as e:
+            # Log error but continue processing other articles
+            print(f"\n      Error fetching article {art_num_text}: {str(e)[:100]}")
+            continue
+
+    return articoli
 
 
 @retry_request(max_retries=3, initial_delay=2)
 def fetch_approfondimenti(session, uri):
     """Load the N2Ls page, find active approfondimento endpoints, fetch and parse links.
     Returns dict: {column_name: "link1; link2; ...", "gu_link": "..."} for all APPROFONDIMENTO_COLUMNS.
+
+    For lavori_preparatori: if no links are found, extracts raw text content as fallback.
 
     Raises:
         Exception: If HTTP request fails
@@ -805,6 +895,12 @@ def fetch_approfondimenti(session, uri):
         links = extract_links(sub.text)
         if links:
             result[col] = "\n".join(links)
+        elif col == "lavori_preparatori":
+            # For lavori_preparatori, if no camera/senato links found,
+            # extract the raw text content as fallback (issue #59)
+            text_content = extract_text_content(sub.text)
+            if text_content:
+                result[col] = text_content
 
     return result
 
@@ -1020,10 +1116,26 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             content = atto.get(col, "")
             if content:
                 col_name = col.replace("_", "-")
-                lines.append(f"{col_name}:")
-                for link in content.split("\n"):
-                    if link.strip():
-                        lines.append(f"  - {link.strip()}")
+
+                # Check if content is a URL list or raw text
+                # If it contains line breaks and doesn't look like URLs, treat as text
+                lines_in_content = content.split("\n")
+                is_url_list = all(
+                    line.strip().startswith("http") or not line.strip()
+                    for line in lines_in_content
+                )
+
+                if is_url_list:
+                    # Format as list of links
+                    lines.append(f"{col_name}:")
+                    for link in lines_in_content:
+                        if link.strip():
+                            lines.append(f"  - {link.strip()}")
+                else:
+                    # Format as multi-line text block using YAML literal style
+                    lines.append(f"{col_name}: |")
+                    for line in lines_in_content:
+                        lines.append(f"  {line}")
 
         # Camera metadata (from lavori preparatori RDF)
         if atto.get("legislatura"):
@@ -1091,6 +1203,8 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             lines.append(f"senato-votazioni-url: {atto.get('senato-votazioni-url')}")
         if atto.get("senato-votazione-finale"):
             lines.append(f"senato-votazione-finale: {atto.get('senato-votazione-finale')}")
+        # Note: senato-votazione-finale-warning is kept in memory for PR descriptions
+        # but not written to markdown frontmatter (user preference)
         if atto.get("senato-documenti"):
             lines.append("senato-documenti:")
             for doc_link in atto.get("senato-documenti", []):
@@ -1231,8 +1345,8 @@ def main():
             for col in APPROFONDIMENTO_COLUMNS:
                 atto[col] = ""
 
-    # Fetch article HTML for each atto
-    print("[Fetching article HTML]")
+    # Fetch article HTML for each atto using web scraping
+    print("[Fetching article HTML via web scraping]")
     for i, atto in enumerate(atti):
         data_gu = atto.get("dataGU", "")
         codice = atto.get("codiceRedazionale", "")
@@ -1245,25 +1359,15 @@ def main():
 
         print(f"  [{i+1}/{len(atti)}] {codice}...", end=" ", flush=True)
 
-        # Try fetching up to 30 articles (stop when we get empty response)
-        articoli = []
-        for article_num in range(1, 31):
-            html = fetch_article_html(session, data_gu, codice, article_num, data_vigenza)
-
-            if not html or len(html) < 100:
-                # No more articles found
-                break
-
-            articoli.append({
-                "numero": article_num,
-                "html": html
-            })
-
-            # Small delay to avoid rate limiting
-            time.sleep(0.3)
+        # Fetch all articles at once via web scraping
+        articoli = fetch_articles_via_scraping(session, data_gu, codice, data_vigenza)
 
         atto["articoli"] = articoli
-        print(f"{len(articoli)} articles ({sum(len(a['html']) for a in articoli):,} chars)")
+        if articoli:
+            total_chars = sum(len(a['html']) for a in articoli)
+            print(f"{len(articoli)} articles ({total_chars:,} chars)")
+        else:
+            print("no articles found")
 
     # Save after article HTML fetching (most time-consuming and important step)
     print("\n[Saving after article HTML fetch]")
@@ -1301,6 +1405,9 @@ def main():
                 senato_meta = fetch_senato_metadata(session, senato_links[0])
                 atto.update(senato_meta)
                 print(f"DDL {senato_meta.get('senato-numero-fase', '?')}, did {senato_meta.get('senato-did', '?')}")
+                # Check for voting link warning
+                if senato_meta.get("senato-votazione-finale-warning"):
+                    print(f"    ⚠ {senato_meta.get('senato-votazione-finale-warning')}")
             except Exception as e:
                 print(f"error ({str(e)[:50]}...)")
         else:
