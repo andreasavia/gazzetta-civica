@@ -1203,8 +1203,8 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             lines.append(f"senato-votazioni-url: {atto.get('senato-votazioni-url')}")
         if atto.get("senato-votazione-finale"):
             lines.append(f"senato-votazione-finale: {atto.get('senato-votazione-finale')}")
-        if atto.get("senato-votazione-finale-warning"):
-            lines.append(f"senato-votazione-finale-warning: \"{atto.get('senato-votazione-finale-warning')}\"")
+        # Note: senato-votazione-finale-warning is kept in memory for PR descriptions
+        # but not written to markdown frontmatter (user preference)
         if atto.get("senato-documenti"):
             lines.append("senato-documenti:")
             for doc_link in atto.get("senato-documenti", []):
