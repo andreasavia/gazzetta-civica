@@ -1297,6 +1297,15 @@ def main():
 
     # Filter out norms that already have PR branches
     print("\n[Checking for existing PR branches]")
+    # Fetch remote branches to get the latest PR branches
+    import subprocess
+    try:
+        print("  Fetching remote branches...")
+        subprocess.run(["git", "fetch", "origin"], capture_output=True, timeout=30, check=True)
+    except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
+        print(f"  ⚠ Warning: Could not fetch remote branches: {str(e)[:100]}")
+        print("  Continuing with local branch information only...")
+
     pre_pr_count = len(atti)
     atti = [atto for atto in atti if not check_pr_branch_exists(atto.get("codiceRedazionale", ""))]
     pr_filtered_count = pre_pr_count - len(atti)
