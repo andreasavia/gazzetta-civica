@@ -1165,11 +1165,17 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             if content:
                 col_name = col.replace("_", "-")
 
+                # Handle both string content (from scraping) and list content (from manual overrides)
+                if isinstance(content, list):
+                    # Content is already a list (from YAML manual override)
+                    lines_in_content = content
+                else:
+                    # Content is a string (from scraping), split by newlines
+                    lines_in_content = content.split("\n")
+
                 # Check if content is a URL list or raw text
-                # If it contains line breaks and doesn't look like URLs, treat as text
-                lines_in_content = content.split("\n")
                 is_url_list = all(
-                    line.strip().startswith("http") or not line.strip()
+                    str(line).strip().startswith("http") or not str(line).strip()
                     for line in lines_in_content
                 )
 
@@ -1177,8 +1183,8 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
                     # Format as list of links
                     lines.append(f"{col_name}:")
                     for link in lines_in_content:
-                        if link.strip():
-                            lines.append(f"  - {link.strip()}")
+                        if str(link).strip():
+                            lines.append(f"  - {str(link).strip()}")
                 else:
                     # Format as multi-line text block using YAML literal style
                     lines.append(f"{col_name}: |")
