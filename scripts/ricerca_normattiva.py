@@ -40,7 +40,7 @@ HEADERS = {"Content-Type": "application/json"}
 OUTPUT_DIR = Path(__file__).parent.parent / "data"
 VAULT_DIR = Path(__file__).parent.parent / "content" / "leggi"
 NORMATTIVA_SITE = "https://www.normattiva.it"
-MANUAL_OVERRIDES_FILE = Path(__file__).parent.parent / "data" / "manual_overrides.yaml"
+MANUAL_OVERRIDES_FILE = Path(__file__).parent / "normattiva_overrides.yaml"
 
 # Global list to track failed requests for manual review
 REQUEST_FAILURES = []
