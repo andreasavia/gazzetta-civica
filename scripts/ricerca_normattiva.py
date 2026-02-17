@@ -229,6 +229,21 @@ def extract_links(html):
     return links
 
 
+def extract_text_content(html):
+    """Extract cleaned text content from HTML, preserving some structure."""
+    # Remove script and style elements
+    soup = BeautifulSoup(html, 'html.parser')
+    for script in soup(["script", "style"]):
+        script.decompose()
+
+    # Get text
+    text = soup.get_text(separator='\n', strip=True)
+
+    # Clean up excessive whitespace while preserving line breaks
+    lines = [line.strip() for line in text.split('\n') if line.strip()]
+    return '\n'.join(lines)
+
+
 @retry_request(max_retries=3, initial_delay=2)
 def fetch_camera_metadata(session, camera_url: str) -> dict:
     """Fetch and parse metadata from a camera.it RDF endpoint.
@@ -846,6 +861,8 @@ def fetch_approfondimenti(session, uri):
     """Load the N2Ls page, find active approfondimento endpoints, fetch and parse links.
     Returns dict: {column_name: "link1; link2; ...", "gu_link": "..."} for all APPROFONDIMENTO_COLUMNS.
 
+    For lavori_preparatori: if no links are found, extracts raw text content as fallback.
+
     Raises:
         Exception: If HTTP request fails
     """
@@ -878,6 +895,12 @@ def fetch_approfondimenti(session, uri):
         links = extract_links(sub.text)
         if links:
             result[col] = "\n".join(links)
+        elif col == "lavori_preparatori":
+            # For lavori_preparatori, if no camera/senato links found,
+            # extract the raw text content as fallback (issue #59)
+            text_content = extract_text_content(sub.text)
+            if text_content:
+                result[col] = text_content
 
     return result
 
@@ -1093,10 +1116,26 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             content = atto.get(col, "")
             if content:
                 col_name = col.replace("_", "-")
-                lines.append(f"{col_name}:")
-                for link in content.split("\n"):
-                    if link.strip():
-                        lines.append(f"  - {link.strip()}")
+
+                # Check if content is a URL list or raw text
+                # If it contains line breaks and doesn't look like URLs, treat as text
+                lines_in_content = content.split("\n")
+                is_url_list = all(
+                    line.strip().startswith("http") or not line.strip()
+                    for line in lines_in_content
+                )
+
+                if is_url_list:
+                    # Format as list of links
+                    lines.append(f"{col_name}:")
+                    for link in lines_in_content:
+                        if link.strip():
+                            lines.append(f"  - {link.strip()}")
+                else:
+                    # Format as multi-line text block using YAML literal style
+                    lines.append(f"{col_name}: |")
+                    for line in lines_in_content:
+                        lines.append(f"  {line}")
 
         # Camera metadata (from lavori preparatori RDF)
         if atto.get("legislatura"):
