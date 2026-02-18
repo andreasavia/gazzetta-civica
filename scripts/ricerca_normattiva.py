@@ -489,6 +489,12 @@ def fetch_camera_metadata(session, camera_url: str) -> dict:
         if html_firmatari:
             result["camera-firmatari"] = html_firmatari
 
+    # Collect seduta IDs referenced anywhere on the bill page (iter table,
+    # voting links, etc.) so we can fetch stenographic transcripts later.
+    seduta_ids = extract_seduta_ids(html_text)
+    if seduta_ids:
+        result["camera-seduta-ids"] = seduta_ids
+
     return result
 
 
@@ -519,6 +525,22 @@ def parse_html_firmatari(html: str, legislatura: str) -> list:
         })
 
     return firmatari
+
+
+def extract_seduta_ids(html: str) -> list:
+    """Return unique seduta IDs found in any camera.it bill page HTML.
+
+    Scans for all occurrences of idSeduta=XXXX (present in stenographic links,
+    voting links, iter tables, etc.) and returns them in order of appearance.
+    """
+    seen = set()
+    ids = []
+    for match in re.finditer(r'idSeduta=(\d+)', html):
+        sid = match.group(1)
+        if sid not in seen:
+            seen.add(sid)
+            ids.append(sid)
+    return ids
 
 
 @retry_request(max_retries=3, initial_delay=2)
@@ -1296,6 +1318,108 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
     return law_metadata
 
 
+def fetch_and_save_interventi(atti: list, vault_dir: Path) -> list:
+    """Fetch and save stenographic speeches (interventi) for each processed law.
+
+    For each law whose camera.it bill page referenced at least one seduta, this
+    function fetches the XML stenographic record for every seduta and saves the
+    speeches as ``interventi/sed{XXXX}.md`` inside the law's norm directory.
+
+    Requires fetch_intervento.py to be present in the same scripts/ directory.
+
+    Returns:
+        list: Failure records suitable for writing to data/interventi_failures.json.
+    """
+    try:
+        from fetch_intervento import (
+            try_fetch_xml,
+            parse_xml_stenografico,
+            format_as_markdown as _format_intervento_md,
+        )
+    except ImportError:
+        print("  ⚠ fetch_intervento.py not found — skipping interventi")
+        return []
+
+    failures = []
+
+    for i, atto in enumerate(atti):
+        codice = atto.get("codiceRedazionale", "unknown")
+        seduta_ids = atto.get("camera-seduta-ids", [])
+        legislatura = atto.get("legislatura", "19")
+
+        if not seduta_ids:
+            print(f"  [{i+1}/{len(atti)}] {codice}... no seduta IDs found")
+            continue
+
+        # Resolve norm directory using emanation date (mirrors save_markdown logic)
+        data_emanazione = atto.get("dataEmanazione", "")[:10]
+        numero_provv = atto.get("numeroProvvedimento", "0")
+        try:
+            eman_date = datetime.strptime(data_emanazione, "%Y-%m-%d")
+            year = str(eman_date.year)
+            month = f"{eman_date.month:02d}"
+            day = f"{eman_date.day:02d}"
+        except ValueError:
+            print(f"  [{i+1}/{len(atti)}] {codice}... invalid date, skipping")
+            continue
+
+        norm_dir = vault_dir / year / month / day / f"n. {numero_provv}"
+        if not norm_dir.exists():
+            continue
+
+        print(f"  [{i+1}/{len(atti)}] {codice}... {len(seduta_ids)} seduta ID(s)")
+
+        interventi_dir = norm_dir / "interventi"
+        saved_count = 0
+
+        for seduta_id in seduta_ids:
+            try:
+                xml_success, xml_content = try_fetch_xml(legislatura, seduta_id)
+                if not xml_success or not xml_content:
+                    msg = f"XML not available for seduta {seduta_id}"
+                    print(f"    Seduta {seduta_id}: XML not available")
+                    failures.append({"codice": codice, "seduta_id": seduta_id, "error": msg})
+                    continue
+
+                xml_data = parse_xml_stenografico(xml_content, "")
+                speeches = xml_data.get("speeches", [])
+
+                if not speeches:
+                    msg = f"No speeches parsed from XML for seduta {seduta_id}"
+                    print(f"    Seduta {seduta_id}: no speeches parsed")
+                    failures.append({"codice": codice, "seduta_id": seduta_id, "error": msg})
+                    continue
+
+                xml_data.update({
+                    "anchor_id": "",
+                    "seduta_id": seduta_id,
+                    "url": (
+                        f"https://www.camera.it/leg{legislatura}/410"
+                        f"?idSeduta={seduta_id}&tipo=stenografico"
+                    ),
+                })
+
+                interventi_dir.mkdir(exist_ok=True)
+                markdown = _format_intervento_md(xml_data)
+                output_path = interventi_dir / f"sed{seduta_id}.md"
+                output_path.write_text(markdown, encoding="utf-8")
+                print(f"    Seduta {seduta_id}: {len(speeches)} speeches → {output_path.name}")
+                saved_count += 1
+
+                time.sleep(1)
+
+            except Exception as e:
+                msg = str(e)[:200]
+                print(f"    Seduta {seduta_id}: error ({msg[:80]})")
+                failures.append({"codice": codice, "seduta_id": seduta_id, "error": msg})
+                continue
+
+        if saved_count:
+            print(f"    ✅ {saved_count} file(s) saved in {interventi_dir.relative_to(vault_dir.parent.parent)}")
+
+    return failures
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Search norms on Normattiva by year and month.",
@@ -1511,6 +1635,19 @@ def main():
             "timestamp": datetime.now().isoformat()
         }, failures_file)
         print(f"  ⚠ Request failures: {failures_file} ({len(REQUEST_FAILURES)} failures)")
+        print(f"    These will be flagged in the PR for manual review")
+
+    # Fetch and save parliamentary speeches — runs last so all metadata is settled
+    print("\n[Fetching parliamentary speeches (interventi)]")
+    interventi_failures = fetch_and_save_interventi(atti, VAULT_DIR)
+    if interventi_failures:
+        interventi_failures_file = OUTPUT_DIR / "interventi_failures.json"
+        save_json({
+            "failures": interventi_failures,
+            "count": len(interventi_failures),
+            "timestamp": datetime.now().isoformat()
+        }, interventi_failures_file)
+        print(f"  ⚠ Interventi failures: {interventi_failures_file} ({len(interventi_failures)} failures)")
         print(f"    These will be flagged in the PR for manual review")
 
     # Preview
