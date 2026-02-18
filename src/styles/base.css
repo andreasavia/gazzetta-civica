@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #1a1a1a;
+  --color-text: #1a1a1a;
+  --color-muted: #5c5c5c;
+  --color-bg: #f5f3f0;
+  --color-surface: #ffffff;
+  --color-border: #d4d0c8;
+  --max-width: 900px;
+  --header-height: 80px;
+
+  /* Italian flag colors */
+  --color-green: #009246;
+  --color-green-dark: #007a3d;
+  --color-green-rgb: 0, 146, 70;
+  --color-red: #ce2b37;
+  --color-red-rgb: 206, 43, 55;
+
+  /* Shadow scale */
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+  /* Transition timing */
+  --transition-fast: 0.1s ease;
+  --transition-base: 0.2s ease;
+}
+
+html {
+  height: 100%;
+  background: var(--color-bg);
+}
+
+body {
+  min-height: 100%;
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 0.5rem;
+  font-weight: normal;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+ul {
+  list-style: none;
+}

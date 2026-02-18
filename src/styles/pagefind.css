@@ -1,0 +1,57 @@
+/* Pagefind search UI customization */
+.pagefind-ui {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.pagefind-ui__search-input {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.pagefind-ui__search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.pagefind-ui__result {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: var(--color-surface);
+}
+
+.pagefind-ui__result-title {
+  font-family: 'Merriweather', Georgia, serif;
+  color: var(--color-primary);
+}
+
+.pagefind-ui__result-excerpt {
+  font-family: 'Merriweather', Georgia, serif;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.pagefind-ui__button {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagefind-ui__button:hover {
+  opacity: 0.9;
+}
+
+.pagefind-ui__message {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--color-muted);
+}
