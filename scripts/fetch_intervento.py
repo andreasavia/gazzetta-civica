@@ -13,6 +13,7 @@ Example:
 """
 
 import sys
+import json
 import argparse
 import requests
 from urllib.parse import urlparse, parse_qs
@@ -358,9 +359,30 @@ def lookup_deputato_by_label(label: str, legislatura: str) -> tuple[str, str, st
     return None
 
 
+def _yaml_val(value) -> str:
+    """Render a value as a YAML scalar, quoting strings that need it."""
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return str(value)
+    s = str(value)
+    # Use JSON double-quoted string for values with special YAML characters
+    if any(c in s for c in ':#"\'{}[]|>&!?@`%,\n\r\t'):
+        return json.dumps(s, ensure_ascii=False)
+    return s
+
+
 def format_as_markdown(data: dict) -> str:
     """Format the intervento section data as markdown with individual speeches."""
-    md = f"# {data['section_title']} - Seduta {data['seduta_id']}\n\n"
+    md = ""
+    if data.get('frontmatter'):
+        md = "---\n"
+        for key, value in data['frontmatter'].items():
+            md += f"{key}: {_yaml_val(value)}\n"
+        md += "---\n\n"
+    md += f"# {data['section_title']} - Seduta {data['seduta_id']}\n\n"
     md += f"**Data:** {data['date']}\n\n"
     md += f"**Seduta:** {data['seduta_id']}\n\n"
     md += f"**Numero di interventi:** {len(data['speeches'])}\n\n"

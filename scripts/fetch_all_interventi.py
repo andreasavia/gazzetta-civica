@@ -86,6 +86,18 @@ def main():
     with open(dibattiti_path, 'r', encoding='utf-8') as f:
         dibattiti_data = json.load(f)
 
+    # Build seduta_id → discussione mapping for frontmatter enrichment
+    seduta_to_discussione = {}
+    for _dib in dibattiti_data.get('dibattiti', []):
+        for _disc in _dib.get('discussioni', []):
+            for _int in _disc.get('interventi', []):
+                _testo = _int.get('testo', '')
+                if _testo:
+                    _sid = parse_qs(urlparse(_testo).query).get('idSeduta', [''])[0]
+                    if _sid:
+                        seduta_to_discussione[_sid] = _disc
+                        break
+
     # Extract interventi grouped by seduta
     sedute = extract_interventi_by_seduta(dibattiti_data)
 
@@ -163,6 +175,17 @@ def main():
             xml_data['seduta_id'] = seduta_id
             xml_data['anchor_id'] = ", ".join(sorted(json_anchors)) if json_anchors else f"sed{seduta_id}.complete"
             xml_data['url'] = items[0]['url']  # Use first URL as reference
+
+            # Add frontmatter metadata from dibattiti.json
+            disc = seduta_to_discussione.get(seduta_id, {})
+            xml_data['frontmatter'] = {
+                'tipo': 'INTERVENTI',
+                'camera-atto-iri': dibattiti_data['metadata']['atto_iri'],
+                'seduta': seduta_id,
+                'data-seduta': xml_data.get('date_iso', ''),
+                'seduta-url': disc.get('seduta_url', ''),
+                'argomento': disc.get('argomento', ''),
+            }
 
             # Accumulate speech texts for JSON enrichment
             for speech in xml_data['speeches']:
