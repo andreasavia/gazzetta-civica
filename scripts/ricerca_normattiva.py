@@ -1296,6 +1296,85 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
     return law_metadata
 
 
+def fetch_and_save_interventi(atti: list, vault_dir: Path) -> list:
+    """Fetch and save stenographic speeches (interventi) for each processed law.
+
+    Mirrors fetch-dibattiti.yml exactly:
+    1. fetch_dibattiti_single_query.py  — SPARQL query filtered to
+       "Discussione in Assemblea", saves dibattiti.json.
+    2. fetch_all_interventi.py          — reads dibattiti.json, fetches XML
+       per seduta, filters to specific anchors, saves {date}-sed{id}.md.
+
+    Returns:
+        list: Failure records for data/interventi_failures.json.
+    """
+    import subprocess
+
+    SCRIPTS_DIR = Path(__file__).parent
+    FILTER_TITLE = "Discussione in Assemblea"
+    failures = []
+
+    for i, atto in enumerate(atti):
+        codice = atto.get("codiceRedazionale", "unknown")
+        atto_iri = atto.get("camera-atto-iri", "")
+
+        if not atto_iri:
+            print(f"  [{i+1}/{len(atti)}] {codice}... no camera-atto-iri, skipping")
+            continue
+
+        # Resolve norm directory (mirrors save_markdown logic)
+        data_emanazione = atto.get("dataEmanazione", "")[:10]
+        numero_provv = atto.get("numeroProvvedimento", "0")
+        try:
+            eman_date = datetime.strptime(data_emanazione, "%Y-%m-%d")
+            year = str(eman_date.year)
+            month = f"{eman_date.month:02d}"
+            day = f"{eman_date.day:02d}"
+        except ValueError:
+            print(f"  [{i+1}/{len(atti)}] {codice}... invalid date, skipping")
+            continue
+
+        norm_dir = vault_dir / year / month / day / f"n. {numero_provv}"
+        if not norm_dir.exists():
+            continue
+
+        interventi_dir = norm_dir / "interventi"
+        interventi_dir.mkdir(exist_ok=True)
+        dibattiti_path = interventi_dir / "dibattiti.json"
+
+        print(f"  [{i+1}/{len(atti)}] {codice}...")
+
+        # Step 1: fetch dibattiti via SPARQL
+        result = subprocess.run(
+            [
+                "python", str(SCRIPTS_DIR / "fetch_dibattiti_single_query.py"),
+                atto_iri, "-o", str(dibattiti_path),
+                "--filter-title", FILTER_TITLE,
+            ],
+            capture_output=True, text=True,
+        )
+        if result.returncode != 0:
+            msg = f"fetch_dibattiti_single_query failed: {(result.stderr or result.stdout)[:300]}"
+            print(f"    ✗ {msg[:120]}")
+            failures.append({"codice": codice, "seduta_id": "", "error": msg})
+            continue
+
+        # Step 2: fetch all interventi from dibattiti.json
+        result = subprocess.run(
+            ["python", str(SCRIPTS_DIR / "fetch_all_interventi.py"), str(dibattiti_path)],
+            capture_output=True, text=True,
+        )
+        if result.returncode != 0:
+            msg = f"fetch_all_interventi failed: {(result.stderr or result.stdout)[:300]}"
+            print(f"    ✗ {msg[:120]}")
+            failures.append({"codice": codice, "seduta_id": "", "error": msg})
+            continue
+
+        print(f"    ✅ interventi saved in {interventi_dir.relative_to(vault_dir.parent.parent)}")
+
+    return failures
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Search norms on Normattiva by year and month.",
@@ -1511,6 +1590,19 @@ def main():
             "timestamp": datetime.now().isoformat()
         }, failures_file)
         print(f"  ⚠ Request failures: {failures_file} ({len(REQUEST_FAILURES)} failures)")
+        print(f"    These will be flagged in the PR for manual review")
+
+    # Fetch and save parliamentary speeches — runs last so all metadata is settled
+    print("\n[Fetching parliamentary speeches (interventi)]")
+    interventi_failures = fetch_and_save_interventi(atti, VAULT_DIR)
+    if interventi_failures:
+        interventi_failures_file = OUTPUT_DIR / "interventi_failures.json"
+        save_json({
+            "failures": interventi_failures,
+            "count": len(interventi_failures),
+            "timestamp": datetime.now().isoformat()
+        }, interventi_failures_file)
+        print(f"  ⚠ Interventi failures: {interventi_failures_file} ({len(interventi_failures)} failures)")
         print(f"    These will be flagged in the PR for manual review")
 
     # Preview

@@ -93,19 +93,19 @@ jobs:
 
           # Check for request failures and prepare warnings file
           has_warnings=false
+          > /tmp/warnings.md
+
           if [ -f "data/request_failures.json" ]; then
             failure_count=$(jq '.count' data/request_failures.json)
             echo "⚠ Found $failure_count request failures that will be flagged in PRs"
             has_warnings=true
 
-            # Build warnings section in a separate file
             {
               echo ""
               echo "## ⚠️ Request Failures"
               echo ""
               echo "During data collection, **${failure_count} HTTP request(s) failed** after 3 retry attempts. These may require manual review:"
               echo ""
-              # Add failure details
               for j in $(seq 0 $((failure_count - 1))); do
                 func=$(jq -r ".failures[$j].function" data/request_failures.json)
                 error=$(jq -r ".failures[$j].error" data/request_failures.json | head -c 200)
@@ -113,7 +113,29 @@ jobs:
               done
               echo ""
               echo "Please verify the law data is complete. Check the [workflow run logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
-            } > /tmp/warnings.md
+            } >> /tmp/warnings.md
+          fi
+
+          if [ -f "data/interventi_failures.json" ]; then
+            interventi_failure_count=$(jq '.count' data/interventi_failures.json)
+            echo "⚠ Found $interventi_failure_count interventi failures that will be flagged in PRs"
+            has_warnings=true
+
+            {
+              echo ""
+              echo "## ⚠️ Interventi (Stenographic Transcripts) — Fetch Failures"
+              echo ""
+              echo "**${interventi_failure_count} seduta(e)** could not be fetched or parsed. The \`interventi/\` folder may be incomplete:"
+              echo ""
+              for j in $(seq 0 $((interventi_failure_count - 1))); do
+                codice=$(jq -r ".failures[$j].codice" data/interventi_failures.json)
+                seduta=$(jq -r ".failures[$j].seduta_id" data/interventi_failures.json)
+                error=$(jq -r ".failures[$j].error" data/interventi_failures.json | head -c 200)
+                echo "- **${codice}** seduta \`${seduta}\`: \`${error}\`"
+              done
+              echo ""
+              echo "Check the [workflow run logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+            } >> /tmp/warnings.md
           fi
 
           # Process each new law

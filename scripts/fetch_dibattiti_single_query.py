@@ -58,7 +58,7 @@ def fetch_all_dibattiti_data(atto_iri: str, filter_title: str = None) -> Dict:
         ?attoTipo ?attoTitolo ?attoIniziativa ?attoDataPresentazione
         ?dibattito ?dibattitoTitolo ?dibattitoData
         ?discussione ?discussioneArgomento ?seduta ?dataSeduta
-        ?intervento ?deputato ?deputatoNome ?deputatoCognome ?testoLink
+        ?intervento ?interventoLabel ?deputato ?deputatoNome ?deputatoCognome ?testoLink
     WHERE {{
         # Atto metadata
         <{atto_iri}> rdf:type ?attoTipo .
@@ -86,6 +86,7 @@ def fetch_all_dibattiti_data(atto_iri: str, filter_title: str = None) -> Dict:
             # Interventi within each discussione
             OPTIONAL {{
                 ?discussione ocd:rif_intervento ?intervento .
+                OPTIONAL {{ ?intervento rdfs:label ?interventoLabel }}
                 OPTIONAL {{ ?intervento dc:relation ?testoLink }}
                 OPTIONAL {{
                     ?intervento ocd:rif_deputato ?deputato .
@@ -197,6 +198,7 @@ def process_query_results(atto_iri: str, bindings: List[Dict]) -> Dict:
                 if not any(i.get("intervento") == int_iri for i in disc_map["interventi"]):
                     intervento = {
                         "intervento": int_iri,
+                        "label": row.get("interventoLabel", {}).get("value"),
                         "deputato": row.get("deputato", {}).get("value"),
                         "nome": row.get("deputatoNome", {}).get("value"),
                         "cognome": row.get("deputatoCognome", {}).get("value"),

@@ -262,12 +262,107 @@ def fetch_intervento(url: str) -> dict:
     return xml_data
 
 
+def build_camera_person_url(deputato_iri: str) -> str | None:
+    """
+    Build a camera.it person URL from a deputato IRI.
+
+    IRI format: http://dati.camera.it/ocd/deputato.rdf/d307388_19
+    Output:     https://www.camera.it/deputati/elenco/19-307388
+    """
+    if not deputato_iri:
+        return None
+    try:
+        last_part = deputato_iri.rstrip('/').split('/')[-1]  # d307388_19
+        if not last_part.startswith('d'):
+            return None
+        inner = last_part[1:]  # 307388_19
+        person_id, legislatura = inner.rsplit('_', 1)
+        return f"https://www.camera.it/deputati/elenco/{legislatura}-{person_id}"
+    except Exception:
+        return None
+
+
+_deputato_label_cache: dict[str, tuple[str, str, str, str] | None] = {}
+
+
+def lookup_deputato_by_label(label: str, legislatura: str) -> tuple[str, str, str, str] | None:
+    """
+    Look up a deputato via SPARQL using the name from an intervento label.
+
+    Label format: "intervento di Nome COGNOME"
+    Returns (deputato_iri, camera_url, nome_upper, cognome) or None if not found.
+    """
+    if not label:
+        return None
+
+    cache_key = f"{label}|{legislatura}"
+    if cache_key in _deputato_label_cache:
+        return _deputato_label_cache[cache_key]
+
+    # Strip "intervento di " prefix and parse nome/cognome
+    name_part = label.removeprefix("intervento di ").strip()
+    tokens = name_part.split()
+    if not tokens:
+        _deputato_label_cache[cache_key] = None
+        return None
+
+    # Cognome = first all-uppercase token onward; nome = tokens before it
+    cognome_start = len(tokens)
+    for i, token in enumerate(tokens):
+        letters = [c for c in token if c.isalpha()]
+        if letters and all(c.isupper() for c in letters):
+            cognome_start = i
+            break
+
+    nome = " ".join(tokens[:cognome_start])
+    cognome = " ".join(tokens[cognome_start:])
+
+    if not cognome:
+        _deputato_label_cache[cache_key] = None
+        return None
+
+    query = f"""
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    PREFIX ocd: <http://dati.camera.it/ocd/>
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+    SELECT ?deputato WHERE {{
+        ?deputato rdf:type ocd:deputato .
+        ?deputato foaf:firstName ?fn .
+        ?deputato foaf:surname ?sn .
+        FILTER(CONTAINS(STR(?deputato), "_{legislatura}"))
+        FILTER(LCASE(?fn) = "{nome.lower()}" && LCASE(?sn) = "{cognome.lower()}")
+    }}
+    LIMIT 1
+    """
+
+    try:
+        response = requests.get(
+            "http://dati.camera.it/sparql",
+            params={"query": query},
+            headers={"Accept": "application/sparql-results+json"},
+            timeout=15
+        )
+        response.raise_for_status()
+        bindings = response.json().get("results", {}).get("bindings", [])
+        if bindings:
+            deputato_iri = bindings[0]["deputato"]["value"]
+            url = build_camera_person_url(deputato_iri)
+            result = (deputato_iri, url, nome.upper(), cognome)
+            _deputato_label_cache[cache_key] = result
+            return result
+    except Exception:
+        pass
+
+    _deputato_label_cache[cache_key] = None
+    return None
+
+
 def format_as_markdown(data: dict) -> str:
     """Format the intervento section data as markdown with individual speeches."""
     md = f"# {data['section_title']} - Seduta {data['seduta_id']}\n\n"
     md += f"**Data:** {data['date']}\n\n"
     md += f"**Seduta:** {data['seduta_id']}\n\n"
-    md += f"**Anchor ID:** `{data['anchor_id']}`\n\n"
     md += f"**Numero di interventi:** {len(data['speeches'])}\n\n"
     md += "---\n\n"
 
