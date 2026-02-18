@@ -376,18 +376,12 @@ def _yaml_val(value) -> str:
 
 def format_as_markdown(data: dict) -> str:
     """Format the intervento section data as markdown with individual speeches."""
-    md = ""
-    if data.get('frontmatter'):
-        md = "---\n"
-        for key, value in data['frontmatter'].items():
-            md += f"{key}: {_yaml_val(value)}\n"
-        md += "---\n\n"
     if not data.get('frontmatter'):
-        md += f"# {data['section_title']} - Seduta {data['seduta_id']}\n\n"
-        md += f"**Data:** {data['date']}\n\n"
-        md += f"**Seduta:** {data['seduta_id']}\n\n"
-        md += f"**Numero di interventi:** {len(data['speeches'])}\n\n"
-        md += "---\n\n"
+        raise ValueError("frontmatter is required but missing from data")
+    md = "---\n"
+    for key, value in data['frontmatter'].items():
+        md += f"{key}: {_yaml_val(value)}\n"
+    md += "---\n\n"
 
     # Add each speech
     for i, speech in enumerate(data['speeches'], 1):
