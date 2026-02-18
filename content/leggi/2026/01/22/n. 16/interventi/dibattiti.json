@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "atto_iri": "http://dati.camera.it/ocd/attocamera.rdf/ac19_1806",
+    "atto_id": "ac19_1806",
+    "tipo": "http://dati.camera.it/ocd/atto",
+    "titolo": " S. 316. - Senatore BERGESIO: &quot;Modifiche all&rsquo;articolo 40 della legge 28 luglio 2016, n. 154, in materia di contrasto del bracconaggio ittico nelle acque interne&quot; &lt;em&gt;(approvata dal Senato)&lt;/em&gt; (1806) ",
+    "iniziativa": "Parlamentare",
+    "dataPresentazione": null
+  },
+  "dibattiti": [
+    {
+      "dibattito": "http://dati.camera.it/ocd/dibattito.rdf/dib183600_19",
+      "titolo": "Discussione in Assemblea",
+      "data": null,
+      "discussioni": [
+        {
+          "discussione": "http://dati.camera.it/ocd/discussione.rdf/disIdDib183600_19",
+          "argomento": "Proposta di legge: S. 316 - D'iniziativa del senatore Bergesio: \"Modifiche all'articolo 40 della legge 28 luglio 2016, n. 154, in materia di contrasto del bracconaggio ittico nelle acque interne\" (Approvata dal Senato) (A.C. 1806) e dell'abbinata proposta di legge: Comaroli ed altri (A.C. 830)",
+          "seduta": "http://dati.camera.it/ocd/seduta.rdf/s19_454",
+          "dataSeduta": "20250324",
+          "interventi": [
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766368",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308938_19",
+              "nome": "MAURO",
+              "cognome": "MALAGUTI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.sub00010.int00060#sed0454.stenografico.tit00020.sub00010.int00060"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766366",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d307762_19",
+              "nome": "FRANCESCO",
+              "cognome": "BRUZZONE",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.sub00010.int00020#sed0454.stenografico.tit00020.sub00010.int00020"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766367",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d309160_19",
+              "nome": "NADIA",
+              "cognome": "ROMEO",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.sub00010.int00040#sed0454.stenografico.tit00020.sub00010.int00040"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766369",
+              "deputato": "http://dati.camera.it/ocd/deputato.rdf/d308858_19",
+              "nome": "SUSANNA",
+              "cognome": "CHERCHI",
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.sub00010.int00080#sed0454.stenografico.tit00020.sub00010.int00080"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766375",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.sub00010.int00030#sed0454.stenografico.tit00020.sub00010.int00030"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766365",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.sub00010.int00010#sed0454.stenografico.tit00020.sub00010.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766376",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.sub00010.int00090#sed0454.stenografico.tit00020.sub00010.int00090"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766364",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.int00010#sed0454.stenografico.tit00020.int00010"
+            },
+            {
+              "intervento": "http://dati.camera.it/ocd/intervento.rdf/in19_766370",
+              "deputato": null,
+              "nome": null,
+              "cognome": null,
+              "testo": "http://documenti.camera.it/apps/commonServices/getDocumento.ashx?idlegislatura=19&sezione=assemblea&tipoDoc=stenografico&idSeduta=0454&nomefile=stenografico&ancora=sed0454.stenografico.tit00020.sub00020.int00010#sed0454.stenografico.tit00020.sub00020.int00010"
+            }
+          ]
+        }
+      ],
+      "num_discussioni": 1,
+      "num_interventi": 9
+    }
+  ],
+  "fetched_at": "2026-02-18T00:57:03.559121",
+  "fetch_method": "single_sparql_query"
+}
