@@ -5,16 +5,17 @@
 }
 
 :root {
-  --color-primary: #1a1a1a;
+  --color-primary: #1a365d;
   --color-text: #1a1a1a;
-  --color-muted: #5c5c5c;
-  --color-bg: #f5f3f0;
+  --color-muted: #475569;
+  --color-bg: #fdfdfc;
   --color-surface: #ffffff;
-  --color-border: #d4d0c8;
+  --color-border: #e2e8f0;
+  --color-gold: #b2935b;
   --max-width: 900px;
-  --header-height: 80px;
+  --header-height: 88px;
 
-  /* Italian flag colors */
+  /* Italian flag colors (tricolor bar) */
   --color-green: #009246;
   --color-green-dark: #007a3d;
   --color-green-rgb: 0, 146, 70;
@@ -38,24 +39,32 @@ html {
 
 body {
   min-height: 100%;
-  font-family: 'Merriweather', Georgia, serif;
-  font-weight: 300;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--color-text);
   background: var(--color-bg);
 }
 
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--color-primary);
+}
+
 h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: var(--color-primary);
-  font-weight: normal;
+  font-weight: 900;
 }
 
 h2 {
   font-size: 1.5rem;
   margin: 1.5rem 0 0.5rem;
-  font-weight: normal;
+  font-weight: 700;
+}
+
+h3 {
+  font-weight: 700;
 }
 
 p {

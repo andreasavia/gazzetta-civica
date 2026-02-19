@@ -3,6 +3,20 @@
     font-size: 1.4rem;
     letter-spacing: 0.08em;
   }
+
+  .site-nav {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.7rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -98,6 +112,12 @@
     font-size: 0.85rem;
     line-height: 1.4;
   }
+
+  /* Footer - stack columns on mobile */
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -163,5 +183,10 @@
 
   .content-section h2 {
     font-size: 1.35rem;
+  }
+
+  /* Footer - tighter gap on extra small */
+  .footer-top {
+    gap: 1.5rem;
   }
 }

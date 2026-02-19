@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+
+const base = '/gazzetta-civica';
+
+const items = (await getCollection('articoli', ({ data }) => !data.draft))
+  .filter(a => a.data.tipo === 'dossier')
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
+
+const breadcrumbs = [
+  { name: 'Home', url: `${base}/` },
+  { name: 'I Dossier', url: `${base}/dossier/` }
+];
+---
+
+<Base
+  title="I Dossier"
+  description="Analisi approfondite delle nuove leggi italiane: cosa cambia per i cittadini, il dibattito parlamentare e la scheda tecnica con le fonti ufficiali."
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <h1>I Dossier</h1>
+  <p class="page-intro">
+    Ogni Dossier analizza una legge approvata: cosa cambia per i cittadini,
+    come si è svolto il dibattito parlamentare e la scheda tecnica con le fonti ufficiali.
+  </p>
+
+  {items.length === 0 ? (
+    <p class="empty-state">Nessun dossier pubblicato ancora.</p>
+  ) : (
+    <ul class="article-list">
+      {items.map((a) => (
+        <li class="article-item">
+          <a href={`${base}/articoli/${a.data.publishedDate.getFullYear()}/${a.data.urlSlug}/`}>
+            <span class="article-date">
+              {a.data.publishedDate.toLocaleDateString('it-IT', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              })}
+            </span>
+            <h3>{a.data.title}</h3>
+            {(a.data.excerpt || a.data.subtitle) && (
+              <p class="article-excerpt">{a.data.excerpt || a.data.subtitle}</p>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
+
+<style>
+  .page-intro {
+    color: var(--color-muted);
+    font-style: italic;
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+</style>
