@@ -20,62 +20,53 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
       <div class="hero-text">
         <h1 class="hero-title" id="hero-title"></h1>
         <p class="hero-subtitle" id="hero-subtitle"></p>
-        <div class="hero-ctas">
-          <a href="#dossier" class="cta-primary">Ultimo Dossier</a>
-          <a href="#segnavia" class="cta-secondary">Newsletter</a>
-        </div>
       </div>
     </section>
   </div>
 
   <section class="segnavia-section" id="segnavia">
     <div class="segnavia-inner">
-      <div class="segnavia-header">
-        <h2 class="segnavia-title">🧭 Segnavia</h2>
+      <div class="segnavia-left">
+        <p class="segnavia-kicker">Newsletter settimanale</p>
+        <p class="segnavia-pull"><em>Il Parlamento in sintesi,<br>ogni settimana.</em></p>
         <p class="segnavia-desc">
-          La rassegna settimanale di Gazzetta Civica: i disegni di legge in corso
-          e il Dossier della settimana, direttamente nella tua casella di posta.
+          I disegni di legge in corso e il Dossier della settimana,
+          direttamente nella tua casella di posta.
         </p>
       </div>
-
-      <form id="newsletter-form" class="newsletter-form">
-        <div class="form-row">
-          <input
-            type="email"
-            id="newsletter-email"
-            name="email"
-            placeholder="La tua email"
-            required
-            autocomplete="email"
-          />
-          <button type="submit" id="newsletter-btn">
-            <span class="btn-text">Iscriviti</span>
-            <span class="btn-loading" style="display: none;">...</span>
-          </button>
+      <div class="segnavia-right">
+        <form id="newsletter-form" class="newsletter-form">
+          <label class="form-label" for="newsletter-email">La tua email</label>
+          <div class="form-row">
+            <input
+              type="email"
+              id="newsletter-email"
+              name="email"
+              placeholder="nome@esempio.it"
+              required
+              autocomplete="email"
+            />
+            <button type="submit" id="newsletter-btn">
+              <span class="btn-text">Iscriviti</span>
+              <span class="btn-loading" style="display: none;">...</span>
+            </button>
+          </div>
+          <div class="privacy-checkbox">
+            <input type="checkbox" id="privacy-consent" name="privacy-consent" />
+            <label for="privacy-consent">
+              Accetto l'informativa sulla <a href="/gazzetta-civica/privacy">privacy</a>
+            </label>
+          </div>
+        </form>
+        <div id="newsletter-success" class="newsletter-message success" style="display: none;">
+          Perfetto! Controlla la tua email per confermare l'iscrizione.
         </div>
-
-        <div class="privacy-checkbox">
-          <input
-            type="checkbox"
-            id="privacy-consent"
-            name="privacy-consent"
-          />
-          <label for="privacy-consent">
-            Accetto l'informativa sulla <a href="/gazzetta-civica/privacy">privacy</a>
-          </label>
+        <div id="newsletter-error" class="newsletter-message error" style="display: none;">
+          Qualcosa è andato storto. Riprova.
         </div>
-      </form>
-
-      <div id="newsletter-success" class="newsletter-message success" style="display: none;">
-        Perfetto! Controlla la tua email per confermare l'iscrizione.
-      </div>
-
-      <div id="newsletter-error" class="newsletter-message error" style="display: none;">
-        Qualcosa è andato storto. Riprova.
-      </div>
-
-      <div id="privacy-error" class="newsletter-message error" style="display: none;">
-        Devi accettare l'informativa sulla privacy per iscriverti.
+        <div id="privacy-error" class="newsletter-message error" style="display: none;">
+          Devi accettare l'informativa sulla privacy per iscriverti.
+        </div>
       </div>
     </div>
   </section>
@@ -301,41 +292,55 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
 
     /* ── Segnavia ── */
     .segnavia-section {
-      background: #f8fafc;
-      border-top: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
-      padding: 3.5rem 2rem;
+      background: #f0f3f8;
+      padding: 4rem 2rem;
     }
 
     .segnavia-inner {
       max-width: var(--max-width);
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
       align-items: center;
-      gap: 1.5rem;
     }
 
-    .segnavia-header {
-      text-align: center;
-    }
-
-    .segnavia-title {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.75rem;
+    .segnavia-kicker {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
       font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--color-muted);
+      margin: 0 0 1rem;
+    }
+
+    .segnavia-pull {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      font-style: italic;
       color: var(--color-primary);
-      margin-bottom: 0.5rem;
-      border: none;
-      padding: 0;
-      margin-top: 0;
+      line-height: 1.25;
+      margin: 0 0 1.25rem;
     }
 
     .segnavia-desc {
       color: var(--color-muted);
       font-size: 0.95rem;
-      max-width: 480px;
-      margin: 0 auto;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-muted);
+      margin-bottom: 0.6rem;
     }
 
     /* ── In Iter grid ── */
@@ -348,10 +353,12 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
       margin-bottom: 1rem;
+      align-items: stretch;
     }
 
     .iter-card {
-      display: block;
+      display: flex;
+      flex-direction: column;
       text-decoration: none;
       color: inherit;
       padding: 1.25rem;
@@ -531,6 +538,11 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
       .iter-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.25rem;
+      }
+
+      .segnavia-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
     }
 
