@@ -290,15 +290,22 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
       border-color: var(--color-primary);
     }
 
+    /* ── Dossier section ── */
+    #dossier {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     /* ── Segnavia ── */
     .segnavia-section {
       background: #f0f3f8;
-      padding: 4rem 2rem;
+      padding: 4rem 0;
     }
 
     .segnavia-inner {
       max-width: var(--max-width);
       margin: 0 auto;
+      padding: 0 2rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
@@ -345,6 +352,8 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
 
     /* ── In Iter grid ── */
     .in-iter-section {
+      padding-left: 0;
+      padding-right: 0;
       padding-bottom: 3rem;
     }
 
