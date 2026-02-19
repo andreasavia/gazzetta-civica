@@ -418,7 +418,7 @@ const dossiersData = dossiers.map(a => ({
 
     /* ── In Iter grid ── */
     .in-iter-section {
-      padding-top: 4rem;
+      padding-bottom: 3rem;
     }
 
     .iter-grid {
@@ -481,18 +481,21 @@ const dossiersData = dossiers.map(a => ({
     }
 
     .section-more-link {
-      display: inline-block;
-      margin-top: 1.25rem;
+      display: block;
+      margin-top: 1.5rem;
+      text-align: right;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.85rem;
-      color: var(--color-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-primary);
       text-decoration: none;
-      transition: color var(--transition-base);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: opacity var(--transition-base);
     }
 
     .section-more-link:hover {
-      color: var(--color-primary);
-      text-decoration: underline;
+      opacity: 0.7;
     }
 
     /* ── I Dossier section header ── */

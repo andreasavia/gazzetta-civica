@@ -66,13 +66,13 @@ const {
         </div>
       </nav>
     </header>
-    <div class="tricolor-bar"></div>
+    <div class="tricolor-bar"><span class="tricolor-segment tricolor-segment--green"></span><span class="tricolor-segment tricolor-segment--white"></span><span class="tricolor-segment tricolor-segment--red"></span></div>
     <div class="main-wrapper">
       <main {...(type === 'article' ? { 'data-pagefind-filter': 'type:article' } : {})}>
         <slot />
       </main>
     </div>
-    <div class="tricolor-bar tricolor-bar-footer"></div>
+    <div class="tricolor-bar tricolor-bar-footer"><span class="tricolor-segment tricolor-segment--green"></span><span class="tricolor-segment tricolor-segment--white"></span><span class="tricolor-segment tricolor-segment--red"></span></div>
     <footer>
       <div class="footer-top">
         <div class="footer-brand">
