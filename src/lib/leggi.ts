@@ -62,14 +62,14 @@ export function getAllLeggi(): Legge[] {
   return Array.from(leggiCache.values());
 }
 
-export function getPosizioni(slug: string): DeputyPosition[] | undefined {
+export function getPosizioni(slug: string, collection: 'dossier' | 'in-iter' = 'dossier'): DeputyPosition[] | undefined {
   try {
-    const filePath = path.resolve(process.cwd(), 'src/data/posizioni', `${slug}.json`);
+    const filePath = path.resolve(process.cwd(), 'src/data', collection, slug, 'interventi.json');
     if (!fs.existsSync(filePath)) return undefined;
     const content = fs.readFileSync(filePath, 'utf-8');
     return JSON.parse(content) as DeputyPosition[];
   } catch (error) {
-    console.warn(`Failed to load posizioni for ${slug}:`, error);
+    console.warn(`Failed to load interventi for ${collection}/${slug}:`, error);
     return undefined;
   }
 }

@@ -1,0 +1,179 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import SchedaInformativa from '../../../components/SchedaInformativa.astro';
+import IlDibattito from '../../../components/IlDibattito.astro';
+import StructuredData from '../../../components/StructuredData.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ShareButton from '../../../components/ShareButton.astro';
+import { getLegge } from '../../../lib/leggi';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('in-iter');
+  return articles.map((article) => ({
+    params: {
+      year: article.data.publishedDate.getFullYear().toString(),
+      slug: article.data.urlSlug
+    },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+const legge = article.data.legge ? getLegge(article.data.legge) : null;
+const categories = legge?.['senato-teseo'] || [];
+
+// Generate description with priority: excerpt > subtitle > auto-generated
+const description =
+  article.data.excerpt ||
+  article.data.subtitle ||
+  `Aggiornamento legislativo: ${article.data.title}`;
+
+// Get article URL
+const site = 'https://andreasavia.github.io';
+const base = '/gazzetta-civica';
+const year = article.data.publishedDate.getFullYear();
+const articlePath = `${base}/in-iter/${year}/${article.data.urlSlug}/`;
+const articleUrl = `${site}${articlePath}`;
+
+// Use optional metadata with sensible defaults
+const author = article.data.author || 'Gazzetta Civica';
+const modifiedDate = article.data.modifiedDate || article.data.publishedDate;
+const image = article.data.image;
+
+// Breadcrumb navigation
+const breadcrumbItems = [
+  { name: 'Home', url: `${base}/` },
+  { name: 'In Iter', url: `${base}/in-iter/` },
+  { name: article.data.title, url: articlePath }
+];
+---
+
+<Base
+  title={article.data.title}
+  description={description}
+  type="article"
+  publishedDate={article.data.publishedDate}
+  modifiedDate={modifiedDate}
+  author={author}
+  image={image}
+  tags={categories}
+>
+  <Breadcrumbs items={breadcrumbItems} />
+
+  <article>
+    {categories.length > 0 && (
+      <div class="tags-wrapper">
+        <div class="tags-header">
+          {categories.map((cat: string) => (
+            <span class="tag">{cat}</span>
+          ))}
+        </div>
+      </div>
+    )}
+    <div class="article-tipo">
+      <span class="tipo-badge tipo-badge--in-iter">In Iter</span>
+    </div>
+    <h1>{article.data.title}</h1>
+    {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
+    <div class="meta">
+      <div class="meta-top">
+        <span class="date">{article.data.publishedDate.toLocaleDateString('it-IT', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}</span>
+        <ShareButton
+          title={article.data.title}
+          url={articleUrl}
+          description={description}
+        />
+      </div>
+    </div>
+
+    <!-- Section 1: Content -->
+    <div class="cosa-cambia">
+      <Content />
+    </div>
+
+    <!-- Section 2: Il Dibattito (if applicable) -->
+    {article.data.legge && (
+      <IlDibattito slug={article.data.urlSlug} collection="in-iter" />
+    )}
+
+    <!-- Section 3: Scheda (if law reference exists) -->
+    {article.data.legge && (
+      <SchedaInformativa codice={article.data.legge} />
+    )}
+  </article>
+
+  <StructuredData
+    type="article"
+    article={{
+      title: article.data.title,
+      description: description,
+      publishedDate: article.data.publishedDate,
+      modifiedDate: modifiedDate,
+      author: author,
+      url: articleUrl,
+      image: image,
+      tags: categories
+    }}
+  />
+
+  <StructuredData
+    type="breadcrumb"
+    breadcrumb={{
+      items: breadcrumbItems
+    }}
+  />
+
+  <style>
+    .article-tipo {
+      margin-bottom: 0.75rem;
+    }
+
+    .tags-wrapper {
+      position: relative;
+    }
+
+    .tags-wrapper::before,
+    .tags-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2rem;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .tags-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, var(--color-bg) 0%, transparent 100%);
+    }
+
+    .tags-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, var(--color-bg) 0%, transparent 100%);
+    }
+
+    .tags-header {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 1.5rem 0.25rem;
+    }
+
+    .tags-header::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</Base>

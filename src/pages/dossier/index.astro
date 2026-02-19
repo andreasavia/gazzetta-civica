@@ -5,8 +5,7 @@ import { getCollection } from 'astro:content';
 
 const base = '/gazzetta-civica';
 
-const items = (await getCollection('articoli', ({ data }) => !data.draft))
-  .filter(a => a.data.tipo === 'dossier')
+const items = (await getCollection('dossier', ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
 
 const breadcrumbs = [
@@ -33,7 +32,7 @@ const breadcrumbs = [
     <ul class="article-list">
       {items.map((a) => (
         <li class="article-item">
-          <a href={`${base}/articoli/${a.data.publishedDate.getFullYear()}/${a.data.urlSlug}/`}>
+          <a href={`${base}/dossier/${a.data.publishedDate.getFullYear()}/${a.data.urlSlug}/`}>
             <span class="article-date">
               {a.data.publishedDate.toLocaleDateString('it-IT', {
                 year: 'numeric',

@@ -2,11 +2,12 @@
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
-const allArticles = await getCollection('articoli', ({ data }) => !data.draft);
-const sorted = allArticles.sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
+const dossiers = (await getCollection('dossier', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
 
-const dossiers = sorted.filter(a => a.data.tipo === 'dossier');
-const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
+const inIterItems = (await getCollection('in-iter', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
+  .slice(0, 3);
 
 
 ---
@@ -116,7 +117,7 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
         {inIterItems.map((article) => (
           <a
             class="iter-card"
-            href={`/gazzetta-civica/articoli/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`}
+            href={`/gazzetta-civica/in-iter/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`}
           >
             <span class="iter-date">
               {article.data.publishedDate.toLocaleDateString('it-IT', {
@@ -147,7 +148,7 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
       <ul class="article-list" id="article-list">
         {dossiers.map((article) => (
           <li class="article-item">
-            <a href={`/gazzetta-civica/articoli/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`}>
+            <a href={`/gazzetta-civica/dossier/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`}>
               <span class="article-date">
                 {article.data.publishedDate.toLocaleDateString('it-IT', {
                   year: 'numeric',

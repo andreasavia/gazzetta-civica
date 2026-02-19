@@ -4,10 +4,11 @@ import type { DeputyPosition } from '../lib/leggi';
 
 interface Props {
   slug: string;
+  collection?: 'dossier' | 'in-iter';
 }
 
-const { slug } = Astro.props;
-const posizioni = getPosizioni(slug);
+const { slug, collection = 'dossier' } = Astro.props;
+const posizioni = getPosizioni(slug, collection);
 
 // Group positions by stance
 const favorevoli = posizioni?.filter(p => p.posizione === 'favorevole') || [];

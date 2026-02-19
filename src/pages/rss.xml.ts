@@ -3,8 +3,16 @@ import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = async (context) => {
-  const articles = await getCollection('articoli', ({ data }) => !data.draft);
-  const sortedArticles = articles.sort(
+  const dossiers = await getCollection('dossier', ({ data }) => !data.draft);
+  const inIter = await getCollection('in-iter', ({ data }) => !data.draft);
+
+  // Merge and sort all publications
+  const allPublications = [
+    ...dossiers.map(d => ({ ...d, collection: 'dossier' as const })),
+    ...inIter.map(i => ({ ...i, collection: 'in-iter' as const }))
+  ];
+
+  const sortedArticles = allPublications.sort(
     (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
   );
 
@@ -19,7 +27,7 @@ export const GET: APIRoute = async (context) => {
         article.data.subtitle ||
         `Analisi e approfondimento: ${article.data.title}`,
       pubDate: article.data.publishedDate,
-      link: `/articoli/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`,
+      link: `/${article.collection}/${article.data.publishedDate.getFullYear()}/${article.data.urlSlug}/`,
     })),
     customData: '<language>it-IT</language>',
     stylesheet: '/rss/styles.xsl',

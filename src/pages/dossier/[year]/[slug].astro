@@ -9,54 +9,52 @@ import ShareButton from '../../../components/ShareButton.astro';
 import { getLegge } from '../../../lib/leggi';
 
 export async function getStaticPaths() {
-  const articles = await getCollection('articoli');
-  return articles.map((article) => ({
+  const dossiers = await getCollection('dossier');
+  return dossiers.map((dossier) => ({
     params: {
-      year: article.data.publishedDate.getFullYear().toString(),
-      slug: article.data.urlSlug
+      year: dossier.data.publishedDate.getFullYear().toString(),
+      slug: dossier.data.urlSlug
     },
-    props: { article },
+    props: { dossier },
   }));
 }
 
-const { article } = Astro.props;
-const { Content } = await article.render();
-const legge = article.data.legge ? getLegge(article.data.legge) : null;
+const { dossier } = Astro.props;
+const { Content } = await dossier.render();
+const legge = dossier.data.legge ? getLegge(dossier.data.legge) : null;
 const categories = legge?.['senato-teseo'] || [];
 
 // Generate description with priority: excerpt > subtitle > auto-generated
 const description =
-  article.data.excerpt ||
-  article.data.subtitle ||
-  `Analisi e approfondimento: ${article.data.title}`;
+  dossier.data.excerpt ||
+  dossier.data.subtitle ||
+  `Analisi e approfondimento: ${dossier.data.title}`;
 
 // Get article URL
 const site = 'https://andreasavia.github.io';
 const base = '/gazzetta-civica';
-const year = article.data.publishedDate.getFullYear();
-const articlePath = `${base}/articoli/${year}/${article.data.urlSlug}/`;
+const year = dossier.data.publishedDate.getFullYear();
+const articlePath = `${base}/dossier/${year}/${dossier.data.urlSlug}/`;
 const articleUrl = `${site}${articlePath}`;
 
 // Use optional metadata with sensible defaults
-const author = article.data.author || 'Gazzetta Civica';
-const modifiedDate = article.data.modifiedDate || article.data.publishedDate;
-const image = article.data.image;
+const author = dossier.data.author || 'Gazzetta Civica';
+const modifiedDate = dossier.data.modifiedDate || dossier.data.publishedDate;
+const image = dossier.data.image;
 
-// Breadcrumb navigation — tipo-aware second level
-const tipoLabel = article.data.tipo === 'dossier' ? 'I Dossier' : 'In Iter';
-const tipoUrl = article.data.tipo === 'dossier' ? `${base}/dossier/` : `${base}/in-iter/`;
+// Breadcrumb navigation
 const breadcrumbItems = [
   { name: 'Home', url: `${base}/` },
-  { name: tipoLabel, url: tipoUrl },
-  { name: article.data.title, url: articlePath }
+  { name: 'I Dossier', url: `${base}/dossier/` },
+  { name: dossier.data.title, url: articlePath }
 ];
 ---
 
 <Base
-  title={article.data.title}
+  title={dossier.data.title}
   description={description}
   type="article"
-  publishedDate={article.data.publishedDate}
+  publishedDate={dossier.data.publishedDate}
   modifiedDate={modifiedDate}
   author={author}
   image={image}
@@ -75,21 +73,19 @@ const breadcrumbItems = [
       </div>
     )}
     <div class="article-tipo">
-      <span class={`tipo-badge tipo-badge--${article.data.tipo}`}>
-        {article.data.tipo === 'dossier' ? 'Dossier' : 'In Iter'}
-      </span>
+      <span class="tipo-badge tipo-badge--dossier">Dossier</span>
     </div>
-    <h1>{article.data.title}</h1>
-    {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
+    <h1>{dossier.data.title}</h1>
+    {dossier.data.subtitle && <p class="subtitle">{dossier.data.subtitle}</p>}
     <div class="meta">
       <div class="meta-top">
-        <span class="date">{article.data.publishedDate.toLocaleDateString('it-IT', {
+        <span class="date">{dossier.data.publishedDate.toLocaleDateString('it-IT', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
         })}</span>
         <ShareButton
-          title={article.data.title}
+          title={dossier.data.title}
           url={articleUrl}
           description={description}
         />
@@ -102,22 +98,22 @@ const breadcrumbItems = [
     </div>
 
     <!-- Section 2: Il Dibattito -->
-    {article.data.legge && (
-      <IlDibattito slug={article.data.urlSlug} />
+    {dossier.data.legge && (
+      <IlDibattito slug={dossier.data.urlSlug} collection="dossier" />
     )}
 
     <!-- Section 3: Scheda -->
-    {article.data.legge && (
-      <SchedaInformativa codice={article.data.legge} />
+    {dossier.data.legge && (
+      <SchedaInformativa codice={dossier.data.legge} />
     )}
   </article>
 
   <StructuredData
     type="article"
     article={{
-      title: article.data.title,
+      title: dossier.data.title,
       description: description,
-      publishedDate: article.data.publishedDate,
+      publishedDate: dossier.data.publishedDate,
       modifiedDate: modifiedDate,
       author: author,
       url: articleUrl,
