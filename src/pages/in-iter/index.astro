@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+
+const base = '/gazzetta-civica';
+
+const items = (await getCollection('articoli', ({ data }) => !data.draft))
+  .filter(a => a.data.tipo === 'in-iter')
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
+
+const breadcrumbs = [
+  { name: 'Home', url: `${base}/` },
+  { name: 'In Iter', url: `${base}/in-iter/` }
+];
+---
+
+<Base
+  title="In Iter"
+  description="Aggiornamenti rapidi sul percorso parlamentare: nuovi DDL, scadenze tecniche e notizie da monitorare prima di un Dossier completo."
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <h1>In Iter</h1>
+  <p class="page-intro">
+    Aggiornamenti rapidi sul percorso parlamentare: nuovi DDL, scadenze tecniche
+    e notizie da monitorare prima di un Dossier completo.
+  </p>
+
+  {items.length === 0 ? (
+    <p class="empty-state">Nessun aggiornamento pubblicato ancora.</p>
+  ) : (
+    <ul class="article-list">
+      {items.map((a) => (
+        <li class="article-item article-item--in-iter">
+          <a href={`${base}/articoli/${a.data.publishedDate.getFullYear()}/${a.data.urlSlug}/`}>
+            <span class="article-date">
+              {a.data.publishedDate.toLocaleDateString('it-IT', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              })}
+            </span>
+            <h3>{a.data.title}</h3>
+            {a.data.subtitle && (
+              <p class="article-excerpt">{a.data.subtitle}</p>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
+
+<style>
+  .page-intro {
+    color: var(--color-muted);
+    font-style: italic;
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+
+  .article-item--in-iter {
+    border-left-color: var(--color-muted);
+  }
+
+  .article-item--in-iter:hover {
+    border-left-color: var(--color-primary);
+  }
+
+  .article-item--in-iter:hover h3 {
+    color: var(--color-primary);
+  }
+</style>

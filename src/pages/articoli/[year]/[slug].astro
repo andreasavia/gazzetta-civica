@@ -41,10 +41,12 @@ const author = article.data.author || 'Gazzetta Civica';
 const modifiedDate = article.data.modifiedDate || article.data.publishedDate;
 const image = article.data.image;
 
-// Breadcrumb navigation (use relative paths for links)
+// Breadcrumb navigation — tipo-aware second level
+const tipoLabel = article.data.tipo === 'dossier' ? 'I Dossier' : 'In Iter';
+const tipoUrl = article.data.tipo === 'dossier' ? `${base}/dossier/` : `${base}/in-iter/`;
 const breadcrumbItems = [
   { name: 'Home', url: `${base}/` },
-  { name: 'Articoli', url: `${base}/#articoli` },
+  { name: tipoLabel, url: tipoUrl },
   { name: article.data.title, url: articlePath }
 ];
 ---
@@ -71,6 +73,11 @@ const breadcrumbItems = [
         </div>
       </div>
     )}
+    <div class="article-tipo">
+      <span class={`tipo-badge tipo-badge--${article.data.tipo}`}>
+        {article.data.tipo === 'dossier' ? 'Dossier' : 'In Iter'}
+      </span>
+    </div>
     <h1>{article.data.title}</h1>
     {article.data.subtitle && <p class="subtitle">{article.data.subtitle}</p>}
     <div class="meta">
@@ -112,6 +119,10 @@ const breadcrumbItems = [
   />
 
   <style>
+    .article-tipo {
+      margin-bottom: 0.75rem;
+    }
+
     .tags-wrapper {
       position: relative;
     }

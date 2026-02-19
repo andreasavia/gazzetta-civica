@@ -2,14 +2,88 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Chi siamo">
+<Base
+  title="Chi siamo"
+  description="La Gazzetta Civica rende la legislazione italiana accessibile a tutti i cittadini attraverso analisi imparziali e linguaggio chiaro."
+>
   <h1>Chi siamo</h1>
+  <p class="lead">
+    La Gazzetta Civica è un progetto indipendente che traduce le nuove leggi
+    italiane in linguaggio comprensibile: senza schierarsi e senza semplificare
+    fino alla distorsione.
+  </p>
+
+  <h2>I nostri contenuti</h2>
+
+  <div class="content-type-block">
+    <h3>Il Dossier</h3>
+    <p>
+      Un'analisi approfondita per ogni legge approvata. Ogni Dossier è composto
+      da tre sezioni: <em>Cosa cambia</em> spiega l'impatto pratico in parole
+      semplici; <em>Il Dibattito</em> riassume le posizioni di maggioranza e
+      opposizione in Parlamento; la <em>Scheda</em> raccoglie i riferimenti
+      tecnici e le fonti ufficiali.
+    </p>
+  </div>
+
+  <div class="content-type-block">
+    <h3>In Iter</h3>
+    <p>
+      Brevi aggiornamenti sui disegni di legge in discussione: nuove proposte,
+      passaggi in commissione, scadenze tecniche. L'osservatorio quotidiano
+      prima che una norma diventi oggetto di un Dossier completo.
+    </p>
+  </div>
+
+  <div class="content-type-block">
+    <h3>Segnavia</h3>
+    <p>
+      La newsletter settimanale di Gazzetta Civica. Ogni settimana raccoglie
+      gli aggiornamenti In Iter più rilevanti e segnala il Dossier in evidenza.
+      Gratuita, senza pubblicità.
+    </p>
+  </div>
+
+  <h2>Note legali</h2>
   <p>
-    Gazzetta Civica è un progetto open source che mira a rendere la legislazione italiana
-    più accessibile ai cittadini.
+    I contenuti sono prodotti a partire da fonti pubbliche ufficiali (Gazzetta
+    Ufficiale, siti di Camera e Senato, Normattiva). Le analisi rappresentano
+    una sintesi giornalistica e non costituiscono parere legale o professionale.
   </p>
   <p>
-    Raccogliamo, organizziamo e presentiamo le leggi e i decreti pubblicati in
-    Gazzetta Ufficiale in un formato chiaro e comprensibile.
+    &copy; {new Date().getFullYear()} La Gazzetta Civica. Tutti i diritti riservati.
+    La riproduzione dei contenuti originali è consentita solo tramite link diretti
+    o brevi citazioni con attribuzione della fonte.
   </p>
 </Base>
+
+<style>
+  .lead {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text);
+    margin-bottom: 2rem;
+  }
+
+  .content-type-block {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--color-border);
+  }
+
+  .content-type-block h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    color: var(--color-primary);
+  }
+
+  .content-type-block p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-muted);
+  }
+</style>

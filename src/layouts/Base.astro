@@ -37,7 +37,7 @@ const {
     <link rel="alternate" type="application/rss+xml" title="Gazzetta Civica RSS Feed" href="/gazzetta-civica/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <title>{title} | Gazzetta Civica</title>
 
     <SEO
@@ -55,8 +55,15 @@ const {
   </head>
   <body>
     <header>
-      <nav>
-        <a href="/gazzetta-civica/" class="logo"><span class="logo-prefix">la</span> Gazzetta Civica</a>
+      <nav class="site-nav">
+        <a href="/gazzetta-civica/" class="logo">
+          <span class="logo-wordmark"><span class="logo-prefix">la</span> Gazzetta Civica</span>
+          <span class="logo-tagline">L'informazione normativa trasparente</span>
+        </a>
+        <div class="nav-links">
+          <a href="/gazzetta-civica/in-iter/" class="nav-link">In Iter</a>
+          <a href="/gazzetta-civica/dossier/" class="nav-link">I Dossier</a>
+        </div>
       </nav>
     </header>
     <div class="tricolor-bar"></div>
@@ -67,12 +74,32 @@ const {
     </div>
     <div class="tricolor-bar tricolor-bar-footer"></div>
     <footer>
-      <nav class="footer-links">
-        <a href="/gazzetta-civica/chi-siamo">Chi siamo</a>
-        <a href="/gazzetta-civica/privacy">Privacy</a>
-        <a href="/gazzetta-civica/contatti">Contatti</a>
-      </nav>
-      <p>&copy; {new Date().getFullYear()} Gazzetta Civica</p>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">La Gazzetta Civica</span>
+          <p class="footer-mission">
+            Un progetto indipendente per l'informazione civica. Monitoriamo il Parlamento
+            affinché ogni cittadino possa orientarsi nel sistema normativo italiano.
+          </p>
+        </div>
+        <div class="footer-nav-col">
+          <span class="footer-nav-label">Navigazione</span>
+          <nav class="footer-links">
+            <a href="/gazzetta-civica/in-iter/">In Iter</a>
+            <a href="/gazzetta-civica/dossier/">I Dossier</a>
+            <a href="/gazzetta-civica/chi-siamo">Chi siamo</a>
+            <a href="/gazzetta-civica/privacy">Privacy</a>
+            <a href="/gazzetta-civica/contatti">Contatti</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p>&copy; {new Date().getFullYear()} La Gazzetta Civica — Tutti i diritti riservati.</p>
+        <p class="footer-disclaimer">
+          I contenuti originali sono di proprietà esclusiva de La Gazzetta Civica.
+          Le analisi hanno scopo informativo e non costituiscono consulenza legale.
+        </p>
+      </div>
     </footer>
   </body>
 </html>

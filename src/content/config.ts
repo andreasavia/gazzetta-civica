@@ -15,6 +15,7 @@ const articoli = defineCollection({
     image: z.string().optional(), // Featured image for social sharing
     modifiedDate: z.coerce.date().optional(), // Last update date
     author: z.string().optional(), // Article author (defaults to "Gazzetta Civica")
+    tipo: z.enum(['dossier', 'in-iter']).default('dossier'), // Content type
   })
 });
 
