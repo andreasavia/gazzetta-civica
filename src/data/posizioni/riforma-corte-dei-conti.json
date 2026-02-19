@@ -1,0 +1,42 @@
+[
+  {
+    "deputato": "Tommaso Foti",
+    "posizione": "favorevole",
+    "gruppo": "FDI",
+    "argomento": "La riforma modernizza il controllo contabile e bilancia la tutela dell'erario con l'efficienza amministrativa, introducendo criteri più chiari per la responsabilità dei funzionari.",
+    "citazioni": [
+      "Questa legge rappresenta un passo avanti fondamentale per garantire una gestione più efficace delle risorse pubbliche, senza paralizzare l'azione dei funzionari con il timore di conseguenze sproporzionate."
+    ],
+    "deputato_url": "https://www.camera.it/deputati/19-307762"
+  },
+  {
+    "deputato": "Marco Lacarra",
+    "posizione": "favorevole",
+    "gruppo": "PD",
+    "argomento": "Il provvedimento introduce garanzie importanti per i pubblici amministratori e definisce meglio i confini della responsabilità erariale, pur mantenendo il controllo necessario.",
+    "citazioni": [
+      "Apprezziamo l'equilibrio raggiunto tra la necessità di proteggere l'erario e quella di non scoraggiare la sana amministrazione. È un testo condivisibile."
+    ],
+    "deputato_url": "https://www.camera.it/deputati/19-307308"
+  },
+  {
+    "deputato": "Federico Gianassi",
+    "posizione": "contrario",
+    "gruppo": "PD",
+    "argomento": "Pur apprezzando l'intento, alcune norme rischiano di indebolire eccessivamente i controlli e di ridurre la deterrenza contro la cattiva gestione delle risorse pubbliche.",
+    "citazioni": [
+      "Temiamo che la limitazione della responsabilità ai soli casi di dolo per alcune fattispecie possa creare zone d'ombra nella tutela dell'erario."
+    ],
+    "deputato_url": "https://www.camera.it/deputati/19-308880"
+  },
+  {
+    "deputato": "Pietro Pittalis",
+    "posizione": "favorevole",
+    "gruppo": "FI-PPE",
+    "argomento": "La riforma introduce una maggiore certezza del diritto e criteri quantitativi precisi per la determinazione del danno, riducendo l'arbitrarietà delle valutazioni.",
+    "citazioni": [
+      "Finalmente si mette ordine in un sistema che aveva bisogno di regole più chiare. I funzionari potranno lavorare con maggiore serenità."
+    ],
+    "deputato_url": "https://www.camera.it/deputati/19-307223"
+  }
+]

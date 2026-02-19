@@ -2,6 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import SchedaInformativa from '../../../components/SchedaInformativa.astro';
+import IlDibattito from '../../../components/IlDibattito.astro';
 import StructuredData from '../../../components/StructuredData.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import ShareButton from '../../../components/ShareButton.astro';
@@ -94,7 +95,21 @@ const breadcrumbItems = [
         />
       </div>
     </div>
-    <Content components={{ SchedaInformativa }} />
+
+    <!-- Section 1: Cosa cambia -->
+    <div class="cosa-cambia">
+      <Content />
+    </div>
+
+    <!-- Section 2: Il Dibattito -->
+    {article.data.legge && (
+      <IlDibattito slug={article.data.urlSlug} />
+    )}
+
+    <!-- Section 3: Scheda -->
+    {article.data.legge && (
+      <SchedaInformativa codice={article.data.legge} />
+    )}
   </article>
 
   <StructuredData
