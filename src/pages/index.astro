@@ -71,6 +71,42 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
     </div>
   </section>
 
+
+  <section class="come-funziona-section">
+    <div class="come-funziona-inner">
+      <p class="cf-eyebrow">Come funziona</p>
+      <div class="cf-grid">
+        <div class="cf-card">
+          <span class="cf-num">01</span>
+          <h3 class="cf-title">In Iter</h3>
+          <p class="cf-body">
+            Aggiornamenti rapidi sui disegni di legge appena presentati,
+            sui decreti in discussione e sulle scadenze tecniche. Il modo
+            più diretto per seguire le norme <em>prima</em> che diventino legge.
+          </p>
+        </div>
+        <div class="cf-card">
+          <span class="cf-num">02</span>
+          <h3 class="cf-title">Il Dossier</h3>
+          <p class="cf-body">
+            Analisi approfondite delle norme approvate: cosa cambia nella
+            vita quotidiana, il dibattito parlamentare in sintesi e le
+            fonti ufficiali in un unico posto. Senza tecnicismi.
+          </p>
+        </div>
+        <div class="cf-card">
+          <span class="cf-num">03</span>
+          <h3 class="cf-title">Segnavia</h3>
+          <p class="cf-body">
+            La rassegna settimanale: gli <em>In Iter</em> più rilevanti e il
+            Dossier della settimana direttamente nella tua casella email.
+            Per non perdere l'orientamento nel panorama normativo.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="content-section in-iter-section" id="in-iter">
     <h2>In Iter</h2>
     {inIterItems.length === 0 ? (
@@ -350,6 +386,84 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
       margin-bottom: 0.6rem;
     }
 
+    /* ── Come funziona ── */
+    .come-funziona-section {
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .come-funziona-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .cf-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--color-muted);
+      margin: 0 0 2.5rem;
+      text-align: center;
+    }
+
+    .cf-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .cf-card {
+      padding: 0 2.5rem 0 0;
+      border-right: 1px solid var(--color-border);
+    }
+
+    .cf-card:first-child {
+      padding-left: 0;
+    }
+
+    .cf-card:last-child {
+      border-right: none;
+      padding-right: 0;
+      padding-left: 2.5rem;
+    }
+
+    .cf-card:nth-child(2) {
+      padding-left: 2.5rem;
+    }
+
+    .cf-num {
+      display: block;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--color-border);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .cf-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin: 0 0 0.75rem;
+    }
+
+    .cf-body {
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .cf-body em {
+      font-style: italic;
+      color: var(--color-text);
+    }
+
     /* ── In Iter grid ── */
     .in-iter-section {
       padding-left: 0;
@@ -552,6 +666,26 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
       .segnavia-inner {
         grid-template-columns: 1fr;
         gap: 2rem;
+      }
+
+      .cf-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .cf-card {
+        padding: 2rem 0;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .cf-card:last-child {
+        border-bottom: none;
+        padding-left: 0;
+      }
+
+      .cf-card:nth-child(2) {
+        padding-left: 0;
       }
     }
 
