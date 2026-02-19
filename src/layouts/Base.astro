@@ -70,31 +70,43 @@ const {
     </div>
     <div class="tricolor-bar tricolor-bar-footer"><span class="tricolor-segment tricolor-segment--green"></span><span class="tricolor-segment tricolor-segment--white"></span><span class="tricolor-segment tricolor-segment--red"></span></div>
     <footer>
-      <div class="footer-top">
+      <div class="footer-inner">
         <div class="footer-brand">
-          <span class="footer-logo">La Gazzetta Civica</span>
-          <p class="footer-mission">
-            Un progetto indipendente per l'informazione civica. Monitoriamo il Parlamento
-            affinché ogni cittadino possa orientarsi nel sistema normativo italiano.
-          </p>
+          <a href="/gazzetta-civica/" class="footer-logo">
+            <span class="footer-logo-prefix">la</span> Gazzetta Civica
+          </a>
+          <p class="footer-tagline">L'informazione normativa trasparente</p>
         </div>
+
         <div class="footer-nav-col">
-          <span class="footer-nav-label">Navigazione</span>
+          <span class="footer-nav-label">Sezioni</span>
           <nav class="footer-links">
             <a href="/gazzetta-civica/in-iter/">In Iter</a>
             <a href="/gazzetta-civica/dossier/">I Dossier</a>
-            <a href="/gazzetta-civica/chi-siamo">Chi siamo</a>
-            <a href="/gazzetta-civica/privacy">Privacy</a>
-            <a href="/gazzetta-civica/contatti">Contatti</a>
           </nav>
         </div>
+
+        <div class="footer-nav-col">
+          <span class="footer-nav-label">Info</span>
+          <nav class="footer-links">
+            <a href="/gazzetta-civica/contatti">Contatti</a>
+            <a href="/gazzetta-civica/privacy">Privacy</a>
+            <a href="/gazzetta-civica/rss.xml">RSS</a>
+          </nav>
+        </div>
+
+        <div class="footer-mission-col">
+          <span class="footer-nav-label">La missione</span>
+          <p class="footer-mission">
+            Rendere trasparente e comprensibile l'attività legislativa italiana,
+            abbattendo le barriere del linguaggio burocratico per il cittadino.
+          </p>
+        </div>
       </div>
+
       <div class="footer-legal">
         <p>&copy; {new Date().getFullYear()} La Gazzetta Civica — Tutti i diritti riservati.</p>
-        <p class="footer-disclaimer">
-          I contenuti originali sono di proprietà esclusiva de La Gazzetta Civica.
-          Le analisi hanno scopo informativo e non costituiscono consulenza legale.
-        </p>
+        <p class="footer-disclaimer">Le analisi hanno scopo informativo e non costituiscono consulenza legale.</p>
       </div>
     </footer>
   </body>
