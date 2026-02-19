@@ -675,9 +675,13 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
       }
 
       .cf-card {
-        padding: 2rem 0;
+        padding: 1.5rem 0;
         border-right: none;
         border-bottom: 1px solid var(--color-border);
+      }
+
+      .cf-card:first-child {
+        padding-top: 0;
       }
 
       .cf-card:last-child {
@@ -714,6 +718,10 @@ const inIterItems = sorted.filter(a => a.data.tipo === 'in-iter').slice(0, 3);
 
       .segnavia-pull {
         font-size: 1.5rem;
+      }
+
+      .cf-eyebrow {
+        margin-bottom: 1rem;
       }
 
 
