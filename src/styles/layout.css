@@ -2,7 +2,6 @@ header {
   height: var(--header-height);
   padding: 0 3rem;
   background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   max-width: 100%;
@@ -30,7 +29,11 @@ header {
 }
 
 .tricolor-segment--white {
-  background: #c8c8c8;
+  background: var(--color-bg);
+}
+
+.tricolor-bar-footer .tricolor-segment--white {
+  background: var(--color-surface);
 }
 
 .tricolor-segment--red {
@@ -84,7 +87,6 @@ main {
 footer {
   padding: 3rem 2rem 2rem;
   background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
   text-align: left;
   color: var(--color-muted);
   font-size: 0.875rem;
