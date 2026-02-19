@@ -313,6 +313,124 @@ article li {
   text-decoration: underline;
 }
 
+/* Il Dibattito section */
+.il-dibattito {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #f5f3f0 0%, #ebe8e3 100%);
+  border: 1px solid var(--color-border);
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: var(--color-primary);
+  border-radius: 0 6px 6px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.il-dibattito h2 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  padding-bottom: 0.4rem;
+  color: var(--color-primary);
+  border-bottom: 1px dashed rgba(26, 54, 93, 0.3);
+}
+
+.posizioni-gruppo {
+  margin-bottom: 1.5rem;
+}
+
+.posizioni-gruppo:last-child {
+  margin-bottom: 0;
+}
+
+.posizioni-gruppo h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: var(--color-text);
+}
+
+.posizione-card {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.posizione-card:last-child {
+  margin-bottom: 0;
+}
+
+.favorevoli .posizione-card {
+  border-left: 3px solid var(--color-green);
+}
+
+.contrari .posizione-card {
+  border-left: 3px solid var(--color-red);
+}
+
+.astenuti .posizione-card {
+  border-left: 3px solid #9ca3af;
+}
+
+.deputato-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.deputato-header strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.deputato-header a {
+  text-decoration: none;
+  color: var(--color-primary);
+  transition: color var(--transition-base);
+}
+
+.deputato-header a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.gruppo-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  background: var(--color-border);
+  color: var(--color-muted);
+  border-radius: 3px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.argomento {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  margin: 0.5rem 0;
+}
+
+.citazione {
+  font-style: italic;
+  border-left: 2px solid var(--color-border);
+  padding-left: 1rem;
+  margin: 0.75rem 0 0 0;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
 /* Tipo badge — content type indicator */
 .tipo-badge {
   display: inline-block;

@@ -36,13 +36,27 @@ function extractLawNumber(titolo: string): string {
 {legge && (
   <div class="scheda-informativa">
     <h2>Scheda Informativa</h2>
+
     <p class="scheda-sommario">
-      Legge n. <a href={legge['normattiva-link']}><strong>{extractLawNumber(legge['titolo-alternativo'])}</strong></a> - Gazzetta Ufficiale <a href={legge['gu-link']}><strong>n. {legge['numero-gu']} del {formatDate(legge['data-gu'])}</strong></a>
+      Legge n. <a href={legge['normattiva-link']} target="_blank" rel="noopener noreferrer"><strong>{extractLawNumber(legge['titolo-alternativo'])}</strong></a> - Gazzetta Ufficiale <a href={legge['gu-link']} target="_blank" rel="noopener noreferrer"><strong>n. {legge['numero-gu']} del {formatDate(legge['data-gu'])}</strong></a>
     </p>
+
     <ul>
+      {/* Timeline Section */}
+      {legge['camera-data-presentazione'] && (
+        <li><strong>Presentazione</strong> {legge['camera-data-presentazione']}</li>
+      )}
+      {legge['data-emanazione'] && (
+        <li><strong>Emanazione</strong> {formatDate(legge['data-emanazione'])}</li>
+      )}
+      {legge['data-gu'] && (
+        <li><strong>Pubblicazione GU</strong> {formatDate(legge['data-gu'])}</li>
+      )}
       {legge['data-vigenza'] && (
         <li><strong>Entrata in vigore</strong> {formatDate(legge['data-vigenza'])}</li>
       )}
+
+      {/* Legislative Process Section */}
       {legge['senato-natura'] && (
         <li><strong>Natura</strong> Legge {legge['senato-natura']}</li>
       )}
@@ -50,13 +64,70 @@ function extractLawNumber(titolo: string): string {
         <li><strong>Iniziativa</strong> {legge['camera-iniziativa']}</li>
       )}
       {legge['camera-firmatari'] && (
-        <li><strong>Firmatari</strong> {legge['camera-firmatari'].map((f: string) => {
-          const [name, group] = f.split(' - ');
-          return `${name} (${group})`;
-        }).join(', ')}</li>
+        <li>
+          <strong>Firmatari</strong>
+          {legge['camera-firmatari'].map((f: string) => {
+            const [name, group] = f.split(' - ');
+            return `${name} (${group})`;
+          }).join(', ')}
+        </li>
       )}
+
+      {/* Voting Records Section */}
       {(legge['camera-votazione-finale'] || legge['senato-votazione-finale']) && (
-        <li><strong>Votazione finale</strong> <span>{legge['camera-votazione-finale'] && <a href={legge['camera-votazione-finale']}>Camera</a>}{legge['camera-votazione-finale'] && legge['senato-votazione-finale'] && ' | '}{legge['senato-votazione-finale'] && <a href={legge['senato-votazione-finale']}>Senato</a>}</span></li>
+        <li>
+          <strong>Votazione finale</strong>
+          <span>
+            {legge['camera-votazione-finale'] && (
+              <a href={legge['camera-votazione-finale']} target="_blank" rel="noopener noreferrer">Camera</a>
+            )}
+            {legge['camera-votazione-finale'] && legge['senato-votazione-finale'] && ' | '}
+            {legge['senato-votazione-finale'] && (
+              <a href={legge['senato-votazione-finale']} target="_blank" rel="noopener noreferrer">Senato</a>
+            )}
+          </span>
+        </li>
+      )}
+
+      {/* Official Documents Section */}
+      {legge['camera-dossier'] && Array.isArray(legge['camera-dossier']) && legge['camera-dossier'].length > 0 && (
+        <li>
+          <strong>Dossier Camera</strong>
+          <span>
+            {(legge['camera-dossier'] as string[]).map((url, index) => (
+              <Fragment>
+                {index > 0 && ' | '}
+                <a href={url} target="_blank" rel="noopener noreferrer">PDF {index + 1}</a>
+              </Fragment>
+            ))}
+          </span>
+        </li>
+      )}
+      {legge['camera-relazioni'] && Array.isArray(legge['camera-relazioni']) && legge['camera-relazioni'].length > 0 && (
+        <li>
+          <strong>Relazioni Camera</strong>
+          <span>
+            {(legge['camera-relazioni'] as string[]).map((url, index) => (
+              <Fragment>
+                {index > 0 && ' | '}
+                <a href={url} target="_blank" rel="noopener noreferrer">PDF {index + 1}</a>
+              </Fragment>
+            ))}
+          </span>
+        </li>
+      )}
+      {legge['senato-documenti'] && Array.isArray(legge['senato-documenti']) && legge['senato-documenti'].length > 0 && (
+        <li>
+          <strong>Documenti Senato</strong>
+          <span>
+            {(legge['senato-documenti'] as string[]).map((url, index) => (
+              <Fragment>
+                {index > 0 && ' | '}
+                <a href={url} target="_blank" rel="noopener noreferrer">PDF {index + 1}</a>
+              </Fragment>
+            ))}
+          </span>
+        </li>
       )}
     </ul>
   </div>

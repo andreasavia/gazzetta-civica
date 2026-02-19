@@ -21,6 +21,15 @@ export interface Legge {
   [key: string]: unknown;
 }
 
+export interface DeputyPosition {
+  deputato: string;
+  posizione: 'favorevole' | 'contrario' | 'astenuto';
+  gruppo?: string;
+  argomento: string;
+  citazioni: string[];
+  deputato_url?: string;
+}
+
 const leggiCache = new Map<string, Legge>();
 
 function scanLeggiDir(dir: string): void {
@@ -51,4 +60,16 @@ export function getLegge(codiceRedazionale: string): Legge | undefined {
 
 export function getAllLeggi(): Legge[] {
   return Array.from(leggiCache.values());
+}
+
+export function getPosizioni(slug: string, collection: 'dossier' | 'in-iter' = 'dossier'): DeputyPosition[] | undefined {
+  try {
+    const filePath = path.resolve(process.cwd(), 'src/data', collection, slug, 'interventi.json');
+    if (!fs.existsSync(filePath)) return undefined;
+    const content = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(content) as DeputyPosition[];
+  } catch (error) {
+    console.warn(`Failed to load interventi for ${collection}/${slug}:`, error);
+    return undefined;
+  }
 }

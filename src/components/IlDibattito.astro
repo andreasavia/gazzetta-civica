@@ -1,0 +1,101 @@
+---
+import { getPosizioni } from '../lib/leggi';
+import type { DeputyPosition } from '../lib/leggi';
+
+interface Props {
+  slug: string;
+  collection?: 'dossier' | 'in-iter';
+}
+
+const { slug, collection = 'dossier' } = Astro.props;
+const posizioni = getPosizioni(slug, collection);
+
+// Group positions by stance
+const favorevoli = posizioni?.filter(p => p.posizione === 'favorevole') || [];
+const contrari = posizioni?.filter(p => p.posizione === 'contrario') || [];
+const astenuti = posizioni?.filter(p => p.posizione === 'astenuto') || [];
+---
+
+{posizioni && posizioni.length > 0 && (
+  <div class="il-dibattito">
+    <h2>Il Dibattito</h2>
+
+    {favorevoli.length > 0 && (
+      <div class="posizioni-gruppo favorevoli">
+        <h3>A Favore</h3>
+        {favorevoli.map(pos => (
+          <div class="posizione-card">
+            <div class="deputato-header">
+              {pos.deputato_url ? (
+                <a href={pos.deputato_url} target="_blank" rel="noopener noreferrer">
+                  <strong>{pos.deputato}</strong>
+                </a>
+              ) : (
+                <strong>{pos.deputato}</strong>
+              )}
+              {pos.gruppo && <span class="gruppo-badge">{pos.gruppo}</span>}
+            </div>
+            <p class="argomento">{pos.argomento}</p>
+            {pos.citazioni.length > 0 && (
+              <blockquote class="citazione">
+                "{pos.citazioni[0]}"
+              </blockquote>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+
+    {contrari.length > 0 && (
+      <div class="posizioni-gruppo contrari">
+        <h3>Contrari</h3>
+        {contrari.map(pos => (
+          <div class="posizione-card">
+            <div class="deputato-header">
+              {pos.deputato_url ? (
+                <a href={pos.deputato_url} target="_blank" rel="noopener noreferrer">
+                  <strong>{pos.deputato}</strong>
+                </a>
+              ) : (
+                <strong>{pos.deputato}</strong>
+              )}
+              {pos.gruppo && <span class="gruppo-badge">{pos.gruppo}</span>}
+            </div>
+            <p class="argomento">{pos.argomento}</p>
+            {pos.citazioni.length > 0 && (
+              <blockquote class="citazione">
+                "{pos.citazioni[0]}"
+              </blockquote>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+
+    {astenuti.length > 0 && (
+      <div class="posizioni-gruppo astenuti">
+        <h3>Astenuti</h3>
+        {astenuti.map(pos => (
+          <div class="posizione-card">
+            <div class="deputato-header">
+              {pos.deputato_url ? (
+                <a href={pos.deputato_url} target="_blank" rel="noopener noreferrer">
+                  <strong>{pos.deputato}</strong>
+                </a>
+              ) : (
+                <strong>{pos.deputato}</strong>
+              )}
+              {pos.gruppo && <span class="gruppo-badge">{pos.gruppo}</span>}
+            </div>
+            <p class="argomento">{pos.argomento}</p>
+            {pos.citazioni.length > 0 && (
+              <blockquote class="citazione">
+                "{pos.citazioni[0]}"
+              </blockquote>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
