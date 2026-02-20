@@ -481,6 +481,7 @@ def generate_markdown_files(data, output_dir):
 
         # Build markdown content
         md_content = "---\n"
+        md_content += "tipo: INTERVENTI\n"
         md_content += f"seduta_id: {session_num}\n"
         md_content += f"date: {date_formatted}\n"
         md_content += f"title: {title}\n"
