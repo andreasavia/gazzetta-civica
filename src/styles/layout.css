@@ -123,6 +123,8 @@ footer {
   display: flex;
   gap: 0;
   flex-shrink: 0;
+  width: 100%;
+  max-width: 460px;
 }
 
 .footer-cta-form input[type="email"] {
@@ -134,7 +136,8 @@ footer {
   border-right: none;
   color: #ffffff;
   outline: none;
-  width: 220px;
+  flex: 1;
+  min-width: 0;
   border-radius: 2px 0 0 2px;
   transition: border-color 0.2s;
 }
