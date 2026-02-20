@@ -217,11 +217,11 @@ jobs:
 
             # Create PR (labels and assignee are optional - don't fail if they don't work)
             pr_url=$(gh pr create \
-              --title "$titolo_alt" \
+              --title "[$codice] $titolo_alt" \
               --body-file /tmp/pr_body.md \
               --assignee andreasavia 2>/dev/null || \
             gh pr create \
-              --title "$titolo_alt" \
+              --title "[$codice] $titolo_alt" \
               --body-file /tmp/pr_body.md)
 
             # Try to add labels (don't fail if labels don't exist)
