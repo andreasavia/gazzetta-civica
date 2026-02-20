@@ -35,6 +35,9 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from functools import wraps
 
+# Import Camera.it functions from separate module
+from camera import fetch_camera_metadata, fetch_esame_assemblea
+
 BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
 HEADERS = {"Content-Type": "application/json"}
 OUTPUT_DIR = Path(__file__).parent.parent / "data"
@@ -291,352 +294,6 @@ def extract_text_content(html):
     lines = [line.strip() for line in text.split('\n') if line.strip()]
     return '\n'.join(lines)
 
-
-@retry_request(max_retries=3, initial_delay=2)
-def fetch_camera_metadata(session, camera_url: str) -> dict:
-    """Fetch and parse metadata from a camera.it RDF endpoint.
-    Returns dict with camera-atto, legislatura, natura, data-presentazione, iniziativa-dei-deputati.
-
-    Raises:
-        Exception: If HTTP request fails or RDF parsing fails
-    """
-    result = {}
-
-    # Parse URL to extract legislatura and atto number
-    # URL format: http://www.camera.it/uri-res/N2Ls?urn:camera-it:parlamento:scheda.progetto.legge:camera;19.legislatura;1621
-    url_match = re.search(r'(\d+)\.legislatura;(\d+)', camera_url)
-    if not url_match:
-        raise ValueError(f"Could not parse legislatura/atto from camera URL: {camera_url}")
-
-    legislatura = url_match.group(1)
-    atto_num = url_match.group(2)
-    result["legislatura"] = legislatura
-    result["camera-atto"] = f"C. {atto_num}"
-
-    rdf_url = f"http://dati.camera.it/ocd/attocamera.rdf/ac{legislatura}_{atto_num}"
-    result["camera-atto-iri"] = rdf_url
-
-    # Request RDF/XML format explicitly
-    resp = session.get(rdf_url, headers={"Accept": "application/rdf+xml"}, timeout=30)
-    resp.raise_for_status()
-    rdf_text = resp.text
-
-    # Parse RDF/XML
-    root = ET.fromstring(rdf_text)
-
-    # Namespaces used in the RDF
-    ns = {
-        'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-        'dc': 'http://purl.org/dc/elements/1.1/',
-        'ocd': 'http://dati.camera.it/ocd/',
-        'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-        'foaf': 'http://xmlns.com/foaf/0.1/',
-    }
-
-    # Find any Description element (the main one)
-    atto_elem = None
-    for desc in root.findall('.//rdf:Description', ns):
-        about = desc.get(f"{{{ns['rdf']}}}about", "")
-        if f"ac{legislatura}_{atto_num}" in about:
-            atto_elem = desc
-            break
-
-    if atto_elem is None:
-        # Fallback: try first Description
-        descriptions = root.findall('.//rdf:Description', ns)
-        if descriptions:
-            atto_elem = descriptions[0]
-
-    if atto_elem is None:
-        return result
-
-    # Extract natura (dc:type)
-    tipo_elem = atto_elem.find('dc:type', ns)
-    if tipo_elem is not None and tipo_elem.text:
-        result["camera-natura"] = tipo_elem.text.strip()
-
-    # Extract iniziativa (ocd:iniziativa) - Governo or Parlamentare
-    iniziativa_elem = atto_elem.find('ocd:iniziativa', ns)
-    if iniziativa_elem is not None and iniziativa_elem.text:
-        result["camera-iniziativa"] = iniziativa_elem.text.strip()
-
-    # Extract presentation date (dc:date) - format YYYYMMDD
-    date_elem = atto_elem.find('dc:date', ns)
-    if date_elem is not None and date_elem.text:
-        raw_date = date_elem.text.strip()
-        # Convert YYYYMMDD to readable format
-        if len(raw_date) == 8 and raw_date.isdigit():
-            try:
-                dt = datetime.strptime(raw_date, "%Y%m%d")
-                months = ["", "gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
-                          "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"]
-                result["camera-data-presentazione"] = f"{dt.day} {months[dt.month]} {dt.year}"
-            except ValueError:
-                result["camera-data-presentazione"] = raw_date
-        else:
-            result["camera-data-presentazione"] = raw_date
-
-    # Extract relazioni (related documents) links (dc:relation)
-    relazioni_links = []
-    for relation_elem in atto_elem.findall('dc:relation', ns):
-        resource = relation_elem.get(f"{{{ns['rdf']}}}resource", "")
-        if resource and resource.endswith('.pdf'):
-            relazioni_links.append(resource)
-    if relazioni_links:
-        result["camera-relazioni"] = relazioni_links
-
-    # Extract creator (first signer) - dc:creator contains name directly
-    deputies = []
-    for creator_elem in atto_elem.findall('dc:creator', ns):
-        if creator_elem.text:
-            name = creator_elem.text.strip()
-            if not any(d["name"] == name for d in deputies):
-                deputies.append({"name": name, "link": ""})
-
-    # Get primo_firmatario URIs (handle both resource URIs and blank nodes)
-    primo_uris = []
-    for primo_elem in atto_elem.findall('ocd:primo_firmatario', ns):
-        # Try direct resource URI first (parliamentary bills)
-        resource = primo_elem.get(f"{{{ns['rdf']}}}resource", "")
-        if resource:
-            primo_uris.append(resource)
-        else:
-            # Try blank node (government bills)
-            node_id = primo_elem.get(f"{{{ns['rdf']}}}nodeID", "")
-            if node_id:
-                persona_uri = resolve_blank_node(root, node_id, ns)
-                if persona_uri:
-                    primo_uris.append(persona_uri)
-
-    # Fetch groups for all primo_firmatario
-    for i, dep in enumerate(deputies):
-        if i < len(primo_uris):
-            group = fetch_parliamentary_group(session, primo_uris[i], ns, legislatura)
-            if group:
-                dep["group"] = group
-
-    # Extract additional signers (dc:contributor contains names, ocd:altro_firmatario has URIs)
-    contributors = []
-    for contrib_elem in atto_elem.findall('dc:contributor', ns):
-        if contrib_elem.text:
-            contributors.append(contrib_elem.text.strip())
-
-    altro_firmatari = []
-    for altro_elem in atto_elem.findall('ocd:altro_firmatario', ns):
-        resource = altro_elem.get(f"{{{ns['rdf']}}}resource", "")
-        if resource:
-            altro_firmatari.append(resource)
-        else:
-            # Try blank node
-            node_id = altro_elem.get(f"{{{ns['rdf']}}}nodeID", "")
-            if node_id:
-                persona_uri = resolve_blank_node(root, node_id, ns)
-                if persona_uri:
-                    altro_firmatari.append(persona_uri)
-
-    # Match contributors with their groups
-    for i, name in enumerate(contributors):
-        if not any(d["name"] == name for d in deputies):
-            group = ""
-            if i < len(altro_firmatari):
-                group = fetch_parliamentary_group(session, altro_firmatari[i], ns, legislatura)
-            deputies.append({"name": name, "group": group})
-
-    if deputies:
-        result["camera-firmatari"] = deputies
-
-    # Extract relatori (rapporteurs)
-    relatori_refs = []
-    for rel_elem in atto_elem.findall('ocd:rif_relatore', ns):
-        resource = rel_elem.get(f"{{{ns['rdf']}}}resource", "")
-        if resource:
-            relatori_refs.append(resource)
-
-    if relatori_refs:
-        relatori = fetch_relatori_names(session, relatori_refs, ns)
-        if relatori:
-            result["camera-relatori"] = relatori
-
-    # Fetch HTML page for votazione-finale and potentially override with HTML-based firmatari
-    html_resp = session.get(camera_url, timeout=30)
-    html_resp.raise_for_status()
-    html_text = html_resp.text
-
-    # Extract final vote
-    voto_match = re.search(r'href="([^"]*votazioni[^"]*schedaVotazione[^"]*)"', html_text)
-    if voto_match:
-        link = voto_match.group(1).replace("&amp;", "&")
-        if not link.startswith("http"):
-            link = "https://www.camera.it" + link
-        result["camera-votazione-finale"] = link
-
-    # Extract dossier links
-    dossier_links = []
-    dossier_pattern = r'href="([^"]*dossier[^"]*)"'
-    for match in re.finditer(dossier_pattern, html_text, re.IGNORECASE):
-        link = match.group(1).replace("&amp;", "&")
-        if not link.startswith("http"):
-            link = "https://www.camera.it" + link
-        if link not in dossier_links:
-            dossier_links.append(link)
-
-    if dossier_links:
-        result["camera-dossier"] = dossier_links
-
-    # For government bills, parse HTML to get ministerial roles instead of groups
-    if html_text and result.get("camera-iniziativa") == "Governo":
-        html_firmatari = parse_html_firmatari(html_text, legislatura)
-        if html_firmatari:
-            result["camera-firmatari"] = html_firmatari
-
-    return result
-
-
-def parse_html_firmatari(html: str, legislatura: str) -> list:
-    """Parse firmatari from HTML page for government bills."""
-    firmatari = []
-
-    # Look for <div class="iniziativa"> for government bills
-    iniziativa_match = re.search(r'<div class="iniziativa">(.*?)</div>', html, re.DOTALL)
-    if not iniziativa_match:
-        return firmatari
-
-    section = iniziativa_match.group(1)
-
-    # Extract each person with their role
-    # Pattern: <a href="...idPersona=123">NAME</a></span> (<em>ROLE</em>)
-    pattern = r'<a\s+href="[^"]*idPersona=(\d+)"[^>]*>([^<]+)</a>\s*</span>\s*\(<em>([^<]+)</em>\)'
-
-    for match in re.finditer(pattern, section):
-        person_id = match.group(1)
-        name = re.sub(r'\s+', ' ', match.group(2)).strip()
-        role = match.group(3).strip()
-
-        firmatari.append({
-            "name": name,
-            "role": role,
-            "link": f"https://documenti.camera.it/apps/commonServices/getDocumento.ashx?sezione=deputati&tipoDoc=schedaDeputato&idlegislatura={legislatura}&idPersona={person_id}"
-        })
-
-    return firmatari
-
-
-@retry_request(max_retries=3, initial_delay=2)
-def fetch_relatori_names(session, relatori_refs: list, ns: dict) -> list:
-    """Fetch relatore names from their RDF URIs.
-
-    Raises:
-        Exception: If HTTP request fails or RDF parsing fails
-    """
-    relatori = []
-    for ref in relatori_refs:
-        resp = session.get(ref, headers={"Accept": "application/rdf+xml"}, timeout=10)
-        resp.raise_for_status()
-        root = ET.fromstring(resp.text)
-        # Find the Description with dc:creator (the relatore name)
-        for desc in root.findall('.//rdf:Description', ns):
-            creator = desc.find('dc:creator', ns)
-            if creator is not None and creator.text:
-                name = creator.text.strip()
-                if name and name not in relatori:
-                    relatori.append(name)
-                break
-    return relatori
-
-
-def resolve_blank_node(root, node_id: str, ns: dict) -> str:
-    """Resolve a blank node to get the persona/deputato URI."""
-    for desc in root.findall('.//rdf:Description', ns):
-        desc_node_id = desc.get(f"{{{ns['rdf']}}}nodeID", "")
-        if desc_node_id == node_id:
-            # Found the blank node, look for ocd:rif_persona
-            rif_persona = desc.find('ocd:rif_persona', ns)
-            if rif_persona is not None:
-                resource = rif_persona.get(f"{{{ns['rdf']}}}resource", "")
-                if resource:
-                    return resource
-    return ""
-
-
-@retry_request(max_retries=3, initial_delay=2)
-def fetch_parliamentary_group(session, person_uri: str, ns: dict, legislatura: str = "19") -> str:
-    """Fetch parliamentary group abbreviation from person/deputato RDF.
-
-    Raises:
-        Exception: If HTTP request fails or RDF parsing fails
-    """
-    # If persona.rdf URI, convert to deputato.rdf URI
-    # persona.rdf/p50204 → deputato.rdf/d50204_19
-    if 'persona.rdf' in person_uri:
-        person_match = re.search(r'/p(\d+)', person_uri)
-        if person_match:
-            person_id = person_match.group(1)
-            person_uri = f"http://dati.camera.it/ocd/deputato.rdf/d{person_id}_{legislatura}"
-
-    resp = session.get(person_uri, headers={"Accept": "application/rdf+xml"}, timeout=10)
-    resp.raise_for_status()
-    root = ET.fromstring(resp.text)
-
-    # Look for gruppo parlamentare reference
-    gruppo_uri = None
-    for desc in root.findall('.//rdf:Description', ns):
-        gruppo_elem = desc.find('ocd:rif_gruppoParlamentare', ns)
-        if gruppo_elem is not None:
-            gruppo_uri = gruppo_elem.get(f"{{{ns['rdf']}}}resource", "")
-            if gruppo_uri:
-                break
-
-    if not gruppo_uri:
-        return ""
-
-    # Fetch the group RDF to get the abbreviation
-    gruppo_resp = session.get(gruppo_uri, headers={"Accept": "application/rdf+xml"}, timeout=10)
-    gruppo_resp.raise_for_status()
-    gruppo_root = ET.fromstring(gruppo_resp.text)
-
-    # Find the main Description for this group
-    for desc in gruppo_root.findall('.//rdf:Description', ns):
-        about = desc.get(f"{{{ns['rdf']}}}about", "")
-        if about == gruppo_uri:
-            # Try ocd:sigla first
-            sigla = desc.find('ocd:sigla', ns)
-            if sigla is not None and sigla.text:
-                return sigla.text.strip()
-
-            # Parse abbreviation from rdfs:label
-            # Format: "FULL NAME (ABBREVIATION) (DATE"
-            label = desc.find('rdfs:label', ns)
-            if label is not None and label.text:
-                label_text = label.text.strip()
-                # Extract abbreviation from parentheses
-                match = re.search(r'\(([A-Z\-]+)\)\s*\(', label_text)
-                if match:
-                    return match.group(1)
-                # Fallback: return full label
-                return label_text
-
-    return ""
-
-
-def build_scheda_link(resource_uri: str, legislatura: str) -> str:
-    """Build scheda deputato link from resource URI."""
-    # Extract person ID from URI like:
-    # - http://dati.camera.it/ocd/deputato.rdf/d50204_19 (deputato)
-    # - http://dati.camera.it/ocd/persona.rdf/p50204 (persona)
-
-    # Try deputato format: d{personId}_{legislatura}
-    match = re.search(r'/d(\d+)_\d+', resource_uri)
-    if match:
-        person_id = match.group(1)
-        return f"https://documenti.camera.it/apps/commonServices/getDocumento.ashx?sezione=deputati&tipoDoc=schedaDeputato&idlegislatura={legislatura}&idPersona={person_id}"
-
-    # Try persona format: p{personId}
-    match = re.search(r'/p(\d+)', resource_uri)
-    if match:
-        person_id = match.group(1)
-        return f"https://documenti.camera.it/apps/commonServices/getDocumento.ashx?sezione=deputati&tipoDoc=schedaDeputato&idlegislatura={legislatura}&idPersona={person_id}"
-
-    return resource_uri
 
 
 @retry_request(max_retries=3, initial_delay=2)
@@ -1296,30 +953,32 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
     return law_metadata
 
 
-def fetch_and_save_interventi(atti: list, vault_dir: Path) -> list:
-    """Fetch and save stenographic speeches (interventi) for each processed law.
+def fetch_and_save_interventi(session, atti: list, vault_dir: Path) -> list:
+    """Fetch and save Assembly debate information (Esame in Assemblea) for each processed law.
 
-    Mirrors fetch-dibattiti.yml exactly:
-    1. fetch_dibattiti_single_query.py  — SPARQL query filtered to
-       "Discussione in Assemblea", saves dibattiti.json.
-    2. fetch_all_interventi.py          — reads dibattiti.json, fetches XML
-       per seduta, filters to specific anchors, saves {date}-sed{id}.md.
+    Uses the new parse_esame_assemblea module to extract debate data from camera.it HTML,
+    including sessions, phases, speakers, and optionally full stenographic text.
+
+    Args:
+        session: requests.Session for HTTP requests
+        atti: List of atto dictionaries
+        vault_dir: Base vault directory path
 
     Returns:
         list: Failure records for data/interventi_failures.json.
     """
-    import subprocess
-
-    SCRIPTS_DIR = Path(__file__).parent
-    FILTER_TITLE = "Discussione in Assemblea"
     failures = []
 
     for i, atto in enumerate(atti):
         codice = atto.get("codiceRedazionale", "unknown")
-        atto_iri = atto.get("camera-atto-iri", "")
 
-        if not atto_iri:
-            print(f"  [{i+1}/{len(atti)}] {codice}... no camera-atto-iri, skipping")
+        # Get camera URL from lavori_preparatori
+        lavori = atto.get("lavori_preparatori", "")
+        lavori_list = lavori if isinstance(lavori, list) else lavori.split("\n") if lavori else []
+        camera_links = [l for l in lavori_list if "camera.it" in str(l) and "progetto.legge" in str(l)]
+
+        if not camera_links:
+            print(f"  [{i+1}/{len(atti)}] {codice}... no camera.it link, skipping")
             continue
 
         # Resolve norm directory (mirrors save_markdown logic)
@@ -1340,37 +999,41 @@ def fetch_and_save_interventi(atti: list, vault_dir: Path) -> list:
 
         interventi_dir = norm_dir / "interventi"
         interventi_dir.mkdir(exist_ok=True)
-        dibattiti_path = interventi_dir / "dibattiti.json"
 
         print(f"  [{i+1}/{len(atti)}] {codice}...")
 
-        # Step 1: fetch dibattiti via SPARQL
-        result = subprocess.run(
-            [
-                "python", str(SCRIPTS_DIR / "fetch_dibattiti_single_query.py"),
-                atto_iri, "-o", str(dibattiti_path),
-                "--filter-title", FILTER_TITLE,
-            ],
-            capture_output=True, text=True,
-        )
-        if result.returncode != 0:
-            msg = f"fetch_dibattiti_single_query failed: {(result.stderr or result.stdout)[:300]}"
-            print(f"    ✗ {msg[:120]}")
-            failures.append({"codice": codice, "seduta_id": "", "error": msg})
-            continue
+        try:
+            # Fetch Esame in Assemblea data using new module
+            esame_data = fetch_esame_assemblea(session, camera_links[0], fetch_text=True)
 
-        # Step 2: fetch all interventi from dibattiti.json
-        result = subprocess.run(
-            ["python", str(SCRIPTS_DIR / "fetch_all_interventi.py"), str(dibattiti_path)],
-            capture_output=True, text=True,
-        )
-        if result.returncode != 0:
-            msg = f"fetch_all_interventi failed: {(result.stderr or result.stdout)[:300]}"
-            print(f"    ✗ {msg[:120]}")
-            failures.append({"codice": codice, "seduta_id": "", "error": msg})
-            continue
+            if not esame_data or not esame_data.get('sessions'):
+                print(f"    ⚠ No Esame in Assemblea data found")
+                failures.append({
+                    "codice": codice,
+                    "error": "No Esame in Assemblea section found in HTML"
+                })
+                continue
 
-        print(f"    ✅ interventi saved in {interventi_dir.relative_to(vault_dir.parent.parent)}")
+            # Save the complete structured data as JSON
+            esame_path = interventi_dir / "esame_assemblea.json"
+            with esame_path.open('w', encoding='utf-8') as f:
+                json.dump(esame_data, f, ensure_ascii=False, indent=2)
+
+            # Count extracted data
+            total_sessions = len(esame_data.get('sessions', []))
+            total_interventions = sum(
+                len(p.get('interventions', []))
+                for s in esame_data.get('sessions', [])
+                for p in s.get('phases', [])
+            )
+
+            print(f"    ✅ Esame in Assemblea saved: {total_sessions} sessions, {total_interventions} interventions")
+
+        except Exception as e:
+            msg = f"fetch_esame_assemblea failed: {str(e)[:300]}"
+            print(f"    ✗ {msg[:120]}")
+            failures.append({"codice": codice, "error": msg})
+            continue
 
     return failures
 
@@ -1382,6 +1045,8 @@ def main():
     )
     parser.add_argument("anno", type=int, help="Year (e.g. 2026)")
     parser.add_argument("mese", type=int, help="Month (1-12)")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Skip git operations (branch checks, fetch)")
     args = parser.parse_args()
 
     # Validate
@@ -1429,23 +1094,27 @@ def main():
     print(f"  Processing {len(atti)} new norms")
 
     # Filter out norms that already have PR branches
-    print("\n[Checking for existing PR branches]")
-    # Fetch remote branches to get the latest PR branches
-    import subprocess
-    try:
-        print("  Fetching remote branches...")
-        subprocess.run(["git", "fetch", "origin"], capture_output=True, timeout=30, check=True)
-    except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
-        print(f"  ⚠ Warning: Could not fetch remote branches: {str(e)[:100]}")
-        print("  Continuing with local branch information only...")
+    if not args.dry_run:
+        print("\n[Checking for existing PR branches]")
+        # Fetch remote branches to get the latest PR branches
+        import subprocess
+        try:
+            print("  Fetching remote branches...")
+            subprocess.run(["git", "fetch", "origin"], capture_output=True, timeout=30, check=True)
+        except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
+            print(f"  ⚠ Warning: Could not fetch remote branches: {str(e)[:100]}")
+            print("  Continuing with local branch information only...")
 
-    pre_pr_count = len(atti)
-    atti = [atto for atto in atti if not check_pr_branch_exists(atto.get("codiceRedazionale", ""))]
-    pr_filtered_count = pre_pr_count - len(atti)
+        pre_pr_count = len(atti)
+        atti = [atto for atto in atti if not check_pr_branch_exists(atto.get("codiceRedazionale", ""))]
+        pr_filtered_count = pre_pr_count - len(atti)
 
-    if pr_filtered_count > 0:
-        print(f"  Skipped {pr_filtered_count} norms with existing PR branches")
-    print(f"  Processing {len(atti)} remaining norms\n")
+        if pr_filtered_count > 0:
+            print(f"  Skipped {pr_filtered_count} norms with existing PR branches")
+        print(f"  Processing {len(atti)} remaining norms\n")
+    else:
+        print("\n[Dry run: Skipping PR branch checks]")
+        print(f"  Processing all {len(atti)} norms\n")
 
     if len(atti) == 0:
         print("  No new norms to process. Exiting.")
@@ -1593,8 +1262,8 @@ def main():
         print(f"    These will be flagged in the PR for manual review")
 
     # Fetch and save parliamentary speeches — runs last so all metadata is settled
-    print("\n[Fetching parliamentary speeches (interventi)]")
-    interventi_failures = fetch_and_save_interventi(atti, VAULT_DIR)
+    print("\n[Fetching Esame in Assemblea (Assembly debates)]")
+    interventi_failures = fetch_and_save_interventi(session, atti, VAULT_DIR)
     if interventi_failures:
         interventi_failures_file = OUTPUT_DIR / "interventi_failures.json"
         save_json({
