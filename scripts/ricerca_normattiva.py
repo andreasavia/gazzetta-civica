@@ -969,7 +969,7 @@ def main():
                     year = str(eman_date.year)
                     month = f"{eman_date.month:02d}"
                     day = f"{eman_date.day:02d}"
-                    norm_dir = vault_dir / year / month / day / f"n. {numero_provv}"
+                    norm_dir = VAULT_DIR / year / month / day / f"n. {numero_provv}"
                     interventi_dir = str(norm_dir / "interventi")
                 except ValueError:
                     pass
