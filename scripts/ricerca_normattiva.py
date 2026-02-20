@@ -792,88 +792,6 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
     return law_metadata
 
 
-def fetch_and_save_interventi(session, atti: list, vault_dir: Path) -> list:
-    """Fetch and save Assembly debate information (Esame in Assemblea) for each processed law.
-
-    Uses the new parse_esame_assemblea module to extract debate data from camera.it HTML,
-    including sessions, phases, speakers, and optionally full stenographic text.
-
-    Args:
-        session: requests.Session for HTTP requests
-        atti: List of atto dictionaries
-        vault_dir: Base vault directory path
-
-    Returns:
-        list: Failure records for data/interventi_failures.json.
-    """
-    failures = []
-
-    for i, atto in enumerate(atti):
-        codice = atto.get("codiceRedazionale", "unknown")
-
-        # Get camera URL from lavori_preparatori
-        lavori = atto.get("lavori_preparatori", "")
-        lavori_list = lavori if isinstance(lavori, list) else lavori.split("\n") if lavori else []
-        camera_links = [l for l in lavori_list if "camera.it" in str(l) and "progetto.legge" in str(l)]
-
-        if not camera_links:
-            print(f"  [{i+1}/{len(atti)}] {codice}... no camera.it link, skipping")
-            continue
-
-        # Resolve norm directory (mirrors save_markdown logic)
-        data_emanazione = atto.get("dataEmanazione", "")[:10]
-        numero_provv = atto.get("numeroProvvedimento", "0")
-        try:
-            eman_date = datetime.strptime(data_emanazione, "%Y-%m-%d")
-            year = str(eman_date.year)
-            month = f"{eman_date.month:02d}"
-            day = f"{eman_date.day:02d}"
-        except ValueError:
-            print(f"  [{i+1}/{len(atti)}] {codice}... invalid date, skipping")
-            continue
-
-        norm_dir = vault_dir / year / month / day / f"n. {numero_provv}"
-        if not norm_dir.exists():
-            continue
-
-        interventi_dir = norm_dir / "interventi"
-        interventi_dir.mkdir(exist_ok=True)
-
-        print(f"  [{i+1}/{len(atti)}] {codice}...")
-
-        try:
-            # Fetch metadata with interventi (camera.py handles everything)
-            # If _html_content is cached, it will be reused automatically
-            camera_meta = fetch_camera_metadata(session, camera_links[0], interventi_dir=str(interventi_dir))
-
-            # Check if interventi were successfully fetched
-            if "_interventi_error" in camera_meta:
-                error_msg = camera_meta["_interventi_error"]
-                print(f"    ⚠ Interventi fetch failed: {error_msg}")
-                failures.append({"codice": codice, "error": error_msg})
-                continue
-
-            if "_interventi_summary" in camera_meta:
-                summary = camera_meta["_interventi_summary"]
-                sessions = summary.get("sessions", 0)
-                interventions = summary.get("interventions", 0)
-                print(f"    ✅ Esame in Assemblea saved: {sessions} sessions, {interventions} interventions")
-            else:
-                print(f"    ⚠ No Esame in Assemblea data found")
-                failures.append({
-                    "codice": codice,
-                    "error": "No Esame in Assemblea section found in HTML"
-                })
-
-        except Exception as e:
-            msg = f"fetch_camera_metadata failed: {str(e)[:300]}"
-            print(f"    ✗ {msg[:120]}")
-            failures.append({"codice": codice, "error": msg})
-            continue
-
-    return failures
-
-
 def main():
     parser = argparse.ArgumentParser(
         description="Search norms on Normattiva by year and month.",
@@ -1032,7 +950,7 @@ def main():
     print("  ✅ Markdown files saved with article HTML\n")
 
     # Fetch camera.it metadata from lavori_preparatori
-    print("[Fetching camera.it metadata]")
+    print("[Fetching camera.it metadata and interventi]")
     for i, atto in enumerate(atti):
         lavori = atto.get("lavori_preparatori", "")
         # Handle both string (from scraping) and list (from manual overrides)
@@ -1040,9 +958,33 @@ def main():
         camera_links = [l for l in lavori_list if "camera.it" in str(l)]
         if camera_links:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}...", end=" ", flush=True)
-            camera_meta = fetch_camera_metadata(session, camera_links[0])
+
+            # Calculate interventi directory path
+            interventi_dir = None
+            data_emanazione = atto.get("dataEmanazione", "")[:10]
+            numero_provv = atto.get("numeroProvvedimento", "")
+            if data_emanazione and numero_provv:
+                try:
+                    eman_date = datetime.strptime(data_emanazione, "%Y-%m-%d")
+                    year = str(eman_date.year)
+                    month = f"{eman_date.month:02d}"
+                    day = f"{eman_date.day:02d}"
+                    norm_dir = vault_dir / year / month / day / f"n. {numero_provv}"
+                    interventi_dir = str(norm_dir / "interventi")
+                except ValueError:
+                    pass
+
+            # Fetch metadata and interventi in one call
+            camera_meta = fetch_camera_metadata(session, camera_links[0], interventi_dir=interventi_dir)
             atto.update(camera_meta)
-            print(f"legislatura {camera_meta.get('legislatura', '?')}, {camera_meta.get('camera-atto', '?')}")
+
+            # Print results
+            info_parts = [f"legislatura {camera_meta.get('legislatura', '?')}", camera_meta.get('camera-atto', '?')]
+            if "_interventi_summary" in camera_meta:
+                summary = camera_meta["_interventi_summary"]
+                info_parts.append(f"{summary['sessions']} sedute, {summary['interventions']} interventi")
+            print(", ".join(filter(None, info_parts)))
+
             # Add delay to avoid rate limiting
             time.sleep(3)
         else:
@@ -1097,9 +1039,13 @@ def main():
         print(f"  ⚠ Request failures: {failures_file} ({len(REQUEST_FAILURES)} failures)")
         print(f"    These will be flagged in the PR for manual review")
 
-    # Fetch and save parliamentary speeches — runs last so all metadata is settled
-    print("\n[Fetching Esame in Assemblea (Assembly debates)]")
-    interventi_failures = fetch_and_save_interventi(session, atti, VAULT_DIR)
+    # Collect interventi failures from camera metadata fetch
+    print("\n[Checking Esame in Assemblea (Assembly debates) results]")
+    interventi_failures = [
+        {"codice": atto.get("codiceRedazionale"), "error": atto.get("_interventi_error")}
+        for atto in atti
+        if "_interventi_error" in atto
+    ]
     if interventi_failures:
         interventi_failures_file = OUTPUT_DIR / "interventi_failures.json"
         save_json({
