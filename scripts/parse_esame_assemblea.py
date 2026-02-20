@@ -435,6 +435,90 @@ def parse_esame_assemblea(html_content):
     }
 
 
+def generate_markdown_files(data, output_dir):
+    """
+    Generate markdown files for each seduta from the parsed data.
+
+    Args:
+        data: Parsed data dictionary
+        output_dir: Directory to save markdown files
+    """
+    output_path = Path(output_dir)
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    for session in data['sessions']:
+        session_num = session.get('session_number', 'unknown')
+        date = session.get('date', '')
+        title = session.get('title', '')
+
+        # Convert date format if needed (from "DD mese YYYY" to "DD/MM/YYYY")
+        date_formatted = date
+        month_map = {
+            'gennaio': '01', 'febbraio': '02', 'marzo': '03', 'aprile': '04',
+            'maggio': '05', 'giugno': '06', 'luglio': '07', 'agosto': '08',
+            'settembre': '09', 'ottobre': '10', 'novembre': '11', 'dicembre': '12'
+        }
+        date_match = re.search(r'(\d+)\s+(\w+)\s+(\d{4})', date)
+        if date_match:
+            day = date_match.group(1).zfill(2)
+            month_name = date_match.group(2).lower()
+            year = date_match.group(3)
+            month_num = month_map.get(month_name, '00')
+            date_formatted = f"{day}/{month_num}/{year}"
+
+        # Collect page references
+        page_refs = []
+        for page_ref in session.get('page_references', []):
+            if page_ref.get('url'):
+                page_refs.append(page_ref['url'])
+
+        # Build markdown content
+        md_content = "---\n"
+        md_content += f"seduta_id: {session_num}\n"
+        md_content += f"date: {date_formatted}\n"
+        md_content += f"title: {title}\n"
+        if page_refs:
+            md_content += "page_references:\n"
+            for ref in page_refs:
+                md_content += f"  - {ref}\n"
+        md_content += "---\n\n"
+
+        # Add phases and interventions
+        for phase in session.get('phases', []):
+            phase_title = phase.get('title', 'Untitled Phase')
+            md_content += f"# {phase_title}\n\n"
+
+            for intervention in phase.get('interventions', []):
+                name = intervention.get('name', 'Unknown')
+                party = intervention.get('party', '')
+                role = intervention.get('role', '')
+
+                # Build intervention header
+                header_parts = [f'Intervento di "{name}"']
+                if party:
+                    header_parts.append(f'"{party}"')
+                if role:
+                    header_parts.append(f'("{role}")')
+
+                md_content += f"## {' - '.join(header_parts)}\n\n"
+
+                # Add stenographic text from page references
+                for page_ref in intervention.get('page_references', []):
+                    steno_text = page_ref.get('stenografico_text', '')
+                    if steno_text:
+                        md_content += f"{steno_text}\n\n"
+
+                # If no stenographic text was found, add a note
+                if not any(pr.get('stenografico_text') for pr in intervention.get('page_references', [])):
+                    md_content += "*[Testo stenografico non disponibile]*\n\n"
+
+        # Save to file
+        filename = f"seduta_{session_num}.md"
+        filepath = output_path / filename
+        filepath.write_text(md_content, encoding='utf-8')
+        print(f"  ✓ Generated: {filepath}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Extract 'Esame in Assemblea' section from Camera.it HTML"
@@ -457,6 +541,16 @@ def main():
         '--fetch-text',
         action='store_true',
         help='Fetch stenographic text from XML for each intervention'
+    )
+    parser.add_argument(
+        '--generate-md',
+        action='store_true',
+        help='Generate markdown files for each seduta'
+    )
+    parser.add_argument(
+        '--md-output-dir',
+        help='Directory for markdown output (default: sedute_md)',
+        default='sedute_md'
     )
 
     args = parser.parse_args()
@@ -502,6 +596,12 @@ def main():
                 json.dump(data, f, ensure_ascii=False)
 
         print(f"\n✓ Saved to: {output_path}")
+
+        # Generate markdown files if requested
+        if args.generate_md:
+            print(f"\nGenerating markdown files...")
+            generate_markdown_files(data, args.md_output_dir)
+            print(f"✓ Markdown files saved to: {args.md_output_dir}/")
 
     except Exception as e:
         import traceback
