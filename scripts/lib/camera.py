@@ -380,7 +380,7 @@ def fetch_esame_assemblea(session, camera_url: str, fetch_text: bool = True) -> 
     Returns:
         dict with 'sessions' containing parsed debate data, or empty dict if not found
     """
-    from parse_esame_assemblea import parse_esame_assemblea, enrich_with_stenografico_text
+    from utils.parse_esame_assemblea import parse_esame_assemblea, enrich_with_stenografico_text
 
     try:
         # Fetch the HTML page
