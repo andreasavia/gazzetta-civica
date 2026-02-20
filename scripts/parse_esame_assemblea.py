@@ -99,24 +99,31 @@ def extract_text_from_xml_intervento(xml_root, anchor):
     if nominativo is not None:
         result['speaker_xml'] = nominativo.text or ''
 
-    # Extract all text content from interventoVirtuale elements
+    # Extract text in order: first from testoXHTML, then from interventoVirtuale
     texts = []
-    for iv in intervento_elem.findall('.//interventoVirtuale'):
-        if iv.text:
-            texts.append(iv.text.strip())
 
-    # Also get text from testoXHTML if available
+    # First, get text from testoXHTML (opening paragraph after speaker name)
     testo_xhtml = intervento_elem.find('.//testoXHTML')
     if testo_xhtml is not None:
         for elem in testo_xhtml.iter():
-            if elem.text and elem.tag != 'nominativo':
+            # Skip nominativo text (speaker name) but keep everything else
+            if elem.text and elem.tag not in ['nominativo', 'emphasis']:
                 text = elem.text.strip()
                 if text and text not in texts:
                     texts.append(text)
+            # Always capture tail text (text after closing tag)
             if elem.tail:
                 tail = elem.tail.strip()
-                if tail and tail not in texts:
+                # Filter out punctuation-only strings
+                if tail and len(tail) > 2 and tail not in texts:
                     texts.append(tail)
+
+    # Then, get text from interventoVirtuale elements (main content paragraphs)
+    for iv in intervento_elem.findall('.//interventoVirtuale'):
+        if iv.text:
+            text = iv.text.strip()
+            if text and text not in texts:
+                texts.append(text)
 
     result['text'] = ' '.join(texts)
 
