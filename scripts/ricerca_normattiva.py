@@ -38,6 +38,7 @@ from functools import wraps
 # Import Camera.it and Senato.it functions from separate modules
 from lib.camera import fetch_camera_metadata, fetch_esame_assemblea
 from lib.senato import fetch_senato_metadata
+from utils.parse_esame_assemblea import generate_markdown_files
 
 BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
 HEADERS = {"Content-Type": "application/json"}
@@ -857,6 +858,9 @@ def fetch_and_save_interventi(session, atti: list, vault_dir: Path) -> list:
             esame_path = interventi_dir / "esame_assemblea.json"
             with esame_path.open('w', encoding='utf-8') as f:
                 json.dump(esame_data, f, ensure_ascii=False, indent=2)
+
+            # Generate markdown files for each seduta
+            generate_markdown_files(esame_data, str(interventi_dir))
 
             # Count extracted data
             total_sessions = len(esame_data.get('sessions', []))
