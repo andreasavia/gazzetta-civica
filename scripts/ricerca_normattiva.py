@@ -36,8 +36,8 @@ from bs4 import BeautifulSoup
 from functools import wraps
 
 # Import Camera.it and Senato.it functions from separate modules
-from camera import fetch_camera_metadata, fetch_esame_assemblea
-from senato import fetch_senato_metadata
+from lib.camera import fetch_camera_metadata, fetch_esame_assemblea
+from lib.senato import fetch_senato_metadata
 
 BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
 HEADERS = {"Content-Type": "application/json"}
