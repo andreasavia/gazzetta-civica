@@ -36,9 +36,8 @@ from bs4 import BeautifulSoup
 from functools import wraps
 
 # Import Camera.it and Senato.it functions from separate modules
-from lib.camera import fetch_camera_metadata, fetch_esame_assemblea
+from lib.camera import fetch_camera_metadata
 from lib.senato import fetch_senato_metadata
-from utils.parse_esame_assemblea import generate_markdown_files
 
 BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
 HEADERS = {"Content-Type": "application/json"}
@@ -843,38 +842,31 @@ def fetch_and_save_interventi(session, atti: list, vault_dir: Path) -> list:
         print(f"  [{i+1}/{len(atti)}] {codice}...")
 
         try:
-            # Fetch Esame in Assemblea data using new module (reuse HTML if available)
-            html_content = atto.get("_html_content")
-            esame_data = fetch_esame_assemblea(session, camera_links[0], fetch_text=True, html_content=html_content)
+            # Fetch metadata with interventi (camera.py handles everything)
+            # If _html_content is cached, it will be reused automatically
+            camera_meta = fetch_camera_metadata(session, camera_links[0], interventi_dir=str(interventi_dir))
 
-            if not esame_data or not esame_data.get('sessions'):
+            # Check if interventi were successfully fetched
+            if "_interventi_error" in camera_meta:
+                error_msg = camera_meta["_interventi_error"]
+                print(f"    ⚠ Interventi fetch failed: {error_msg}")
+                failures.append({"codice": codice, "error": error_msg})
+                continue
+
+            if "_interventi_summary" in camera_meta:
+                summary = camera_meta["_interventi_summary"]
+                sessions = summary.get("sessions", 0)
+                interventions = summary.get("interventions", 0)
+                print(f"    ✅ Esame in Assemblea saved: {sessions} sessions, {interventions} interventions")
+            else:
                 print(f"    ⚠ No Esame in Assemblea data found")
                 failures.append({
                     "codice": codice,
                     "error": "No Esame in Assemblea section found in HTML"
                 })
-                continue
-
-            # Save the complete structured data as JSON
-            esame_path = interventi_dir / "esame_assemblea.json"
-            with esame_path.open('w', encoding='utf-8') as f:
-                json.dump(esame_data, f, ensure_ascii=False, indent=2)
-
-            # Generate markdown files for each seduta
-            generate_markdown_files(esame_data, str(interventi_dir))
-
-            # Count extracted data
-            total_sessions = len(esame_data.get('sessions', []))
-            total_interventions = sum(
-                len(p.get('interventions', []))
-                for s in esame_data.get('sessions', [])
-                for p in s.get('phases', [])
-            )
-
-            print(f"    ✅ Esame in Assemblea saved: {total_sessions} sessions, {total_interventions} interventions")
 
         except Exception as e:
-            msg = f"fetch_esame_assemblea failed: {str(e)[:300]}"
+            msg = f"fetch_camera_metadata failed: {str(e)[:300]}"
             print(f"    ✗ {msg[:120]}")
             failures.append({"codice": codice, "error": msg})
             continue

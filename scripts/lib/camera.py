@@ -19,11 +19,18 @@ from urllib.parse import urlparse, parse_qs
 from bs4 import BeautifulSoup
 
 
-def fetch_camera_metadata(session, camera_url: str) -> dict:
+def fetch_camera_metadata(session, camera_url: str, interventi_dir: str = None) -> dict:
     """Fetch and parse metadata from a camera.it RDF endpoint.
+
+    Args:
+        session: requests.Session for HTTP requests
+        camera_url: Camera.it bill URL
+        interventi_dir: Optional directory path to save interventi data and markdown files
 
     Returns dict with camera-atto, legislatura, natura, data-presentazione,
     iniziativa-dei-deputati, firmatari, relatori, votazione-finale, and dossier.
+
+    If interventi_dir is provided, also fetches Assembly debates and generates markdown files.
 
     Raises:
         Exception: If HTTP request fails or RDF parsing fails
@@ -220,6 +227,47 @@ def fetch_camera_metadata(session, camera_url: str) -> dict:
 
     # Store HTML content for reuse (to avoid duplicate fetches)
     result["_html_content"] = html_text
+
+    # If interventi directory is provided, fetch and save Assembly debates
+    if interventi_dir:
+        import json
+        from pathlib import Path
+        from utils.parse_esame_assemblea import parse_esame_assemblea, enrich_with_stenografico_text, generate_markdown_files
+
+        try:
+            # Create interventi directory if it doesn't exist
+            interventi_path = Path(interventi_dir)
+            interventi_path.mkdir(parents=True, exist_ok=True)
+
+            # Parse Esame in Assemblea section from the already-fetched HTML
+            esame_data = parse_esame_assemblea(html_text)
+
+            if esame_data and esame_data.get('sessions'):
+                # Enrich with stenographic text from XML
+                esame_data = enrich_with_stenografico_text(esame_data, fetch_xml=True)
+
+                # Save JSON
+                esame_json_path = interventi_path / "esame_assemblea.json"
+                with esame_json_path.open('w', encoding='utf-8') as f:
+                    json.dump(esame_data, f, ensure_ascii=False, indent=2)
+
+                # Generate markdown files
+                generate_markdown_files(esame_data, str(interventi_path))
+
+                # Store summary in result
+                total_sessions = len(esame_data.get('sessions', []))
+                total_interventions = sum(
+                    len(p.get('interventions', []))
+                    for s in esame_data.get('sessions', [])
+                    for p in s.get('phases', [])
+                )
+                result["_interventi_summary"] = {
+                    "sessions": total_sessions,
+                    "interventions": total_interventions
+                }
+        except Exception as e:
+            # Store error but don't fail the whole metadata fetch
+            result["_interventi_error"] = str(e)[:200]
 
     return result
 
