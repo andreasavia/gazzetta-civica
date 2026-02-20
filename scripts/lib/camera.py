@@ -218,6 +218,9 @@ def fetch_camera_metadata(session, camera_url: str) -> dict:
         if html_firmatari:
             result["camera-firmatari"] = html_firmatari
 
+    # Store HTML content for reuse (to avoid duplicate fetches)
+    result["_html_content"] = html_text
+
     return result
 
 
@@ -366,7 +369,7 @@ def build_scheda_link(resource_uri: str, legislatura: str) -> str:
     return resource_uri
 
 
-def fetch_esame_assemblea(session, camera_url: str, fetch_text: bool = True) -> dict:
+def fetch_esame_assemblea(session, camera_url: str, fetch_text: bool = True, html_content: str = None) -> dict:
     """Fetch and parse 'Esame in Assemblea' (Assembly examination) from camera.it.
 
     This extracts the complete debate structure including sessions, phases, speakers,
@@ -376,6 +379,7 @@ def fetch_esame_assemblea(session, camera_url: str, fetch_text: bool = True) -> 
         session: requests.Session for HTTP requests
         camera_url: Camera.it bill URL (e.g., http://www.camera.it/uri-res/N2Ls?urn:...)
         fetch_text: Whether to fetch XML stenographic text for interventions
+        html_content: Optional pre-fetched HTML content (to avoid duplicate fetches)
 
     Returns:
         dict with 'sessions' containing parsed debate data, or empty dict if not found
@@ -383,10 +387,11 @@ def fetch_esame_assemblea(session, camera_url: str, fetch_text: bool = True) -> 
     from utils.parse_esame_assemblea import parse_esame_assemblea, enrich_with_stenografico_text
 
     try:
-        # Fetch the HTML page
-        resp = session.get(camera_url, timeout=30)
-        resp.raise_for_status()
-        html_content = resp.text
+        # Use provided HTML content or fetch it
+        if html_content is None:
+            resp = session.get(camera_url, timeout=30)
+            resp.raise_for_status()
+            html_content = resp.text
 
         # Parse the Esame in Assemblea section
         data = parse_esame_assemblea(html_content)

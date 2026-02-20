@@ -843,8 +843,9 @@ def fetch_and_save_interventi(session, atti: list, vault_dir: Path) -> list:
         print(f"  [{i+1}/{len(atti)}] {codice}...")
 
         try:
-            # Fetch Esame in Assemblea data using new module
-            esame_data = fetch_esame_assemblea(session, camera_links[0], fetch_text=True)
+            # Fetch Esame in Assemblea data using new module (reuse HTML if available)
+            html_content = atto.get("_html_content")
+            esame_data = fetch_esame_assemblea(session, camera_links[0], fetch_text=True, html_content=html_content)
 
             if not esame_data or not esame_data.get('sessions'):
                 print(f"    ⚠ No Esame in Assemblea data found")
