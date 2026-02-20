@@ -165,9 +165,8 @@ jobs:
             git checkout master
             git checkout -b "$branch_name"
 
-            # Add only this law's directory and the article-table.base
+            # Add only this law's directory
             git add "$directory"
-            git add content/article-table.base
 
             # Check if there are changes to commit
             if git diff --staged --quiet; then
