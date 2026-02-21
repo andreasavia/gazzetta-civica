@@ -695,42 +695,21 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
         with filepath.open("w", encoding="utf-8") as f:
             f.write("\n".join(lines))
 
-            # Add full text HTML to the body
+            # Add full text HTML to the body (complete export as-is)
             full_text_html = atto.get("full_text_html", "")
             if full_text_html:
                 f.write("\n\n")  # Add spacing between frontmatter and body
 
-                # Parse HTML to extract article structure
+                # Parse HTML and extract body content only (skip <html>, <head>, etc.)
                 soup = BeautifulSoup(full_text_html, 'html.parser')
+                body = soup.find('body')
 
-                # Find all articles by AKN semantic classes
-                # The export endpoint uses semantic Akoma Ntoso HTML classes
-                articles = soup.find_all('h2', class_='article-num-akn')
-
-                if articles:
-                    # Export endpoint returns clean article structure
-                    for article_h2 in articles:
-                        # Write article number heading
-                        f.write(str(article_h2))
-                        f.write("\n")
-
-                        # Find and write article content following the h2
-                        # Content includes article-heading-akn, art-commi-div-akn, etc.
-                        next_elem = article_h2.find_next_sibling()
-                        while next_elem and next_elem.name != 'h2':
-                            f.write(str(next_elem))
-                            f.write("\n")
-                            next_elem = next_elem.find_next_sibling()
+                if body:
+                    # Write entire body content as-is (includes all articles, allegati, etc.)
+                    f.write(body.decode_contents())
                 else:
-                    # Fallback: if AKN structure not found, try bodyTesto div
-                    body_testo = soup.find('div', class_='bodyTesto')
-                    if body_testo:
-                        f.write(str(body_testo))
-                    else:
-                        # Last resort: write entire body content
-                        body = soup.find('body')
-                        if body:
-                            f.write(str(body))
+                    # Fallback: write everything if no body tag found
+                    f.write(full_text_html)
 
         # Track processed laws metadata
         # Get relative path from project root
