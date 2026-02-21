@@ -21,24 +21,24 @@ def check_norm_exists(atto: dict, session, vault_dir: Path) -> bool:
     """Check if a norm already exists in the vault.
 
     Args:
-        atto: Law dict with dataGU and codiceRedazionale
-        session: Requests session
+        atto: Law dict with dataGU, codiceRedazionale, and API metadata
+        session: Requests session (unused but kept for compatibility)
         vault_dir: Base directory for laws (content/leggi/)
 
     Returns:
         bool: True if the law already exists, False otherwise
     """
-    from lib.normattiva_api import fetch_normattiva_permalink
-
     try:
-        permalink_data = fetch_normattiva_permalink(
-            session,
-            atto.get("dataGU", ""),
-            atto.get("codiceRedazionale", "")
-        )
+        # Get data_emanazione from API response
+        data_emanazione = atto.get("data_emanazione", "")
+        if not data_emanazione:
+            # Try API field dataEmanazione (ISO format)
+            data_em_iso = atto.get("dataEmanazione", "")
+            if data_em_iso:
+                data_emanazione = data_em_iso.split("T")[0]
 
-        data_emanazione = permalink_data.get("data_emanazione", "")
-        numero = permalink_data.get("numero", "")
+        # Get numero from API response
+        numero = atto.get("numero", atto.get("numeroProvvedimento", ""))
 
         if not data_emanazione or not numero:
             return False

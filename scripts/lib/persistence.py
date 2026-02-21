@@ -71,7 +71,15 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
         descrizione = atto.get("descrizioneAtto", "")
         tipo = atto.get("tipo", atto.get("denominazioneAtto", ""))
         numero_provv = atto.get("numero", atto.get("numeroProvvedimento", ""))
+
+        # Handle dataEmanazione from API (ISO format) or data_emanazione (YYYY-MM-DD)
         data_emanazione = atto.get("data_emanazione", "")
+        if not data_emanazione:
+            # Try API field dataEmanazione (ISO 8601 format: "2024-12-31T00:00:00Z")
+            data_em_iso = atto.get("dataEmanazione", "")
+            if data_em_iso:
+                # Extract just the date part (YYYY-MM-DD)
+                data_emanazione = data_em_iso.split("T")[0]
 
         if not data_emanazione or not numero_provv:
             print(f"  Skipping {codice} - missing data_emanazione or numero")

@@ -10,7 +10,6 @@ This module provides functions for interacting with the Normattiva.it API:
 import requests
 import time
 from functools import wraps
-from pathlib import Path
 
 BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
 NORMATTIVA_SITE = "https://www.normattiva.it"
@@ -53,7 +52,11 @@ def retry_request(max_retries=3, initial_delay=2):
 
 @retry_request(max_retries=3, initial_delay=2)
 def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
-    """Fetch permalink and detailed metadata from normattiva.it.
+    """Fetch permalink and lavori preparatori URL from normattiva.it.
+
+    Note: This function still needs to fetch the HTML page because the API
+    doesn't return the lavori_preparatori URL. However, for data_emanazione
+    and other metadata, the API response (from search) already has this data.
 
     Args:
         session: Requests session
@@ -61,7 +64,7 @@ def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
         codice: Codice redazionale (e.g., 24G00231)
 
     Returns:
-        dict: Metadata including permalink, lavori_preparatori URL, etc.
+        dict: Metadata including permalink and lavori_preparatori URL
     """
     from bs4 import BeautifulSoup
 
@@ -76,48 +79,7 @@ def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
 
     soup = BeautifulSoup(resp.text, 'html.parser')
 
-    # Extract data-emanazione from page
-    data_emanazione = ""
-    tipo_atto = ""
-    numero_provvedimento = ""
-
-    span_descrizione = soup.find("span", class_="descrizioneAtto")
-    if span_descrizione:
-        full_text = span_descrizione.get_text(strip=True)
-        parts = full_text.split(',')
-        if len(parts) >= 2:
-            tipo_numero = parts[0].strip()
-            data_emanazione_text = parts[1].strip()
-
-            tipo_numero_parts = tipo_numero.rsplit(' ', 1)
-            if len(tipo_numero_parts) == 2:
-                tipo_atto = tipo_numero_parts[0].strip()
-                numero_provvedimento = tipo_numero_parts[1].replace("n.", "").strip()
-
-            if data_emanazione_text:
-                # Parse Italian date (e.g., "27 dicembre 2025")
-                from datetime import datetime
-                import re
-
-                months = {
-                    'gennaio': 1, 'febbraio': 2, 'marzo': 3, 'aprile': 4,
-                    'maggio': 5, 'giugno': 6, 'luglio': 7, 'agosto': 8,
-                    'settembre': 9, 'ottobre': 10, 'novembre': 11, 'dicembre': 12
-                }
-
-                # Pattern: "DD month_name YYYY"
-                match = re.match(r'(\d{1,2})\s+(\w+)\s+(\d{4})', data_emanazione_text)
-                if match:
-                    day, month_name, year = match.groups()
-                    month_num = months.get(month_name.lower())
-                    if month_num:
-                        try:
-                            date_obj = datetime(int(year), month_num, int(day))
-                            data_emanazione = date_obj.strftime("%Y-%m-%d")
-                        except ValueError:
-                            pass
-
-    # Extract lavori preparatori link
+    # Extract lavori preparatori link (not available in API)
     lavori_preparatori = ""
     lavori_link = soup.find("a", string=lambda text: text and "lavori preparatori" in text.lower())
     if lavori_link and lavori_link.get("href"):
@@ -125,9 +87,6 @@ def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
 
     return {
         "permalink": permalink_url,
-        "data_emanazione": data_emanazione,
-        "tipo": tipo_atto,
-        "numero": numero_provvedimento,
         "lavori_preparatori": lavori_preparatori
     }
 
