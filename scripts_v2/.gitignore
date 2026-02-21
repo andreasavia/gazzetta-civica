@@ -1,0 +1,9 @@
+# Development dumps — never commit these
+dump_*.json
+enriched_*.json
+legge_dump_*.json
+dump_html/
+
+# Python cache
+__pycache__/
+*.pyc
