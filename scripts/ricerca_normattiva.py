@@ -49,6 +49,9 @@ MANUAL_OVERRIDES_FILE = Path(__file__).parent / "normattiva_overrides.yaml"
 # Global list to track failed requests for manual review
 REQUEST_FAILURES = []
 
+# Global list to track missing law references for PR warnings
+MISSING_REFERENCES = []
+
 
 def load_manual_overrides():
     """Load manual overrides from YAML file.
@@ -93,6 +96,97 @@ def apply_manual_overrides(atto: dict, overrides: dict) -> dict:
         print(f"      • {field}: {str(value)[:60]}{'...' if len(str(value)) > 60 else ''}")
 
     return atto
+
+
+def parse_italian_date(day: str, month_name: str, year: str) -> str:
+    """Convert Italian date to YYYY-MM-DD format.
+
+    Args:
+        day: Day of month (1-31)
+        month_name: Italian month name (gennaio, febbraio, etc.)
+        year: Four-digit year
+
+    Returns:
+        str: Date in YYYY-MM-DD format
+    """
+    months = {
+        'gennaio': 1, 'febbraio': 2, 'marzo': 3, 'aprile': 4,
+        'maggio': 5, 'giugno': 6, 'luglio': 7, 'agosto': 8,
+        'settembre': 9, 'ottobre': 10, 'novembre': 11, 'dicembre': 12
+    }
+    month_num = months.get(month_name.lower(), 1)
+    return f"{year}-{month_num:02d}-{int(day):02d}"
+
+
+def extract_law_references(title_atto: str) -> list:
+    """Extract references to other laws from the title.
+
+    Detects patterns like:
+    - "Conversione in legge del decreto-legge DD MONTH YYYY, n. NNN"
+    - "Modifiche alla legge DD MONTH YYYY, n. NNN"
+
+    Args:
+        title_atto: The title of the law (titoloAtto field)
+
+    Returns:
+        list: List of dicts with: type, act_type, date, number
+    """
+    references = []
+
+    # Pattern 1: Conversione in legge del decreto-legge
+    conversion_pattern = r"Conversione\s+in\s+legge.*?del\s+(decreto-legge|decreto\s+legislativo)\s+(\d{1,2})\s+(\w+)\s+(\d{4}),?\s*n\.\s*(\d+)"
+
+    # Pattern 2: Modifiche/Integrazioni alla legge
+    modification_pattern = r"(Modifiche|Integrazioni).*?(legge|decreto-legge|decreto\s+legislativo)\s+(\d{1,2})\s+(\w+)\s+(\d{4}),?\s*n\.\s*(\d+)"
+
+    for match in re.finditer(conversion_pattern, title_atto, re.IGNORECASE):
+        act_type, day, month_name, year, number = match.groups()
+        references.append({
+            'type': 'converts',
+            'act_type': act_type.lower().replace(' ', '_'),
+            'date': parse_italian_date(day, month_name, year),
+            'number': number
+        })
+
+    for match in re.finditer(modification_pattern, title_atto, re.IGNORECASE):
+        mod_type, act_type, day, month_name, year, number = match.groups()
+        references.append({
+            'type': 'modifies' if mod_type.lower() == 'modifiche' else 'integrates',
+            'act_type': act_type.lower().replace(' ', '_'),
+            'date': parse_italian_date(day, month_name, year),
+            'number': number
+        })
+
+    return references
+
+
+def find_referenced_law(ref: dict, vault_dir: Path) -> str | None:
+    """Find the markdown file for a referenced law.
+
+    Args:
+        ref: Reference dict with date, number, act_type
+        vault_dir: Base directory for laws (content/leggi/)
+
+    Returns:
+        str: Relative file path from project root if found, None otherwise
+    """
+    # Parse date components
+    date_obj = datetime.strptime(ref['date'], '%Y-%m-%d')
+    year, month, day = date_obj.year, date_obj.month, date_obj.day
+    number = ref['number']
+
+    # Construct expected path
+    search_path = vault_dir / str(year) / f"{month:02d}" / f"{day:02d}" / f"n. {number}"
+
+    if search_path.exists():
+        # Find the markdown file in that directory
+        md_files = list(search_path.glob("*.md"))
+        if md_files:
+            # Return relative path from project root (content/leggi/...)
+            relative_path = md_files[0].relative_to(vault_dir.parent.parent)
+            return str(relative_path)
+
+    return None
 
 
 # denominazioneAtto  →  segmento URN di normattiva.it
@@ -296,108 +390,37 @@ def extract_text_content(html):
     return '\n'.join(lines)
 
 @retry_request(max_retries=3, initial_delay=2)
-def fetch_articles_via_scraping(session, data_gu: str, codice: str, data_vigenza: str) -> list:
+def fetch_full_text_via_export(session, data_gu: str, codice: str) -> str:
     """
-    Fetch ALL articles by scraping the normattiva.it web page directly.
+    Fetch complete act HTML using the export endpoint.
 
-    This method replaces the old API-based approach which required individual requests
-    per article. Instead, we:
-    1. Load the main page to get the article index
-    2. Fetch each article's HTML from the web interface
-    3. Return all articles in a single call
+    This replaces the article-by-article scraping with a single request
+    that returns all articles in one response. The export endpoint provides
+    the complete text with semantic Akoma Ntoso (AKN) HTML classes.
 
     Args:
         session: requests.Session with established cookies
         data_gu: Data pubblicazione GU (YYYY-MM-DD format)
         codice: Codice redazionale
-        data_vigenza: Data di vigenza (YYYY-MM-DD format)
 
     Returns:
-        list: List of dicts with 'numero' (int) and 'html' (str) keys
-              Returns empty list if scraping fails
+        str: Complete HTML content with all articles
+             Returns empty string if fetch fails
+
+    Raises:
+        Exception: If HTTP request fails
     """
-    articoli = []
+    if not data_gu or not codice:
+        return ""
 
-    if not data_gu or not codice or not data_vigenza:
-        return articoli
+    # Export endpoint returns all articles in single response
+    # No need for vigenza parameter - returns current version
+    export_url = f"https://www.normattiva.it/esporta/attoCompleto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
 
-    # Convert yyyy-mm-dd to dd/mm/yyyy for URL parameter
-    try:
-        vig_date = datetime.strptime(data_vigenza, "%Y-%m-%d")
-        data_vigenza_ddmmyyyy = vig_date.strftime("%d/%m/%Y")
-    except ValueError:
-        data_vigenza_ddmmyyyy = data_vigenza
+    resp = session.get(export_url, timeout=30)
+    resp.raise_for_status()
 
-    # Load the main page to get the article index
-    main_url = f"https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}&tipoDettaglio=singolavigenza&dataVigenza={data_vigenza_ddmmyyyy}"
-
-    try:
-        main_resp = session.get(main_url, timeout=30)
-        main_resp.raise_for_status()
-    except Exception as e:
-        print(f"\n      Error loading main page: {str(e)[:100]}")
-        return articoli
-
-    soup = BeautifulSoup(main_resp.text, 'html.parser')
-
-    # Find all article links in the index
-    articles_links = soup.find_all('a', class_='numero_articolo', onclick=True)
-
-    if not articles_links:
-        # No articles found - might be a single-article act or different structure
-        # Try to get the main content directly
-        content_div = soup.find('div', class_='bodyTesto')
-        if content_div:
-            # Single article or full text available
-            articoli.append({
-                "numero": 1,
-                "html": str(content_div)
-            })
-        return articoli
-
-    # Process each article link
-    for link in articles_links:
-        art_num_text = link.get_text(strip=True)
-        onclick_content = link.get('onclick', '')
-
-        # Extract article path from onclick="return showArticle('/atto/caricaArticolo?...', this);"
-        match = re.search(r"showArticle\('([^']+)'", onclick_content)
-        if not match:
-            continue
-
-        art_path = match.group(1)
-        art_url = NORMATTIVA_SITE + art_path.replace("&amp;", "&")
-
-        try:
-            art_resp = session.get(art_url, timeout=30)
-            art_resp.raise_for_status()
-
-            art_soup = BeautifulSoup(art_resp.text, 'html.parser')
-            content_div = art_soup.find('div', class_='bodyTesto')
-
-            if content_div:
-                # Determine article number
-                # art_num_text might be "1", "2", "Allegato", etc.
-                try:
-                    art_num = int(art_num_text)
-                except ValueError:
-                    # For non-numeric articles (Allegato, etc.), use position-based numbering
-                    art_num = len(articoli) + 1
-
-                articoli.append({
-                    "numero": art_num,
-                    "html": str(content_div)
-                })
-
-            # Small delay to avoid rate limiting
-            time.sleep(0.3)
-
-        except Exception as e:
-            # Log error but continue processing other articles
-            print(f"\n      Error fetching article {art_num_text}: {str(e)[:100]}")
-            continue
-
-    return articoli
+    return resp.text
 
 
 @retry_request(max_retries=3, initial_delay=2)
@@ -760,19 +783,56 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             for doc_link in atto.get("senato-documenti", []):
                 lines.append(f"  - {doc_link}")
 
+        # Extract law references from title (conversions, modifications, etc.)
+        references = extract_law_references(atto.get("titoloAtto", ""))
+        if references:
+            # Group references by type (converts, modifies, integrates)
+            refs_by_type = {}
+            for ref in references:
+                ref_type = ref['type']
+                file_path = find_referenced_law(ref, vault_dir)
+                if file_path:
+                    if ref_type not in refs_by_type:
+                        refs_by_type[ref_type] = []
+                    refs_by_type[ref_type].append(file_path)
+                else:
+                    # Track missing reference for PR warning
+                    MISSING_REFERENCES.append({
+                        "codice": codice,
+                        "title": atto.get("titoloAtto", ""),
+                        "reference_type": ref_type,
+                        "reference_date": ref['date'],
+                        "reference_number": ref['number'],
+                        "reference_act_type": ref['act_type']
+                    })
+
+            # Write file paths as list (always as list for consistency)
+            for ref_type, file_paths in refs_by_type.items():
+                lines.append(f"{ref_type}:")
+                for path in file_paths:
+                    lines.append(f"  - \"{path}\"")
+
         lines.append("---")
 
         # Write frontmatter
         with filepath.open("w", encoding="utf-8") as f:
             f.write("\n".join(lines))
 
-            # Add article HTML content to the body
-            articoli = atto.get("articoli", [])
-            if articoli:
+            # Add full text HTML to the body (complete export as-is)
+            full_text_html = atto.get("full_text_html", "")
+            if full_text_html:
                 f.write("\n\n")  # Add spacing between frontmatter and body
-                for art in articoli:
-                    f.write(art['html'])
-                    f.write("\n")
+
+                # Parse HTML and extract the printable content div
+                soup = BeautifulSoup(full_text_html, 'html.parser')
+                print_div = soup.find('div', id='printThis')
+
+                if print_div:
+                    # Write the entire printThis div content
+                    f.write(print_div.decode_contents())
+                else:
+                    # Fallback: write everything if printThis div not found
+                    f.write(full_text_html)
 
         # Track processed laws metadata
         # Get relative path from project root
@@ -920,34 +980,32 @@ def main():
     else:
         print(f"  No manual overrides found in {MANUAL_OVERRIDES_FILE.name}")
 
-    # Fetch article HTML for each atto using web scraping
-    print("\n[Fetching article HTML via web scraping]")
+    # Fetch complete act HTML using export endpoint
+    print("\n[Fetching full text HTML via export endpoint]")
     for i, atto in enumerate(atti):
         data_gu = atto.get("dataGU", "")
         codice = atto.get("codiceRedazionale", "")
-        data_vigenza = atto.get("data_vigenza", "")
 
-        if not data_gu or not codice or not data_vigenza:
+        if not data_gu or not codice:
             print(f"  [{i+1}/{len(atti)}] {codice}... skipping (missing data)")
-            atto["articoli"] = []
+            atto["full_text_html"] = ""
             continue
 
         print(f"  [{i+1}/{len(atti)}] {codice}...", end=" ", flush=True)
 
-        # Fetch all articles at once via web scraping
-        articoli = fetch_articles_via_scraping(session, data_gu, codice, data_vigenza)
+        # Fetch complete HTML in single request
+        full_html = fetch_full_text_via_export(session, data_gu, codice)
 
-        atto["articoli"] = articoli
-        if articoli:
-            total_chars = sum(len(a['html']) for a in articoli)
-            print(f"{len(articoli)} articles ({total_chars:,} chars)")
+        atto["full_text_html"] = full_html
+        if full_html:
+            print(f"{len(full_html):,} chars")
         else:
-            print("no articles found")
+            print("no content found")
 
-    # Save after article HTML fetching (most time-consuming and important step)
-    print("\n[Saving after article HTML fetch]")
+    # Save after full text HTML fetching (most time-consuming and important step)
+    print("\n[Saving after full text HTML fetch]")
     save_markdown(atti, VAULT_DIR)
-    print("  ✅ Markdown files saved with article HTML\n")
+    print("  ✅ Markdown files saved with full text HTML\n")
 
     # Fetch camera.it metadata from lavori_preparatori
     print("[Fetching camera.it metadata and interventi]")
@@ -1055,6 +1113,17 @@ def main():
         }, interventi_failures_file)
         print(f"  ⚠ Interventi failures: {interventi_failures_file} ({len(interventi_failures)} failures)")
         print(f"    These will be flagged in the PR for manual review")
+
+    # Save missing law references for PR warnings
+    if MISSING_REFERENCES:
+        missing_refs_file = OUTPUT_DIR / "missing_references.json"
+        save_json({
+            "missing_references": MISSING_REFERENCES,
+            "count": len(MISSING_REFERENCES),
+            "timestamp": datetime.now().isoformat()
+        }, missing_refs_file)
+        print(f"\n  ⚠ Missing law references: {missing_refs_file} ({len(MISSING_REFERENCES)} missing)")
+        print(f"    Referenced laws not found in vault - will be flagged in PR")
 
     # Preview
     if atti:
