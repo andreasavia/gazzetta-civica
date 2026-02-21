@@ -56,28 +56,58 @@ def _parse_senato_url(url: str) -> tuple[str, str]:
 
 # ── Retried fetch functions ───────────────────────────────────────────────────
 
-@retry_request(max_retries=3, initial_delay=2)
-def _fetch_bill_page(session: requests.Session, url: str) -> tuple[str, str]:
-    """Follow the URN redirect and return (final_url, html).
+@retry_request(max_retries=4, initial_delay=3)
+def _fetch_bill_page(session: requests.Session, url: str) -> tuple[str, str, str]:
+    """Follow the URN redirect and return (did, final_url, html).
 
-    The senato.it URN redirects to a page with ?did=NNNN in the URL,
-    which is the stable identifier we need for the votazioni tab.
+    Key insight: senato.it redirects the URN to a URL that *always* contains
+    ?did=NNNN — even when the final page returns 5xx. We extract did before
+    calling raise_for_status() so we never lose it to a transient server error.
+
+    Returns:
+        (did, final_url, html)
 
     Raises:
-        ValueError: If did is not found in the redirect URL.
-        requests.RequestException: On HTTP failure.
+        ValueError: If did cannot be found in the redirect URL or HTML.
+        requests.RequestException: On timeout / network failure.
     """
-    resp = session.get(url, timeout=30, allow_redirects=True)
+    print(f"      → GET {url}")
+    resp = session.get(url, timeout=60, allow_redirects=True)
+    print(f"      ← {resp.status_code} {resp.url}")
+
+    # Extract did from the final URL BEFORE checking status code —
+    # senato.it sets the redirect correctly even when it then 502s.
+    did_m = re.search(r"[?&]did=(\d+)", resp.url)
+    did: str | None = did_m.group(1) if did_m else None
+
+    # If the page failed but we have did, try a direct fetch of the scheda URL.
+    if resp.status_code >= 400 and did:
+        scheda_url = (
+            f"https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl"
+            f"?did={did}"
+        )
+        print(f"      → retry scheda directly: {scheda_url}")
+        resp2 = session.get(scheda_url, timeout=60)
+        print(f"      ← {resp2.status_code}")
+        if resp2.status_code < 400:
+            return did, resp2.url, resp2.text
+        # Both attempts failed — raise so retry_request can retry
+        resp2.raise_for_status()
+
     resp.raise_for_status()
 
-    did_m = re.search(r"[?&]did=(\d+)", resp.url)
-    if not did_m:
-        raise ValueError(f"did not found in redirect URL: {resp.url}")
+    if not did:
+        # Last resort: search for did in the HTML itself
+        did_html = re.search(r'did=(\d+)', resp.text[:5000])
+        if did_html:
+            did = did_html.group(1)
+        else:
+            raise ValueError(f"did not found in URL or HTML: {resp.url}")
 
-    return resp.url, resp.text
+    return did, resp.url, resp.text
 
 
-@retry_request(max_retries=3, initial_delay=2)
+@retry_request(max_retries=4, initial_delay=3)
 def _fetch_votazioni_page(session: requests.Session, did: str) -> str:
     """Fetch the votazioni tab for a given bill did.
 
@@ -88,7 +118,9 @@ def _fetch_votazioni_page(session: requests.Session, did: str) -> str:
         f"https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl"
         f"?tab=votazioni&did={did}"
     )
-    resp = session.get(url, timeout=30)
+    print(f"      → GET {url}")
+    resp = session.get(url, timeout=60)
+    print(f"      ← {resp.status_code}")
     resp.raise_for_status()
     return resp.text
 
@@ -242,11 +274,8 @@ def enrich(legge: Legge, session: requests.Session) -> Legge:
 
     # 1. Fetch + parse the bill page
     try:
-        final_url, html = _fetch_bill_page(session, senato_url)
-
-        # Extract did from final URL
-        did_m = re.search(r"[?&]did=(\d+)", final_url)
-        s.did = did_m.group(1) if did_m else None
+        did, final_url, html = _fetch_bill_page(session, senato_url)
+        s.did = did
         s.url = final_url
 
         bill_data = _parse_bill_html(html)
