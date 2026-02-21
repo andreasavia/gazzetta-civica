@@ -95,6 +95,97 @@ def apply_manual_overrides(atto: dict, overrides: dict) -> dict:
     return atto
 
 
+def parse_italian_date(day: str, month_name: str, year: str) -> str:
+    """Convert Italian date to YYYY-MM-DD format.
+
+    Args:
+        day: Day of month (1-31)
+        month_name: Italian month name (gennaio, febbraio, etc.)
+        year: Four-digit year
+
+    Returns:
+        str: Date in YYYY-MM-DD format
+    """
+    months = {
+        'gennaio': 1, 'febbraio': 2, 'marzo': 3, 'aprile': 4,
+        'maggio': 5, 'giugno': 6, 'luglio': 7, 'agosto': 8,
+        'settembre': 9, 'ottobre': 10, 'novembre': 11, 'dicembre': 12
+    }
+    month_num = months.get(month_name.lower(), 1)
+    return f"{year}-{month_num:02d}-{int(day):02d}"
+
+
+def extract_law_references(title_atto: str) -> list:
+    """Extract references to other laws from the title.
+
+    Detects patterns like:
+    - "Conversione in legge del decreto-legge DD MONTH YYYY, n. NNN"
+    - "Modifiche alla legge DD MONTH YYYY, n. NNN"
+
+    Args:
+        title_atto: The title of the law (titoloAtto field)
+
+    Returns:
+        list: List of dicts with: type, act_type, date, number
+    """
+    references = []
+
+    # Pattern 1: Conversione in legge del decreto-legge
+    conversion_pattern = r"Conversione\s+in\s+legge.*?del\s+(decreto-legge|decreto\s+legislativo)\s+(\d{1,2})\s+(\w+)\s+(\d{4}),?\s*n\.\s*(\d+)"
+
+    # Pattern 2: Modifiche/Integrazioni alla legge
+    modification_pattern = r"(Modifiche|Integrazioni).*?(legge|decreto-legge|decreto\s+legislativo)\s+(\d{1,2})\s+(\w+)\s+(\d{4}),?\s*n\.\s*(\d+)"
+
+    for match in re.finditer(conversion_pattern, title_atto, re.IGNORECASE):
+        act_type, day, month_name, year, number = match.groups()
+        references.append({
+            'type': 'converts',
+            'act_type': act_type.lower().replace(' ', '_'),
+            'date': parse_italian_date(day, month_name, year),
+            'number': number
+        })
+
+    for match in re.finditer(modification_pattern, title_atto, re.IGNORECASE):
+        mod_type, act_type, day, month_name, year, number = match.groups()
+        references.append({
+            'type': 'modifies' if mod_type.lower() == 'modifiche' else 'integrates',
+            'act_type': act_type.lower().replace(' ', '_'),
+            'date': parse_italian_date(day, month_name, year),
+            'number': number
+        })
+
+    return references
+
+
+def find_referenced_law(ref: dict, vault_dir: Path) -> str | None:
+    """Find the markdown file for a referenced law.
+
+    Args:
+        ref: Reference dict with date, number, act_type
+        vault_dir: Base directory for laws (content/leggi/)
+
+    Returns:
+        str: Relative file path from project root if found, None otherwise
+    """
+    # Parse date components
+    date_obj = datetime.strptime(ref['date'], '%Y-%m-%d')
+    year, month, day = date_obj.year, date_obj.month, date_obj.day
+    number = ref['number']
+
+    # Construct expected path
+    search_path = vault_dir / str(year) / f"{month:02d}" / f"{day:02d}" / f"n. {number}"
+
+    if search_path.exists():
+        # Find the markdown file in that directory
+        md_files = list(search_path.glob("*.md"))
+        if md_files:
+            # Return relative path from project root (content/leggi/...)
+            relative_path = md_files[0].relative_to(vault_dir.parent.parent)
+            return str(relative_path)
+
+    return None
+
+
 # denominazioneAtto  →  segmento URN di normattiva.it
 URN_TIPO = {
     "COSTITUZIONE":                                 "costituzione",
@@ -688,6 +779,25 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             lines.append("senato-documenti:")
             for doc_link in atto.get("senato-documenti", []):
                 lines.append(f"  - {doc_link}")
+
+        # Extract law references from title (conversions, modifications, etc.)
+        references = extract_law_references(atto.get("titoloAtto", ""))
+        if references:
+            # Group references by type (converts, modifies, integrates)
+            refs_by_type = {}
+            for ref in references:
+                ref_type = ref['type']
+                file_path = find_referenced_law(ref, vault_dir)
+                if file_path:
+                    if ref_type not in refs_by_type:
+                        refs_by_type[ref_type] = []
+                    refs_by_type[ref_type].append(file_path)
+
+            # Write file paths as list (always as list for consistency)
+            for ref_type, file_paths in refs_by_type.items():
+                lines.append(f"{ref_type}:")
+                for path in file_paths:
+                    lines.append(f"  - \"{path}\"")
 
         lines.append("---")
 
