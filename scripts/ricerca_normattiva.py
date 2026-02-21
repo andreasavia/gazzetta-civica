@@ -162,44 +162,8 @@ def fetch_approfondimenti(session, uri):
         return {}
 
 
-def check_norm_exists(atto: dict, vault_dir: Path) -> bool:
-    """Check if a norm already exists in the vault."""
-    from lib.normattiva_api import fetch_normattiva_permalink
-
-    try:
-        session = requests.Session()
-        permalink_data = fetch_normattiva_permalink(
-            session,
-            atto.get("dataGU", ""),
-            atto.get("codiceRedazionale", "")
-        )
-
-        data_emanazione = permalink_data.get("data_emanazione", "")
-        numero = permalink_data.get("numero", "")
-
-        if not data_emanazione or not numero:
-            return False
-
-        year, month, day = data_emanazione.split("-")
-        norm_dir = vault_dir / year / month / day / f"n. {numero}"
-        return norm_dir.exists()
-
-    except Exception:
-        return False
-
-
-def check_pr_branch_exists(codice: str) -> bool:
-    """Check if a PR branch already exists for this codice."""
-    try:
-        result = subprocess.run(
-            ["git", "branch", "-r"],
-            capture_output=True,
-            text=True,
-            timeout=10
-        )
-        return f"origin/legge/{codice}" in result.stdout
-    except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError):
-        return False
+# Import check functions from processing_pipeline
+from lib.processing_pipeline import check_norm_exists, check_pr_branch_exists
 
 
 def main():
@@ -249,7 +213,9 @@ def main():
     # Filter existing norms
     print("\n[Checking for existing norms]")
     original_count = len(atti)
-    atti = [atto for atto in atti if not check_norm_exists(atto, VAULT_DIR)]
+    # Create session for checking existing norms
+    check_session = requests.Session()
+    atti = [atto for atto in atti if not check_norm_exists(atto, check_session, VAULT_DIR)]
     filtered_count = original_count - len(atti)
 
     if filtered_count > 0:

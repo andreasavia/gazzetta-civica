@@ -2,26 +2,126 @@
 Law processing pipeline - orchestrates the full fetch sequence
 
 This module provides the main processing pipeline that:
-1. Fetches Normattiva permalinks and metadata
-2. Fetches Camera.it lavori preparatori
-3. Fetches Senato.it lavori preparatori
-4. Fetches full text HTML
-5. Auto-fetches missing referenced laws
-6. Saves markdown files
+1. Filters out laws that already exist (in vault or have open PRs)
+2. Fetches Normattiva permalinks and metadata
+3. Fetches Camera.it lavori preparatori
+4. Fetches Senato.it lavori preparatori
+5. Fetches full text HTML
+6. Auto-fetches missing referenced laws
+7. Saves markdown files
 
 This pipeline is reusable across all scripts (ricerca_normattiva, process_laws_by_codice, etc.)
 """
 
+import subprocess
 from pathlib import Path
 
 
-def process_laws_full_pipeline(atti: list, session, vault_dir: Path) -> list:
+def check_norm_exists(atto: dict, session, vault_dir: Path) -> bool:
+    """Check if a norm already exists in the vault.
+
+    Args:
+        atto: Law dict with dataGU and codiceRedazionale
+        session: Requests session
+        vault_dir: Base directory for laws (content/leggi/)
+
+    Returns:
+        bool: True if the law already exists, False otherwise
+    """
+    from lib.normattiva_api import fetch_normattiva_permalink
+
+    try:
+        permalink_data = fetch_normattiva_permalink(
+            session,
+            atto.get("dataGU", ""),
+            atto.get("codiceRedazionale", "")
+        )
+
+        data_emanazione = permalink_data.get("data_emanazione", "")
+        numero = permalink_data.get("numero", "")
+
+        if not data_emanazione or not numero:
+            return False
+
+        year, month, day = data_emanazione.split("-")
+        norm_dir = vault_dir / year / month / day / f"n. {numero}"
+        return norm_dir.exists()
+
+    except Exception:
+        return False
+
+
+def check_pr_branch_exists(codice: str) -> bool:
+    """Check if a PR branch already exists for this codice.
+
+    Args:
+        codice: Codice redazionale (e.g., "26G00036")
+
+    Returns:
+        bool: True if a PR branch exists, False otherwise
+    """
+    try:
+        result = subprocess.run(
+            ["git", "branch", "-r"],
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        return f"origin/legge/{codice}" in result.stdout
+    except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError):
+        return False
+
+
+def filter_existing_laws(atti: list, session, vault_dir: Path) -> list:
+    """Filter out laws that already exist in the vault or have open PRs.
+
+    Args:
+        atti: List of atti to filter
+        session: Requests session
+        vault_dir: Base directory for laws (content/leggi/)
+
+    Returns:
+        list: Filtered atti (only new laws)
+    """
+    print("\n[Checking for existing laws]")
+    new_atti = []
+
+    for i, atto in enumerate(atti):
+        codice = atto.get("codiceRedazionale", "")
+
+        if not codice:
+            print(f"  [{i+1}/{len(atti)}] Skipping - no codice")
+            continue
+
+        print(f"  [{i+1}/{len(atti)}] {codice}...", end=" ", flush=True)
+
+        # Check if PR branch exists
+        if check_pr_branch_exists(codice):
+            print("⏭ PR branch exists")
+            continue
+
+        # Check if law exists in vault
+        if check_norm_exists(atto, session, vault_dir):
+            print("⏭ Law exists in vault")
+            continue
+
+        print("✓ New law")
+        new_atti.append(atto)
+
+    if len(new_atti) < len(atti):
+        print(f"\n  Filtered: {len(atti)} → {len(new_atti)} new law(s)")
+
+    return new_atti
+
+
+def process_laws_full_pipeline(atti: list, session, vault_dir: Path, skip_existing_check: bool = False) -> list:
     """Process laws through the complete pipeline.
 
     Args:
         atti: List of atti with at least codiceRedazionale and dataGU
         session: Requests session for API calls
         vault_dir: Base directory for markdown files (content/leggi/)
+        skip_existing_check: If True, skip checking for existing laws (default: False)
 
     Returns:
         list: Processed laws metadata for PR creation
@@ -33,6 +133,14 @@ def process_laws_full_pipeline(atti: list, session, vault_dir: Path) -> list:
     from lib.persistence import save_markdown
 
     print(f"\n[Processing {len(atti)} law(s) through full pipeline]")
+
+    # Step 0: Filter out existing laws (unless skip_existing_check is True)
+    if not skip_existing_check:
+        atti = filter_existing_laws(atti, session, vault_dir)
+
+        if not atti:
+            print("\n  No new laws to process")
+            return []
 
     # Step 1: Fetch Normattiva permalinks
     print("\n[Fetching Normattiva permalinks]")
