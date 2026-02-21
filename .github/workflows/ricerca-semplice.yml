@@ -1,0 +1,247 @@
+name: Normattiva Ricerca Semplice (Search and Process Laws)
+
+on:
+  workflow_dispatch:
+    inputs:
+      search_query:
+        description: 'Search query (e.g., "decreto-legge 27 dicembre 2025 n. 196")'
+        required: true
+        type: string
+      max_results:
+        description: 'Maximum number of results to process'
+        required: false
+        default: '5'
+        type: string
+
+jobs:
+  search-and-process:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Search for laws
+        run: |
+          cd scripts
+          python ricerca_semplice.py "${{ inputs.search_query }}" \
+            --max-results ${{ inputs.max_results }} \
+            --save \
+            --verbose
+
+      - name: Process found laws
+        run: |
+          cd scripts
+          # Find the search results file
+          search_file=$(ls -t ../data/ricerca_semplice_*.json 2>/dev/null | head -1)
+          if [ -n "$search_file" ]; then
+            echo "Processing laws from: $search_file"
+            python process_laws_by_codice.py --from-search-results "$search_file"
+          else
+            echo "No search results found"
+            exit 1
+          fi
+
+      - name: Check for new laws
+        id: check_new
+        run: |
+          if [ -f "data/new_laws.json" ]; then
+            count=$(jq '.new_laws | length' data/new_laws.json)
+            echo "has_new_laws=true" >> $GITHUB_OUTPUT
+            echo "count=$count" >> $GITHUB_OUTPUT
+            echo "Found $count new laws"
+          else
+            echo "has_new_laws=false" >> $GITHUB_OUTPUT
+            echo "count=0" >> $GITHUB_OUTPUT
+            echo "No new laws found"
+          fi
+
+      - name: Create PR for each new law
+        if: steps.check_new.outputs.has_new_laws == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Ensure we have the latest master
+          git fetch origin
+          git checkout master
+          git pull origin master
+
+          # Read new laws data
+          count=$(jq '.new_laws | length' data/new_laws.json)
+          echo "Creating $count pull requests..."
+
+          # Check for request failures and prepare warnings file
+          has_warnings=false
+          > /tmp/warnings.md
+
+          if [ -f "data/request_failures.json" ]; then
+            failure_count=$(jq '.count' data/request_failures.json)
+            echo "⚠ Found $failure_count request failures that will be flagged in PRs"
+            has_warnings=true
+
+            {
+              echo ""
+              echo "## ⚠️ Request Failures"
+              echo ""
+              echo "During data collection, **${failure_count} HTTP request(s) failed** after 3 retry attempts. These may require manual review:"
+              echo ""
+              for j in $(seq 0 $((failure_count - 1))); do
+                func=$(jq -r ".failures[$j].function" data/request_failures.json)
+                error=$(jq -r ".failures[$j].error" data/request_failures.json | head -c 200)
+                echo "- **${func}**: \`${error}\`"
+              done
+              echo ""
+              echo "Please verify the law data is complete. Check the [workflow run logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+            } >> /tmp/warnings.md
+          fi
+
+          if [ -f "data/missing_references.json" ]; then
+            missing_count=$(jq '.count' data/missing_references.json)
+            echo "⚠ Found $missing_count missing law references that will be flagged in PRs"
+            has_warnings=true
+
+            {
+              echo ""
+              echo "## ⚠️ Missing Law References"
+              echo ""
+              echo "**${missing_count} referenced law(s)** could not be found in the vault:"
+              echo ""
+              for j in $(seq 0 $((missing_count - 1))); do
+                codice=$(jq -r ".missing_references[$j].codice" data/missing_references.json)
+                ref_type=$(jq -r ".missing_references[$j].reference_type" data/missing_references.json)
+                ref_date=$(jq -r ".missing_references[$j].reference_date" data/missing_references.json)
+                ref_number=$(jq -r ".missing_references[$j].reference_number" data/missing_references.json)
+                ref_act=$(jq -r ".missing_references[$j].reference_act_type" data/missing_references.json)
+                echo "- **${codice}** ${ref_type}: \`${ref_act} ${ref_date} n. ${ref_number}\`"
+              done
+              echo ""
+              echo "These laws may need to be fetched separately."
+            } >> /tmp/warnings.md
+          fi
+
+          # Process each new law
+          for i in $(seq 0 $((count - 1))); do
+            # Extract law metadata
+            codice=$(jq -r ".new_laws[$i].codice" data/new_laws.json)
+            descrizione=$(jq -r ".new_laws[$i].descrizione" data/new_laws.json)
+            tipo=$(jq -r ".new_laws[$i].tipo" data/new_laws.json)
+            numero=$(jq -r ".new_laws[$i].numero" data/new_laws.json)
+            data_emanazione=$(jq -r ".new_laws[$i].data_emanazione" data/new_laws.json)
+            titolo_alt=$(jq -r ".new_laws[$i].titolo_alternativo" data/new_laws.json)
+            directory=$(jq -r ".new_laws[$i].directory" data/new_laws.json)
+
+            echo "[$((i+1))/$count] Processing: $descrizione"
+
+            # Check if a branch already exists for this codice
+            existing_branch=$(git branch -r | grep "origin/legge/${codice}" | head -n 1 | xargs || echo "")
+            if [ -n "$existing_branch" ]; then
+              echo "  ⏭ Skipping - PR branch already exists: $existing_branch"
+              continue
+            fi
+
+            # Create branch name from codice
+            branch_name="legge/${codice}"
+
+            # Create and checkout new branch from latest master
+            git checkout master
+            git checkout -b "$branch_name"
+
+            # Add only this law's directory
+            git add "$directory"
+
+            # Check if there are changes to commit
+            if git diff --staged --quiet; then
+              echo "  No changes to commit, skipping"
+              continue
+            fi
+
+            # Commit with descriptive message
+            {
+              echo "feat: add $titolo_alt"
+              echo ""
+              echo "Codice redazionale: $codice"
+              echo "Data emanazione: $data_emanazione"
+              echo ""
+              echo "Fetched via ricerca/semplice search: \"${{ inputs.search_query }}\""
+              echo ""
+              echo "Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+            } > /tmp/commit_msg.txt
+            git commit -F /tmp/commit_msg.txt
+
+            # Push branch
+            git push -u origin "$branch_name"
+
+            # Create pull request with warnings if any
+            {
+              echo "## Atto Normativo"
+              echo ""
+              echo "**Tipo:** $tipo"
+              echo "**Numero:** $numero"
+              echo "**Data emanazione:** $data_emanazione"
+              echo "**Codice redazionale:** $codice"
+              echo ""
+              echo "### Descrizione"
+              echo ""
+              echo "$descrizione"
+
+              # Include warnings if they exist
+              if [ "$has_warnings" = true ]; then
+                cat /tmp/warnings.md
+              fi
+
+              echo ""
+              echo "---"
+              echo ""
+              echo "Trovato tramite ricerca: **${{ inputs.search_query }}**"
+              echo ""
+              echo "🤖 Generato con [Claude Code](https://claude.com/claude-code)"
+            } > /tmp/pr_body.md
+
+            # Create PR
+            pr_url=$(gh pr create \
+              --title "[$codice] $titolo_alt" \
+              --body-file /tmp/pr_body.md \
+              --assignee andreasavia 2>/dev/null || \
+            gh pr create \
+              --title "[$codice] $titolo_alt" \
+              --body-file /tmp/pr_body.md)
+
+            # Try to add labels
+            if [ "$has_warnings" = true ]; then
+              gh pr edit "$pr_url" --add-label "nuova-legge,automatizzato,ricerca-semplice,richiede-revisione" 2>/dev/null || true
+            else
+              gh pr edit "$pr_url" --add-label "nuova-legge,automatizzato,ricerca-semplice" 2>/dev/null || true
+            fi
+
+            echo "  ✓ Created PR for $titolo_alt"
+          done
+
+          # Return to master and clean up
+          git checkout master
+          echo "All PRs created successfully!"
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ricerca-semplice-data
+          path: |
+            data/ricerca_semplice_*.json
+            data/new_laws.json
+            data/request_failures.json
+            data/missing_references.json
+          retention-days: 30

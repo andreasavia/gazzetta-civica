@@ -34,8 +34,3 @@
 #   lavori-preparatori: |
 #     Decreto-legge 27 dicembre 2025, n. 196
 #     Convertito con modificazioni dalla L. 13 febbraio 2026, n. 18
-
-26G00036:
-  lavori-preparatori:
-    - http://www.camera.it/uri-res/N2Ls?urn:camera-it:parlamento:scheda.progetto.legge:camera;19.legislatura;2751
-    - http://www.senato.it/uri-res/N2Ls?urn:senato-it:parl:ddl:senato;19.legislatura;1785
