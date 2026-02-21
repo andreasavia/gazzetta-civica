@@ -189,6 +189,84 @@ def find_referenced_law(ref: dict, vault_dir: Path) -> str | None:
     return None
 
 
+def search_and_fetch_missing_law(ref: dict, session) -> dict | None:
+    """Search for a missing law using the ricerca/semplice API and fetch its metadata.
+
+    Args:
+        ref: Reference dict with date, number, act_type
+        session: Requests session for API calls
+
+    Returns:
+        dict: Atto dictionary if found and fetched successfully, None otherwise
+    """
+    # Construct search query from reference
+    # Example: "decreto-legge 27 dicembre 2025 n. 196"
+    date_obj = datetime.strptime(ref['date'], '%Y-%m-%d')
+
+    # Convert act_type back to Italian format
+    act_type_map = {
+        'decreto-legge': 'decreto-legge',
+        'decreto_legge': 'decreto-legge',
+        'decreto-legislativo': 'decreto legislativo',
+        'decreto_legislativo': 'decreto legislativo',
+        'legge': 'legge'
+    }
+    act_type_italian = act_type_map.get(ref['act_type'], ref['act_type'])
+
+    # Format date in Italian
+    month_names = ['', 'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
+                   'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre']
+    month_name = month_names[date_obj.month]
+
+    search_text = f"{act_type_italian} {date_obj.day} {month_name} {date_obj.year} n. {ref['number']}"
+
+    print(f"    Searching for: {search_text}")
+
+    # Call ricerca/semplice API
+    search_url = f"{BASE_URL}/ricerca/semplice"
+    payload = {
+        "testoRicerca": search_text,
+        "orderType": "recente",
+        "paginazione": {
+            "paginaCorrente": 1,
+            "numeroElementiPerPagina": 5
+        }
+    }
+
+    try:
+        resp = session.post(search_url, json=payload, headers=HEADERS, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+
+        lista_atti = data.get("listaAtti", [])
+        if not lista_atti:
+            print(f"    ✗ Not found in search results")
+            return None
+
+        # Find exact match by number and date
+        for atto in lista_atti:
+            if (atto.get("numeroProvvedimento") == ref['number'] and
+                atto.get("dataGU") == ref['date']):
+                print(f"    ✓ Found: {atto.get('codiceRedazionale')}")
+                # Convert to our internal format
+                return {
+                    "codiceRedazionale": atto.get("codiceRedazionale"),
+                    "dataGU": atto.get("dataGU"),
+                    "descrizioneAtto": atto.get("descrizioneAtto"),
+                    "titoloAtto": atto.get("titoloAtto", "").strip("[] "),
+                    "numeroProvvedimento": atto.get("numeroProvvedimento"),
+                    "denominazioneAtto": atto.get("denominazioneAtto"),
+                    "_auto_fetched": True  # Mark as auto-fetched to prevent recursive fetching
+                }
+
+        print(f"    ✗ No exact match in {len(lista_atti)} results")
+        return None
+
+    except Exception as e:
+        print(f"    ✗ Search failed: {str(e)[:50]}")
+        return None
+
+
 # denominazioneAtto  →  segmento URN di normattiva.it
 URN_TIPO = {
     "COSTITUZIONE":                                 "costituzione",
@@ -1073,6 +1151,91 @@ def main():
                 print(f"error ({str(e)[:50]}...)")
         else:
             print(f"  [{i+1}/{len(atti)}] {atto.get('codiceRedazionale', '')}... no senato.it link")
+
+    # Auto-fetch missing referenced laws
+    print("\n[Checking for missing law references]")
+    missing_to_fetch = []
+    for atto in atti:
+        # Skip auto-fetched laws to prevent infinite recursion
+        if atto.get("_auto_fetched"):
+            continue
+
+        references = extract_law_references(atto.get("titoloAtto", ""))
+        if references:
+            for ref in references:
+                # Check if law exists in vault
+                file_path = find_referenced_law(ref, VAULT_DIR)
+                if not file_path:
+                    # Check if already in our fetch list
+                    already_listed = any(
+                        m['date'] == ref['date'] and m['number'] == ref['number']
+                        for m in missing_to_fetch
+                    )
+                    if not already_listed:
+                        missing_to_fetch.append(ref)
+
+    if missing_to_fetch:
+        print(f"  Found {len(missing_to_fetch)} missing reference(s), attempting to fetch...")
+
+        newly_fetched = []
+        for ref in missing_to_fetch:
+            print(f"  • {ref['act_type']} {ref['date']} n. {ref['number']}")
+            fetched_atto = search_and_fetch_missing_law(ref, session)
+            if fetched_atto:
+                newly_fetched.append(fetched_atto)
+
+        if newly_fetched:
+            print(f"\n  ✓ Successfully fetched {len(newly_fetched)} missing law(s)")
+            print(f"  Processing newly fetched laws...")
+
+            # Process newly fetched laws through the same pipeline
+            for i, atto in enumerate(newly_fetched):
+                codice = atto.get("codiceRedazionale", "")
+                data_gu = atto.get("dataGU", "")
+
+                print(f"\n  [{i+1}/{len(newly_fetched)}] {codice}")
+
+                # Fetch permalink
+                try:
+                    permalink_data = fetch_normattiva_permalink(session, data_gu, codice)
+                    atto.update(permalink_data)
+                except Exception as e:
+                    print(f"    ⚠ Permalink fetch failed: {str(e)[:50]}")
+
+                # Fetch lavori preparatori
+                lavori_url = atto.get("lavori_preparatori")
+                if lavori_url:
+                    print(f"    Fetching Camera metadata...")
+                    try:
+                        camera_meta = fetch_camera_metadata(session, lavori_url)
+                        atto.update(camera_meta)
+                    except Exception as e:
+                        print(f"    ⚠ Camera fetch failed: {str(e)[:50]}")
+
+                    if atto.get("senato-url"):
+                        print(f"    Fetching Senato metadata...")
+                        try:
+                            senato_meta = fetch_senato_metadata(session, atto.get("senato-url"))
+                            atto.update(senato_meta)
+                        except Exception as e:
+                            print(f"    ⚠ Senato fetch failed: {str(e)[:50]}")
+
+                # Fetch full text HTML
+                print(f"    Fetching full text HTML...")
+                try:
+                    full_html = fetch_full_text_via_export(session, data_gu, codice)
+                    atto["full_text_html"] = full_html
+                    if full_html:
+                        print(f"    ✓ {len(full_html):,} chars")
+                except Exception as e:
+                    print(f"    ⚠ Full text fetch failed: {str(e)[:50]}")
+                    atto["full_text_html"] = ""
+
+            # Add newly fetched laws to main list
+            atti.extend(newly_fetched)
+            print(f"\n  Total laws to process: {len(atti)} (original + auto-fetched)")
+    else:
+        print(f"  ✓ All referenced laws found in vault")
 
     # Final save with all metadata
     print("\n[Final save - all metadata included]")
