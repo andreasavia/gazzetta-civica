@@ -49,6 +49,9 @@ MANUAL_OVERRIDES_FILE = Path(__file__).parent / "normattiva_overrides.yaml"
 # Global list to track failed requests for manual review
 REQUEST_FAILURES = []
 
+# Global list to track missing law references for PR warnings
+MISSING_REFERENCES = []
+
 
 def load_manual_overrides():
     """Load manual overrides from YAML file.
@@ -792,6 +795,16 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
                     if ref_type not in refs_by_type:
                         refs_by_type[ref_type] = []
                     refs_by_type[ref_type].append(file_path)
+                else:
+                    # Track missing reference for PR warning
+                    MISSING_REFERENCES.append({
+                        "codice": codice,
+                        "title": atto.get("titoloAtto", ""),
+                        "reference_type": ref_type,
+                        "reference_date": ref['date'],
+                        "reference_number": ref['number'],
+                        "reference_act_type": ref['act_type']
+                    })
 
             # Write file paths as list (always as list for consistency)
             for ref_type, file_paths in refs_by_type.items():
@@ -1100,6 +1113,17 @@ def main():
         }, interventi_failures_file)
         print(f"  ⚠ Interventi failures: {interventi_failures_file} ({len(interventi_failures)} failures)")
         print(f"    These will be flagged in the PR for manual review")
+
+    # Save missing law references for PR warnings
+    if MISSING_REFERENCES:
+        missing_refs_file = OUTPUT_DIR / "missing_references.json"
+        save_json({
+            "missing_references": MISSING_REFERENCES,
+            "count": len(MISSING_REFERENCES),
+            "timestamp": datetime.now().isoformat()
+        }, missing_refs_file)
+        print(f"\n  ⚠ Missing law references: {missing_refs_file} ({len(MISSING_REFERENCES)} missing)")
+        print(f"    Referenced laws not found in vault - will be flagged in PR")
 
     # Preview
     if atti:
