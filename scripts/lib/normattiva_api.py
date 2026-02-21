@@ -95,12 +95,27 @@ def fetch_normattiva_permalink(session, data_gu: str, codice: str) -> dict:
                 numero_provvedimento = tipo_numero_parts[1].replace("n.", "").strip()
 
             if data_emanazione_text:
+                # Parse Italian date (e.g., "27 dicembre 2025")
                 from datetime import datetime
-                try:
-                    date_obj = datetime.strptime(data_emanazione_text, "%d %B %Y")
-                    data_emanazione = date_obj.strftime("%Y-%m-%d")
-                except:
-                    pass
+                import re
+
+                months = {
+                    'gennaio': 1, 'febbraio': 2, 'marzo': 3, 'aprile': 4,
+                    'maggio': 5, 'giugno': 6, 'luglio': 7, 'agosto': 8,
+                    'settembre': 9, 'ottobre': 10, 'novembre': 11, 'dicembre': 12
+                }
+
+                # Pattern: "DD month_name YYYY"
+                match = re.match(r'(\d{1,2})\s+(\w+)\s+(\d{4})', data_emanazione_text)
+                if match:
+                    day, month_name, year = match.groups()
+                    month_num = months.get(month_name.lower())
+                    if month_num:
+                        try:
+                            date_obj = datetime(int(year), month_num, int(day))
+                            data_emanazione = date_obj.strftime("%Y-%m-%d")
+                        except ValueError:
+                            pass
 
     # Extract lavori preparatori link
     lavori_preparatori = ""
