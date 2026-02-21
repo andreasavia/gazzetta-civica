@@ -700,15 +700,15 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
             if full_text_html:
                 f.write("\n\n")  # Add spacing between frontmatter and body
 
-                # Parse HTML and extract body content only (skip <html>, <head>, etc.)
+                # Parse HTML and extract the printable content div
                 soup = BeautifulSoup(full_text_html, 'html.parser')
-                body = soup.find('body')
+                print_div = soup.find('div', id='printThis')
 
-                if body:
-                    # Write entire body content as-is (includes all articles, allegati, etc.)
-                    f.write(body.decode_contents())
+                if print_div:
+                    # Write the entire printThis div content
+                    f.write(print_div.decode_contents())
                 else:
-                    # Fallback: write everything if no body tag found
+                    # Fallback: write everything if printThis div not found
                     f.write(full_text_html)
 
         # Track processed laws metadata
