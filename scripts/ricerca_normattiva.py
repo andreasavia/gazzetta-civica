@@ -38,6 +38,7 @@ from functools import wraps
 # Import Camera.it and Senato.it functions from separate modules
 from lib.camera import fetch_camera_metadata
 from lib.senato import fetch_senato_metadata
+from ricerca_semplice import search_laws
 
 BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
 HEADERS = {"Content-Type": "application/json"}
@@ -194,7 +195,7 @@ def search_and_fetch_missing_law(ref: dict, session) -> dict | None:
 
     Args:
         ref: Reference dict with date, number, act_type
-        session: Requests session for API calls
+        session: Requests session for API calls (unused but kept for API compatibility)
 
     Returns:
         dict: Atto dictionary if found and fetched successfully, None otherwise
@@ -222,23 +223,10 @@ def search_and_fetch_missing_law(ref: dict, session) -> dict | None:
 
     print(f"    Searching for: {search_text}")
 
-    # Call ricerca/semplice API
-    search_url = f"{BASE_URL}/ricerca/semplice"
-    payload = {
-        "testoRicerca": search_text,
-        "orderType": "recente",
-        "paginazione": {
-            "paginaCorrente": 1,
-            "numeroElementiPerPagina": 5
-        }
-    }
-
     try:
-        resp = session.post(search_url, json=payload, headers=HEADERS, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
+        # Use ricerca_semplice module
+        lista_atti = search_laws(search_text, max_results=5)
 
-        lista_atti = data.get("listaAtti", [])
         if not lista_atti:
             print(f"    ✗ Not found in search results")
             return None

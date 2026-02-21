@@ -1,0 +1,76 @@
+name: Ricerca Semplice (Search Laws)
+
+on:
+  workflow_dispatch:
+    inputs:
+      search_query:
+        description: 'Search query (e.g., "decreto-legge 27 dicembre 2025 n. 196")'
+        required: true
+        type: string
+      max_results:
+        description: 'Maximum number of results'
+        required: false
+        default: '10'
+        type: string
+      save_results:
+        description: 'Save results to file'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  search-laws:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Search for laws
+        id: search
+        run: |
+          if [ "${{ inputs.save_results }}" = "true" ]; then
+            python scripts/ricerca_semplice.py "${{ inputs.search_query }}" \
+              --max-results ${{ inputs.max_results }} \
+              --save \
+              --verbose
+          else
+            python scripts/ricerca_semplice.py "${{ inputs.search_query }}" \
+              --max-results ${{ inputs.max_results }} \
+              --verbose
+          fi
+
+      - name: Upload search results
+        if: inputs.save_results
+        uses: actions/upload-artifact@v4
+        with:
+          name: ricerca-semplice-results
+          path: data/ricerca_semplice_*.json
+          retention-days: 30
+
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## Ricerca Semplice Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Search Query:** ${{ inputs.search_query }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Max Results:** ${{ inputs.max_results }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f data/ricerca_semplice_*.json ]; then
+            echo "✅ Search completed successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Results saved to artifacts (available for 30 days)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ Search completed (results not saved)" >> $GITHUB_STEP_SUMMARY
+          fi
