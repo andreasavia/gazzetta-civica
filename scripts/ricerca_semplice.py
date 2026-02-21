@@ -13,87 +13,14 @@ This script searches for laws by keywords and can be used to:
 """
 
 import argparse
-import json
-import requests
-import sys
 from datetime import datetime
 from pathlib import Path
 
-BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
-HEADERS = {"Content-Type": "application/json"}
+# Import from library modules
+from lib.normattiva_api import search_laws
+from lib.persistence import save_json
+
 OUTPUT_DIR = Path(__file__).parent.parent / "data"
-
-
-def search_laws(search_text: str, max_results: int = 10, order: str = "recente") -> list:
-    """Search for laws using the ricerca/semplice API.
-
-    Args:
-        search_text: Keywords to search for (in title or text)
-        max_results: Maximum number of results to return (default: 10)
-        order: Sort order - "recente" (newest first) or "vecchio" (oldest first)
-
-    Returns:
-        list: List of matching atti (laws) with metadata
-    """
-    search_url = f"{BASE_URL}/ricerca/semplice"
-    payload = {
-        "testoRicerca": search_text,
-        "orderType": order,
-        "paginazione": {
-            "paginaCorrente": 1,
-            "numeroElementiPerPagina": max_results
-        }
-    }
-
-    print(f"Searching for: {search_text}")
-    print(f"API: {search_url}")
-
-    try:
-        session = requests.Session()
-        resp = session.post(search_url, json=payload, headers=HEADERS, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
-
-        lista_atti = data.get("listaAtti", [])
-        print(f"\nFound {len(lista_atti)} result(s)")
-
-        return lista_atti
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error: Search failed - {str(e)}", file=sys.stderr)
-        return []
-    except Exception as e:
-        print(f"Error: {str(e)}", file=sys.stderr)
-        return []
-
-
-def find_exact_match(search_text: str, date: str = None, number: str = None) -> dict | None:
-    """Search for a law and return the exact match by date and number.
-
-    Args:
-        search_text: Search keywords (e.g., "decreto-legge 27 dicembre 2025 n. 196")
-        date: Expected date in YYYY-MM-DD format (optional, for exact matching)
-        number: Expected number (optional, for exact matching)
-
-    Returns:
-        dict: Matching atto if found, None otherwise
-    """
-    results = search_laws(search_text, max_results=5)
-
-    if not results:
-        return None
-
-    # If date and number provided, find exact match
-    if date and number:
-        for atto in results:
-            if (atto.get("numeroProvvedimento") == number and
-                atto.get("dataGU") == date):
-                return atto
-        print(f"No exact match found for date={date}, number={number}")
-        return None
-
-    # Otherwise return first result
-    return results[0] if results else None
 
 
 def print_results(atti: list, verbose: bool = False):
@@ -146,10 +73,11 @@ def save_results(atti: list, output_file: Path = None):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = OUTPUT_DIR / f"ricerca_semplice_{timestamp}.json"
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-    with output_file.open("w", encoding="utf-8") as f:
-        json.dump({"listaAtti": atti, "count": len(atti), "timestamp": datetime.now().isoformat()}, f, indent=2, ensure_ascii=False)
+    save_json({
+        "listaAtti": atti,
+        "count": len(atti),
+        "timestamp": datetime.now().isoformat()
+    }, output_file)
 
     print(f"\nResults saved to: {output_file}")
 

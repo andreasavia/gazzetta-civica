@@ -1,4 +1,4 @@
-name: Ricerca Semplice (Search and Process Laws)
+name: Normattiva Ricerca Semplice (Search and Process Laws)
 
 on:
   workflow_dispatch:
