@@ -296,108 +296,37 @@ def extract_text_content(html):
     return '\n'.join(lines)
 
 @retry_request(max_retries=3, initial_delay=2)
-def fetch_articles_via_scraping(session, data_gu: str, codice: str, data_vigenza: str) -> list:
+def fetch_full_text_via_export(session, data_gu: str, codice: str) -> str:
     """
-    Fetch ALL articles by scraping the normattiva.it web page directly.
+    Fetch complete act HTML using the export endpoint.
 
-    This method replaces the old API-based approach which required individual requests
-    per article. Instead, we:
-    1. Load the main page to get the article index
-    2. Fetch each article's HTML from the web interface
-    3. Return all articles in a single call
+    This replaces the article-by-article scraping with a single request
+    that returns all articles in one response. The export endpoint provides
+    the complete text with semantic Akoma Ntoso (AKN) HTML classes.
 
     Args:
         session: requests.Session with established cookies
         data_gu: Data pubblicazione GU (YYYY-MM-DD format)
         codice: Codice redazionale
-        data_vigenza: Data di vigenza (YYYY-MM-DD format)
 
     Returns:
-        list: List of dicts with 'numero' (int) and 'html' (str) keys
-              Returns empty list if scraping fails
+        str: Complete HTML content with all articles
+             Returns empty string if fetch fails
+
+    Raises:
+        Exception: If HTTP request fails
     """
-    articoli = []
+    if not data_gu or not codice:
+        return ""
 
-    if not data_gu or not codice or not data_vigenza:
-        return articoli
+    # Export endpoint returns all articles in single response
+    # No need for vigenza parameter - returns current version
+    export_url = f"https://www.normattiva.it/esporta/attoCompleto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}"
 
-    # Convert yyyy-mm-dd to dd/mm/yyyy for URL parameter
-    try:
-        vig_date = datetime.strptime(data_vigenza, "%Y-%m-%d")
-        data_vigenza_ddmmyyyy = vig_date.strftime("%d/%m/%Y")
-    except ValueError:
-        data_vigenza_ddmmyyyy = data_vigenza
+    resp = session.get(export_url, timeout=30)
+    resp.raise_for_status()
 
-    # Load the main page to get the article index
-    main_url = f"https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta={data_gu}&atto.codiceRedazionale={codice}&tipoDettaglio=singolavigenza&dataVigenza={data_vigenza_ddmmyyyy}"
-
-    try:
-        main_resp = session.get(main_url, timeout=30)
-        main_resp.raise_for_status()
-    except Exception as e:
-        print(f"\n      Error loading main page: {str(e)[:100]}")
-        return articoli
-
-    soup = BeautifulSoup(main_resp.text, 'html.parser')
-
-    # Find all article links in the index
-    articles_links = soup.find_all('a', class_='numero_articolo', onclick=True)
-
-    if not articles_links:
-        # No articles found - might be a single-article act or different structure
-        # Try to get the main content directly
-        content_div = soup.find('div', class_='bodyTesto')
-        if content_div:
-            # Single article or full text available
-            articoli.append({
-                "numero": 1,
-                "html": str(content_div)
-            })
-        return articoli
-
-    # Process each article link
-    for link in articles_links:
-        art_num_text = link.get_text(strip=True)
-        onclick_content = link.get('onclick', '')
-
-        # Extract article path from onclick="return showArticle('/atto/caricaArticolo?...', this);"
-        match = re.search(r"showArticle\('([^']+)'", onclick_content)
-        if not match:
-            continue
-
-        art_path = match.group(1)
-        art_url = NORMATTIVA_SITE + art_path.replace("&amp;", "&")
-
-        try:
-            art_resp = session.get(art_url, timeout=30)
-            art_resp.raise_for_status()
-
-            art_soup = BeautifulSoup(art_resp.text, 'html.parser')
-            content_div = art_soup.find('div', class_='bodyTesto')
-
-            if content_div:
-                # Determine article number
-                # art_num_text might be "1", "2", "Allegato", etc.
-                try:
-                    art_num = int(art_num_text)
-                except ValueError:
-                    # For non-numeric articles (Allegato, etc.), use position-based numbering
-                    art_num = len(articoli) + 1
-
-                articoli.append({
-                    "numero": art_num,
-                    "html": str(content_div)
-                })
-
-            # Small delay to avoid rate limiting
-            time.sleep(0.3)
-
-        except Exception as e:
-            # Log error but continue processing other articles
-            print(f"\n      Error fetching article {art_num_text}: {str(e)[:100]}")
-            continue
-
-    return articoli
+    return resp.text
 
 
 @retry_request(max_retries=3, initial_delay=2)
@@ -766,13 +695,42 @@ def save_markdown(atti: list, vault_dir: Path) -> list:
         with filepath.open("w", encoding="utf-8") as f:
             f.write("\n".join(lines))
 
-            # Add article HTML content to the body
-            articoli = atto.get("articoli", [])
-            if articoli:
+            # Add full text HTML to the body
+            full_text_html = atto.get("full_text_html", "")
+            if full_text_html:
                 f.write("\n\n")  # Add spacing between frontmatter and body
-                for art in articoli:
-                    f.write(art['html'])
-                    f.write("\n")
+
+                # Parse HTML to extract article structure
+                soup = BeautifulSoup(full_text_html, 'html.parser')
+
+                # Find all articles by AKN semantic classes
+                # The export endpoint uses semantic Akoma Ntoso HTML classes
+                articles = soup.find_all('h2', class_='article-num-akn')
+
+                if articles:
+                    # Export endpoint returns clean article structure
+                    for article_h2 in articles:
+                        # Write article number heading
+                        f.write(str(article_h2))
+                        f.write("\n")
+
+                        # Find and write article content following the h2
+                        # Content includes article-heading-akn, art-commi-div-akn, etc.
+                        next_elem = article_h2.find_next_sibling()
+                        while next_elem and next_elem.name != 'h2':
+                            f.write(str(next_elem))
+                            f.write("\n")
+                            next_elem = next_elem.find_next_sibling()
+                else:
+                    # Fallback: if AKN structure not found, try bodyTesto div
+                    body_testo = soup.find('div', class_='bodyTesto')
+                    if body_testo:
+                        f.write(str(body_testo))
+                    else:
+                        # Last resort: write entire body content
+                        body = soup.find('body')
+                        if body:
+                            f.write(str(body))
 
         # Track processed laws metadata
         # Get relative path from project root
@@ -920,34 +878,32 @@ def main():
     else:
         print(f"  No manual overrides found in {MANUAL_OVERRIDES_FILE.name}")
 
-    # Fetch article HTML for each atto using web scraping
-    print("\n[Fetching article HTML via web scraping]")
+    # Fetch complete act HTML using export endpoint
+    print("\n[Fetching full text HTML via export endpoint]")
     for i, atto in enumerate(atti):
         data_gu = atto.get("dataGU", "")
         codice = atto.get("codiceRedazionale", "")
-        data_vigenza = atto.get("data_vigenza", "")
 
-        if not data_gu or not codice or not data_vigenza:
+        if not data_gu or not codice:
             print(f"  [{i+1}/{len(atti)}] {codice}... skipping (missing data)")
-            atto["articoli"] = []
+            atto["full_text_html"] = ""
             continue
 
         print(f"  [{i+1}/{len(atti)}] {codice}...", end=" ", flush=True)
 
-        # Fetch all articles at once via web scraping
-        articoli = fetch_articles_via_scraping(session, data_gu, codice, data_vigenza)
+        # Fetch complete HTML in single request
+        full_html = fetch_full_text_via_export(session, data_gu, codice)
 
-        atto["articoli"] = articoli
-        if articoli:
-            total_chars = sum(len(a['html']) for a in articoli)
-            print(f"{len(articoli)} articles ({total_chars:,} chars)")
+        atto["full_text_html"] = full_html
+        if full_html:
+            print(f"{len(full_html):,} chars")
         else:
-            print("no articles found")
+            print("no content found")
 
-    # Save after article HTML fetching (most time-consuming and important step)
-    print("\n[Saving after article HTML fetch]")
+    # Save after full text HTML fetching (most time-consuming and important step)
+    print("\n[Saving after full text HTML fetch]")
     save_markdown(atti, VAULT_DIR)
-    print("  ✅ Markdown files saved with article HTML\n")
+    print("  ✅ Markdown files saved with full text HTML\n")
 
     # Fetch camera.it metadata from lavori_preparatori
     print("[Fetching camera.it metadata and interventi]")
