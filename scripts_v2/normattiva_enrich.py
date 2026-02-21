@@ -20,13 +20,13 @@ import html as html_module
 import json
 import re
 import time
-from functools import wraps
 from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
 
 from models import Legge, NormattivaData
+from utils import retry_request
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -47,29 +47,6 @@ _TEXT_TO_FIELD: dict[str, str] = {
 }
 
 _APPROFONDIMENTO_FIELDS = list(_TEXT_TO_FIELD.values())
-
-
-# ── Retry decorator ───────────────────────────────────────────────────────────
-
-def retry_request(max_retries: int = 3, initial_delay: float = 2.0, backoff_factor: float = 2.0):
-    """Retry HTTP calls with exponential backoff on network/HTTP errors."""
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            delay = initial_delay
-            for attempt in range(max_retries + 1):
-                try:
-                    return func(*args, **kwargs)
-                except (requests.RequestException, ConnectionError, TimeoutError) as exc:
-                    if attempt < max_retries:
-                        print(f"    ⚠ Retry {attempt + 1}/{max_retries} after {delay}s: {str(exc)[:100]}")
-                        time.sleep(delay)
-                        delay *= backoff_factor
-                    else:
-                        print(f"    ✗ Failed after {max_retries} retries: {str(exc)[:100]}")
-                        raise
-        return wrapper
-    return decorator
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────

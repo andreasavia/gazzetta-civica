@@ -17,51 +17,16 @@ import calendar
 import dataclasses
 import json
 import time
-from functools import wraps
 from pathlib import Path
 
 import requests
 
 from models import Legge
+from utils import retry_request
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 BASE_URL = "https://api.normattiva.it/t/normattiva.api/bff-opendata/v1/api/v1"
 HEADERS = {"Content-Type": "application/json"}
-
-
-# ── Retry decorator ───────────────────────────────────────────────────────────
-
-def retry_request(max_retries: int = 3, initial_delay: float = 2.0, backoff_factor: float = 2.0):
-    """Decorator: retry HTTP calls with exponential backoff on network errors.
-
-    Args:
-        max_retries: How many times to retry before giving up.
-        initial_delay: Seconds to wait before first retry.
-        backoff_factor: Multiplier applied to delay on each subsequent retry.
-    """
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            delay = initial_delay
-            last_exc: Exception | None = None
-
-            for attempt in range(max_retries + 1):
-                try:
-                    return func(*args, **kwargs)
-                except (requests.RequestException, ConnectionError, TimeoutError) as exc:
-                    last_exc = exc
-                    if attempt < max_retries:
-                        print(f"  ⚠ Retry {attempt + 1}/{max_retries} after {delay}s: {str(exc)[:100]}")
-                        time.sleep(delay)
-                        delay *= backoff_factor
-                    else:
-                        print(f"  ✗ Failed after {max_retries} retries: {str(exc)[:100]}")
-                        raise
-
-            raise RuntimeError("Unreachable") from last_exc
-
-        return wrapper
-    return decorator
 
 
 # ── API call ──────────────────────────────────────────────────────────────────

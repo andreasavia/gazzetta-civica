@@ -5,21 +5,35 @@ models.py — Core data models for the Gazzetta Civica pipeline.
 of three nested dataclasses, one per data source:
 
     NormattivaData  ← populated by normattiva_search + normattiva_enrich
-    CameraData      ← populated by camera_enrich
+    CameraData      ← populated by camera_enrich (includes EsameAssemblea)
     SenatoData      ← populated by senato_enrich
+
+Esame in Assemblea (Camera.it debate transcripts) typing:
+    PageRef         ← single page/anchor reference with optional stenographic text
+    Intervento      ← one speaker's intervention in a debate phase
+    Fase            ← one debate phase (e.g. "Discussione Generale")
+    Seduta          ← one parliamentary session
+    EsameAssemblea  ← full Assembly examination block; stored on CameraData
 
 Pipeline flow:
     normattiva_search  →  Legge(normattiva=NormattivaData(...))
     normattiva_enrich  →  fills normattiva.uri, vigenza, approfondimenti, full_text_html
-    camera_enrich      →  fills legge.camera.*
+    camera_enrich      →  fills legge.camera.* and legge.camera.esame_assemblea
     senato_enrich      →  fills legge.senato.*
     markdown_writer    →  reads all three sub-objects and writes .md to vault
+
+Failure tracking:
+    Each pipeline stage appends to legge.failures: list[dict], where each
+    entry has keys: stage (str), error (str). The pipeline writes this list
+    into new_laws.json for the GitHub Actions PR-creation workflow.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Optional
+
+from utils import extract_law_references
 
 
 # ── NormattivaData ────────────────────────────────────────────────────────────
@@ -73,6 +87,11 @@ class NormattivaData:
     # Full act text (HTML from /esporta/attoCompleto)
     full_text_html: str = ""
 
+    # Law cross-references parsed from titolo_atto at construction time.
+    # Each entry: {type, act_type, date, number}
+    # type is one of: "converts", "modifies", "integrates"
+    riferimenti: list[dict] = field(default_factory=list)
+
     @classmethod
     def from_api(cls, raw: dict) -> "NormattivaData":
         """Construct from a raw /ricerca/avanzata API response dict.
@@ -93,10 +112,11 @@ class NormattivaData:
         else:
             data_emanazione = raw.get("dataEmanazione", "")[:10]
 
-        return cls(
+        titolo = raw.get("titoloAtto", "").strip().strip("[]").strip()
+        instance = cls(
             codice_redazionale=raw.get("codiceRedazionale", "unknown"),
             descrizione_atto=raw.get("descrizioneAtto", ""),
-            titolo_atto=raw.get("titoloAtto", "").strip().strip("[]").strip(),
+            titolo_atto=titolo,
             numero_provvedimento=str(raw.get("numeroProvvedimento", "0")),
             denominazione_atto=raw.get("denominazioneAtto", ""),
             data_gu=raw.get("dataGU", ""),
@@ -108,6 +128,112 @@ class NormattivaData:
             data_ultima_modifica=raw.get("dataUltimaModifica") or None,
             ultimi_atti_modificanti=raw.get("ultimiAttiModificanti") or None,
         )
+        # Populate law cross-references immediately from the title
+        instance.riferimenti = extract_law_references(titolo)
+        return instance
+
+
+# ── Esame in Assemblea typed objects ─────────────────────────────────────────
+
+@dataclass
+class PageRef:
+    """A single page/anchor reference within a parliamentary session."""
+    page_number: str = ""
+    url: str = ""
+    seduta_id: str = ""
+    anchor: str = ""
+    stenografico_text: str = ""   # Extracted from the XML stenographic transcript
+    intervento_id: str = ""
+
+
+@dataclass
+class Intervento:
+    """One speaker's intervention in a debate phase."""
+    name: str = ""
+    party: str = ""
+    role: str = ""
+    photo_url: str = ""
+    profile_url: str = ""
+    person_id: str = ""
+    legislatura: str = ""
+    page_references: list[PageRef] = field(default_factory=list)
+
+
+@dataclass
+class Fase:
+    """One debate phase (e.g. \"Discussione Generale\")."""
+    title: str = ""
+    page_references: list[PageRef] = field(default_factory=list)
+    interventions: list[Intervento] = field(default_factory=list)
+
+
+@dataclass
+class Seduta:
+    """One parliamentary session of the Assembly examination."""
+    session_number: str = ""
+    date: str = ""
+    title: str = ""
+    page_references: list[PageRef] = field(default_factory=list)
+    phases: list[Fase] = field(default_factory=list)
+
+
+@dataclass
+class EsameAssemblea:
+    """Full \"Esame in Assemblea\" block from Camera.it.
+
+    Stored on CameraData.esame_assemblea after camera_enrich runs.
+    The underlying JSON and per-seduta .md files are also written to
+    the interventi/ directory in the vault.
+    """
+    sessions: list[Seduta] = field(default_factory=list)
+    total_sessions: int = 0
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "EsameAssemblea":
+        """Convert the parse_esame_assemblea dict output into typed objects."""
+        def _page_refs(raw_list: list) -> list[PageRef]:
+            return [
+                PageRef(
+                    page_number=pr.get("page_number", ""),
+                    url=pr.get("url", ""),
+                    seduta_id=pr.get("seduta_id", ""),
+                    anchor=pr.get("anchor", ""),
+                    stenografico_text=pr.get("stenografico_text", ""),
+                    intervento_id=pr.get("intervento_id", ""),
+                )
+                for pr in raw_list
+            ]
+
+        sessions: list[Seduta] = []
+        for s in data.get("sessions", []):
+            phases: list[Fase] = []
+            for ph in s.get("phases", []):
+                interventions: list[Intervento] = [
+                    Intervento(
+                        name=iv.get("name", ""),
+                        party=iv.get("party", ""),
+                        role=iv.get("role", ""),
+                        photo_url=iv.get("photo_url", ""),
+                        profile_url=iv.get("profile_url", ""),
+                        person_id=iv.get("person_id", ""),
+                        legislatura=iv.get("legislatura", ""),
+                        page_references=_page_refs(iv.get("page_references", [])),
+                    )
+                    for iv in ph.get("interventions", [])
+                ]
+                phases.append(Fase(
+                    title=ph.get("title", ""),
+                    page_references=_page_refs(ph.get("page_references", [])),
+                    interventions=interventions,
+                ))
+            sessions.append(Seduta(
+                session_number=s.get("session_number", ""),
+                date=s.get("date", ""),
+                title=s.get("title", ""),
+                page_references=_page_refs(s.get("page_references", [])),
+                phases=phases,
+            ))
+        return cls(sessions=sessions, total_sessions=len(sessions))
 
 
 # ── CameraData ────────────────────────────────────────────────────────────────
@@ -119,16 +245,17 @@ class CameraData:
     Populated by the camera_enrich pipeline stage.
     """
     legislatura: Optional[str] = None
-    atto: Optional[str] = None              # e.g. "A.C. 1234"
+    atto: Optional[str] = None              # e.g. "C. 1234"
     atto_iri: Optional[str] = None          # Linked data IRI
-    natura: Optional[str] = None            # e.g. "Disegno di Legge"
-    iniziativa: Optional[str] = None        # e.g. "Governativa"
+    natura: Optional[str] = None            # e.g. "Progetto di Legge"
+    iniziativa: Optional[str] = None        # e.g. "Governo" or "Parlamentare"
     data_presentazione: Optional[str] = None
     relazioni: list[str] = field(default_factory=list)
     firmatari: list[dict] = field(default_factory=list)   # [{name, role/group}, ...]
     relatori: list[str] = field(default_factory=list)
     votazione_finale: Optional[str] = None
     dossier: list[str] = field(default_factory=list)
+    esame_assemblea: Optional[EsameAssemblea] = None  # Typed debate transcript
 
 
 # ── SenatoData ────────────────────────────────────────────────────────────────
@@ -177,8 +304,10 @@ class Legge:
     camera: CameraData = field(default_factory=CameraData)
     senato: SenatoData = field(default_factory=SenatoData)
 
-    # Pipeline-internal flags (not written to markdown)
-    interventi_error: Optional[str] = None
+    # Pipeline-internal: failures collected across all enrich stages.
+    # Each entry: {stage: str, error: str}. Written to new_laws.json
+    # for the GH Actions PR-creation workflow. Never written to markdown.
+    failures: list[dict] = field(default_factory=list)
 
     @classmethod
     def from_api(cls, raw: dict) -> "Legge":
