@@ -1,0 +1,19 @@
+---
+tipo: INTERVENTI
+seduta_id: 559
+date: 04/11/2025
+title: Deliberazione, ai sensi dell'articolo 123-bis, comma 3, del Regolamento, in ordine al termine per la conclusione dell'esame in Assemblea del disegno di legge n. 2655, collegato alla manovra di finanza pubblica
+page_references:
+  - https://documenti.camera.it/apps/commonServices/getDocumento.ashx?idLegislatura=19&sezione=assemblea&tipoDoc=stenografico&nomefile=stenografico&idSeduta=0559&ancora=sed0559.stenografico.tit00060
+---
+
+# Deliberazione, ai sensi dell'articolo 123-bis, comma 3, del Regolamento, in ordine al termine per la conclusione dell'esame in Assemblea del disegno di legge n. 2655, collegato alla manovra di finanza pubblica
+
+## Intervento di "BONAFE' Simona" - "PD-IDP"
+
+(PD-IDP). Grazie, Presidente. Intervengo per esprimere la nostra contrarietà alla deliberazione d'urgenza per il 20 novembre di questo provvedimento. Penso che, una volta tanto, la maggioranza e il Governo dovrebbero farsi carico anche della volontà delle opposizioni di fare il loro lavoro con cognizione di causa, perché stiamo parlando di un provvedimento molto complesso che, se anche è stato approvato dal Senato, ha bisogno di un'istruttoria anche in questa Camera, a meno che non si decida che siamo in un monocameralismo di fatto. Stiamo parlando di un provvedimento che va a semplificare un'enormità di materie molto trasversali e molto diverse fra loro: andiamo dall'ambiente alla Protezione civile, alla giustizia, alla salute. Presidente, lei capisce bene che i tempi, previsti dal Governo per l'esame di questo provvedimento, non ci mettono in condizioni di lavorare. Il provvedimento è stato incardinato in Commissione il 29 ottobre. Avevamo chiesto la possibilità di avere un numero di audizioni congruo rispetto alla complessità del provvedimento, e ci è stato detto che avremmo potuto audire una sola persona per gruppo in mezza giornata; ci siamo rifiutati di indicare i nomi degli auditi, perché riteniamo che questo non sia un modo di procedere corretto. Lo ripeto, stiamo parlando di un provvedimento importante, un provvedimento che va a semplificare importanti settori della vita quotidiana per cittadini e per imprese: questo lo dico non solo per l'opposizione, che vorrebbe fare il proprio lavoro, ma anche per i colleghi di maggioranza. Allora, Presidente, con 74 articoli su materie così diverse, noi crediamo che ci sia bisogno di un maggiore termine per poterlo esaminare. Capiamo che sia un collegato alla legge di bilancio, questo, però, non significa chiudere la discussione in Aula il 20 novembre o, perlomeno, se così fosse, noi dovremmo, ancora una volta, verificare che l'urgenza del Governo è incompatibile con la possibilità per le opposizioni di fare - lo dico ancora una volta - il loro lavoro. Pertanto, esprimiamo tutta la nostra contrarietà e chiediamo che siano rivisti i termini per poter procedere all'esame
+
+## Intervento di "VINCI Gianluca" - "FDI"
+
+(FDI). Grazie, Presidente. Come recita lo stesso titolo, la richiesta di urgenza riguarda un collegato alla manovra di finanza pubblica. Visti i tempi ormai ristretti e le questioni importanti citate anche dall'opposizione, non si può attendere altro tempo e pensare di procrastinare l'esame in Aula fino, magari, a superare novembre e arrivare a dicembre. Se questo è un tentativo da parte dell'opposizione di rallentare la legge di bilancio, è un tentativo maldestro. Proprio perché è una normativa corposa, ma necessaria e urgente per il Paese, nonché collegata alla manovra di finanza pubblica, vi è un'urgenza e, quindi, anche una tempistica da rispettare nell'approvazione, nell'arrivo in Aula, di questo provvedimento. Stiamo parlando e siamo ai primi di novembre: abbiamo fatto provvedimenti in un tempo molto inferiore rispetto a quello che viene prefissato da questo voto. Per questo motivo, noi siamo assolutamente favorevoli al voto e alla dichiarazione di urgenza.
+
