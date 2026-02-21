@@ -146,8 +146,107 @@ def fetch_full_text_via_export(session, data_gu: str, codice: str) -> str:
     return resp.text
 
 
+def _parse_structured_query(search_text: str) -> dict | None:
+    """Parse a structured search query to extract date, number, and type.
+
+    Detects patterns like:
+    - "decreto-legge 27 dicembre 2025 n. 196"
+    - "legge 15 marzo 2024 n. 42"
+
+    Args:
+        search_text: The search query
+
+    Returns:
+        dict: Parsed data with date, number, type, or None if not structured
+    """
+    import re
+    from datetime import datetime
+
+    # Pattern: (type) (day) (month) (year) n. (number)
+    pattern = r"(decreto-legge|decreto\s+legislativo|legge)\s+(\d{1,2})\s+(\w+)\s+(\d{4})[,\s]*n\.\s*(\d+)"
+    match = re.search(pattern, search_text, re.IGNORECASE)
+
+    if not match:
+        return None
+
+    act_type, day, month_name, year, number = match.groups()
+
+    # Parse Italian date
+    months = {
+        'gennaio': 1, 'febbraio': 2, 'marzo': 3, 'aprile': 4,
+        'maggio': 5, 'giugno': 6, 'luglio': 7, 'agosto': 8,
+        'settembre': 9, 'ottobre': 10, 'novembre': 11, 'dicembre': 12
+    }
+    month_num = months.get(month_name.lower())
+
+    if not month_num:
+        return None
+
+    try:
+        date_obj = datetime(int(year), month_num, int(day))
+        return {
+            'type': act_type.lower().replace(' ', '_'),
+            'date': date_obj.strftime('%Y-%m-%d'),
+            'number': number,
+            'year': year,
+            'month': str(month_num),
+            'day': day
+        }
+    except ValueError:
+        return None
+
+
+def _search_with_ricerca_avanzata(parsed: dict, max_results: int = 10) -> list:
+    """Search using ricerca/avanzata with precise date filters.
+
+    Args:
+        parsed: Parsed query dict with date, number, type
+        max_results: Maximum results to return
+
+    Returns:
+        list: Matching atti
+    """
+    search_url = f"{BASE_URL}/ricerca/avanzata"
+
+    # Search on the specific day only
+    payload = {
+        "dataInizioPubProvvedimento": parsed['date'],
+        "dataFinePubProvvedimento": parsed['date'],
+        "paginazione": {
+            "paginaCorrente": 1,
+            "numeroElementiPerPagina": max_results
+        }
+    }
+
+    try:
+        session = requests.Session()
+        resp = session.post(search_url, json=payload, headers=HEADERS, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+
+        lista_atti = data.get("listaAtti", [])
+
+        # Filter by number if we have it
+        if parsed.get('number'):
+            lista_atti = [
+                atto for atto in lista_atti
+                if atto.get("numeroProvvedimento") == parsed['number']
+            ]
+
+        return lista_atti
+
+    except requests.exceptions.RequestException as e:
+        print(f"Warning: Advanced search failed - {str(e)}")
+        return []
+
+
 def search_laws(search_text: str, max_results: int = 10, order: str = "recente") -> list:
-    """Search for laws using the ricerca/semplice API.
+    """Search for laws using intelligent query parsing.
+
+    This function:
+    1. Tries to parse structured queries (e.g., "decreto-legge 27 dicembre 2025 n. 196")
+    2. Uses ricerca/avanzata for precise date-based searches
+    3. Falls back to ricerca/semplice for general text searches
 
     Args:
         search_text: Keywords to search for (in title or text)
@@ -157,6 +256,20 @@ def search_laws(search_text: str, max_results: int = 10, order: str = "recente")
     Returns:
         list: List of matching atti (laws) with metadata
     """
+    # Try parsing as structured query first
+    parsed = _parse_structured_query(search_text)
+
+    if parsed:
+        print(f"Detected structured query: {parsed['type']} {parsed['date']} n. {parsed['number']}")
+        print("Using ricerca/avanzata for precise search...")
+        results = _search_with_ricerca_avanzata(parsed, max_results)
+
+        if results:
+            return results
+
+        print("No results from advanced search, falling back to simple search...")
+
+    # Fall back to simple search
     search_url = f"{BASE_URL}/ricerca/semplice"
     payload = {
         "testoRicerca": search_text,
