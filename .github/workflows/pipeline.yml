@@ -1,0 +1,221 @@
+name: Daily Normattiva Update (v2)
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Run at 6 AM UTC daily
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Year (defaults to current year)'
+        required: false
+        type: string
+      month:
+        description: 'Month (defaults to current month)'
+        required: false
+        type: string
+      dry_run:
+        description: 'Dry run — skip PR creation'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed for branch checks
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r scripts_v2/requirements.txt
+
+      - name: Resolve year and month
+        id: date
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "year=$(date +%Y)"  >> $GITHUB_OUTPUT
+            echo "month=$(date +%-m)" >> $GITHUB_OUTPUT
+          else
+            year="${{ inputs.year }}"
+            month="${{ inputs.month }}"
+            echo "year=${year:-$(date +%Y)}"   >> $GITHUB_OUTPUT
+            echo "month=${month:-$(date +%-m)}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run pipeline
+        run: |
+          cd scripts_v2
+          python pipeline.py ${{ steps.date.outputs.year }} ${{ steps.date.outputs.month }}
+
+      - name: Check for new laws
+        id: check_new
+        run: |
+          if [ -f "data/new_laws.json" ]; then
+            count=$(jq '.new_laws | length' data/new_laws.json)
+            echo "count=$count" >> $GITHUB_OUTPUT
+            if [ "$count" -gt 0 ]; then
+              echo "has_new=true" >> $GITHUB_OUTPUT
+              echo "Found $count new law(s)"
+            else
+              echo "has_new=false" >> $GITHUB_OUTPUT
+              echo "No new laws to publish"
+            fi
+          else
+            echo "has_new=false" >> $GITHUB_OUTPUT
+            echo "count=0"        >> $GITHUB_OUTPUT
+            echo "data/new_laws.json not found — pipeline may have found nothing new"
+          fi
+
+      - name: Create PRs for new laws
+        if: |
+          steps.check_new.outputs.has_new == 'true' &&
+          inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Configure git identity
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git checkout master
+          git pull origin master
+
+          count=$(jq '.new_laws | length' data/new_laws.json)
+          echo "Creating up to $count pull request(s)..."
+
+          for i in $(seq 0 $((count - 1))); do
+            codice=$(jq -r         ".new_laws[$i].codice"            data/new_laws.json)
+            descrizione=$(jq -r    ".new_laws[$i].descrizione"        data/new_laws.json)
+            tipo=$(jq -r           ".new_laws[$i].tipo"               data/new_laws.json)
+            numero=$(jq -r         ".new_laws[$i].numero"             data/new_laws.json)
+            data_em=$(jq -r        ".new_laws[$i].data_emanazione"    data/new_laws.json)
+            titolo_alt=$(jq -r     ".new_laws[$i].titolo_alternativo" data/new_laws.json)
+            directory=$(jq -r      ".new_laws[$i].directory"          data/new_laws.json)
+            branch_name="legge/${codice}"
+
+            echo "[$((i+1))/$count] $descrizione"
+
+            # Skip if branch already exists remotely
+            if git ls-remote --exit-code --heads origin "$branch_name" > /dev/null 2>&1; then
+              echo "  ⏭ Branch already exists — skipping"
+              continue
+            fi
+
+            # Create branch from master
+            git checkout master
+            git checkout -b "$branch_name"
+
+            # Stage only this law's directory
+            git add "$directory"
+
+            if git diff --staged --quiet; then
+              echo "  No changes to stage — skipping"
+              git checkout master
+              git branch -D "$branch_name"
+              continue
+            fi
+
+            # Commit
+            {
+              echo "feat: add $titolo_alt"
+              echo ""
+              echo "Codice redazionale: $codice"
+              echo "Data emanazione: $data_em"
+              echo ""
+              echo "Co-Authored-By: Antigravity <noreply@google.com>"
+            } > /tmp/commit_msg.txt
+            git commit -F /tmp/commit_msg.txt
+
+            git push -u origin "$branch_name"
+
+            # ── Build per-law PR body ──────────────────────────────────────
+            {
+              echo "## Atto Normativo"
+              echo ""
+              echo "**Tipo:** $tipo"
+              echo "**Numero:** $numero"
+              echo "**Data emanazione:** $data_em"
+              echo "**Codice redazionale:** \`$codice\`"
+              echo ""
+              echo "### Descrizione"
+              echo ""
+              echo "$descrizione"
+
+              # Failures section (only if this law has any)
+              failure_count=$(jq ".new_laws[$i].failures | length" data/new_laws.json)
+              if [ "$failure_count" -gt 0 ]; then
+                echo ""
+                echo "## ⚠️ Fetch Failures"
+                echo ""
+                echo "${failure_count} HTTP request(s) failed during enrichment. The data may be incomplete:"
+                echo ""
+                for j in $(seq 0 $((failure_count - 1))); do
+                  stage=$(jq -r ".new_laws[$i].failures[$j].stage" data/new_laws.json)
+                  error=$(jq -r ".new_laws[$i].failures[$j].error" data/new_laws.json | head -c 300)
+                  echo "- **${stage}**: \`${error}\`"
+                done
+                echo ""
+                echo "Check the [workflow run logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+              fi
+
+              # Missing cross-references section
+              missing_count=$(jq ".new_laws[$i].missing_refs | length" data/new_laws.json)
+              if [ "$missing_count" -gt 0 ]; then
+                echo ""
+                echo "## ⚠️ Unresolved Cross-References"
+                echo ""
+                echo "The following laws referenced in the title could not be found in the vault:"
+                echo ""
+                for j in $(seq 0 $((missing_count - 1))); do
+                  ref_type=$(jq -r ".new_laws[$i].missing_refs[$j].reference_type"   data/new_laws.json)
+                  ref_date=$(jq -r ".new_laws[$i].missing_refs[$j].reference_date"   data/new_laws.json)
+                  ref_num=$(jq -r  ".new_laws[$i].missing_refs[$j].reference_number" data/new_laws.json)
+                  ref_act=$(jq -r  ".new_laws[$i].missing_refs[$j].reference_act_type" data/new_laws.json)
+                  echo "- **${ref_type}** ${ref_act} del ${ref_date}, n. ${ref_num} — not yet in vault"
+                done
+              fi
+
+              echo ""
+              echo "---"
+              echo ""
+              echo "Raccolto automaticamente da Normattiva per ${{ steps.date.outputs.year }}/${{ steps.date.outputs.month }}."
+              echo ""
+              echo "🤖 Generato con [Antigravity](https://deepmind.google)"
+            } > /tmp/pr_body.md
+
+            # Create PR — try with assignee, fall back without
+            pr_url=$(gh pr create \
+              --base  master \
+              --head  "$branch_name" \
+              --title "[$codice] $titolo_alt" \
+              --body-file /tmp/pr_body.md \
+              --assignee andreasavia 2>/dev/null || \
+            gh pr create \
+              --base  master \
+              --head  "$branch_name" \
+              --title "[$codice] $titolo_alt" \
+              --body-file /tmp/pr_body.md)
+
+            # Add labels (non-fatal if labels don't exist)
+            labels="nuova-legge,automatizzato"
+            failure_count=$(jq ".new_laws[$i].failures | length" data/new_laws.json)
+            if [ "$failure_count" -gt 0 ]; then
+              labels="${labels},richiede-revisione"
+            fi
+            gh pr edit "$pr_url" --add-label "$labels" 2>/dev/null || true
+
+            echo "  ✓ PR created: $pr_url"
+          done
+
+          git checkout master
+          echo "All done!"
